@@ -12,7 +12,7 @@ Verified 25 November 2026. This is an implementation with real sample runs, not 
 | Lab 05 | Real LFW run, classification report, variance, eigenfaces, failure gallery and visually verified 3-page digital PDF | No missing computational requirement; user can refine interpretations through the PDF editor |
 | Lab 06 | Pretrained YOLO11 detection executed on public Coffee sample; dataset editor/validation/training pipeline implemented | Personal bottle/mug/phone photos and their annotations are absent; custom 100-epoch run and held-out metrics have NOT been executed. Webcam and uploaded-video paths remain unverified on hardware |
 | Lab 07 | Classical sample run plus DeepLab inference and aligned scoring for five verified VOC validation pairs | Browser visual verification unavailable; exact sample metrics are in examples |
-| Repository | Destination confirmed as jush-ua/CSST-106; connected GitHub write returned 403; local Git push pending | Final publication state will be updated after the push attempt |
+| Repository | Published to https://github.com/jush-ua/CSST-106 on main using local Git credentials; connected-app 403 was resolved through local Git | No classroom spreadsheet entry was submitted |
 
 ## Actual PCA results
 

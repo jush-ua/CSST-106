@@ -88,11 +88,14 @@ def observations(key,prompt):
 
 def job_panel(kind):
     paths=sorted(RUNS.glob('job_'+kind+'_*'),key=lambda p:p.stat().st_mtime,reverse=True)
+    reference=ROOT/'examples'/kind
+    if (reference/'result.json').exists():paths.append(reference)
     if not paths:st.info('No '+kind+' job has been run yet.');return
-    selected=st.selectbox('Experiment job',paths,format_func=lambda p:p.name,key=kind+'_job')
+    selected=st.selectbox('Experiment job',paths,format_func=lambda p:'Completed reference experiment' if p==reference else p.name,key=kind+'_job')
+    archived=selected==reference
     @st.fragment(run_every='3s')
     def progress():
-        status=jobs.status(selected)
+        status={'state':'complete','message':'Saved sample outputs from the verified implementation run.'} if archived else jobs.status(selected)
         state_key='job_state_'+selected.name
         before=st.session_state.get(state_key);st.session_state[state_key]=status['state']
         if before is not None and before!=status['state'] and status['state'] in ('complete','failed','cancelled'):
@@ -110,11 +113,11 @@ def job_panel(kind):
             for name in ['variance.png','eigenfaces.png','first_last.png','predictions.png','failures.png']:
                 if (selected/name).exists():st.image(str(selected/name),caption=name.replace('_',' ').replace('.png',''),width='stretch')
             if (selected/'PCA_analysis.pdf').exists():st.download_button('Download PCA digital PDF',(selected/'PCA_analysis.pdf').read_bytes(),'PCA_analysis.pdf','application/pdf')
-            with st.expander('Edit the PDF visual interpretation'):
+            with st.expander('Edit the PDF visual interpretation (new runs)'):
                 note_file=selected/'visual_analysis.json';notes=json.loads(note_file.read_text()) if note_file.exists() else {}
                 eigen_note=st.text_area('Eigenface interpretation',value=notes.get('eigenfaces',''),key=selected.name+'_eigen')
                 failure_note=st.text_area('Image-specific failure hypotheses',value=notes.get('failure_analysis',''),key=selected.name+'_failure')
-                if st.button('Update digital PDF',key=selected.name+'_pdf'):
+                if st.button('Update digital PDF',key=selected.name+'_pdf',disabled=archived):
                     note_file.write_text(json.dumps({'eigenfaces':eigen_note,'failure_analysis':failure_note},indent=2),encoding='utf-8')
                     from reporting import pca_pdf
                     pca_pdf(selected,r);st.rerun()
