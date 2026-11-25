@@ -1,0 +1,25 @@
+{
+  "video": {
+    "frames": 12,
+    "seconds": 9.510984099993948,
+    "source_fps": 12.0,
+    "output": "detections.mp4",
+    "decoded_output_frames": 12,
+    "decoded_output_shapes": [
+      [
+        320,
+        480,
+        3
+      ]
+    ],
+    "state": "passed",
+    "decoded_output_fps": 12.0
+  },
+  "webcam": {
+    "state": "unavailable",
+    "camera_index": 0,
+    "message": "Camera could not open. Check device connection, Windows privacy settings and other camera apps.",
+    "user_confirmed_no_webcam": true,
+    "saved_camera_frames": 0
+  }
+}

@@ -1,0 +1,94 @@
+[
+  {
+    "algorithm": "SIFT",
+    "keypoints_a": 792,
+    "keypoints_b": 716,
+    "descriptor_dimensions": 128,
+    "detect_describe_ms": 206.79150000796653,
+    "match_ms": 7.839900004910305,
+    "accepted_matches": 678,
+    "opencv_version": "4.12.0"
+  },
+  {
+    "algorithm": "ORB",
+    "keypoints_a": 1500,
+    "keypoints_b": 1500,
+    "descriptor_dimensions": 32,
+    "detect_describe_ms": 31.171800001175143,
+    "match_ms": 15.9708999999566,
+    "accepted_matches": 1134,
+    "opencv_version": "4.12.0"
+  },
+  {
+    "algorithm": "SURF",
+    "keypoints_a": 1548,
+    "keypoints_b": 1457,
+    "descriptor_dimensions": 64,
+    "detect_describe_ms": 233.01999999966938,
+    "match_ms": 21.42999999341555,
+    "accepted_matches": 1326,
+    "hessian_threshold": 100,
+    "upright": false,
+    "opencv_version": "4.12.0"
+  },
+  {
+    "algorithm": "SURF",
+    "keypoints_a": 1548,
+    "keypoints_b": 1457,
+    "descriptor_dimensions": 64,
+    "detect_describe_ms": 109.14019998745061,
+    "match_ms": 16.803999998955987,
+    "accepted_matches": 1344,
+    "hessian_threshold": 100,
+    "upright": true,
+    "opencv_version": "4.12.0"
+  },
+  {
+    "algorithm": "SURF",
+    "keypoints_a": 737,
+    "keypoints_b": 717,
+    "descriptor_dimensions": 64,
+    "detect_describe_ms": 158.72680000029504,
+    "match_ms": 5.831500006024726,
+    "accepted_matches": 651,
+    "hessian_threshold": 400,
+    "upright": false,
+    "opencv_version": "4.12.0"
+  },
+  {
+    "algorithm": "SURF",
+    "keypoints_a": 737,
+    "keypoints_b": 717,
+    "descriptor_dimensions": 64,
+    "detect_describe_ms": 87.67579999403097,
+    "match_ms": 4.936499986797571,
+    "accepted_matches": 659,
+    "hessian_threshold": 400,
+    "upright": true,
+    "opencv_version": "4.12.0"
+  },
+  {
+    "algorithm": "SURF",
+    "keypoints_a": 389,
+    "keypoints_b": 393,
+    "descriptor_dimensions": 64,
+    "detect_describe_ms": 131.7330000019865,
+    "match_ms": 2.0594999950844795,
+    "accepted_matches": 344,
+    "hessian_threshold": 1000,
+    "upright": false,
+    "opencv_version": "4.12.0"
+  },
+  {
+    "algorithm": "SURF",
+    "keypoints_a": 389,
+    "keypoints_b": 393,
+    "descriptor_dimensions": 64,
+    "detect_describe_ms": 77.48410000931472,
+    "match_ms": 1.708600000711158,
+    "accepted_matches": 357,
+    "hessian_threshold": 1000,
+    "upright": true,
+    "opencv_version": "4.12.0"
+  }
+]

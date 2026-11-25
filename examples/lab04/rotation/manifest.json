@@ -1,0 +1,112 @@
+{
+  "source": "scikit-image Camera public sample",
+  "case": "rotation",
+  "transform": "90 degrees clockwise",
+  "ratio": 0.75,
+  "comparisons": [
+    {
+      "algorithm": "SIFT",
+      "keypoints_a": 792,
+      "keypoints_b": 799,
+      "descriptor_dimensions": 128,
+      "detect_describe_ms": 242.59429999801796,
+      "match_ms": 8.368299997528084,
+      "accepted_matches": 762,
+      "opencv_version": "4.12.0"
+    },
+    {
+      "algorithm": "ORB",
+      "keypoints_a": 1500,
+      "keypoints_b": 1500,
+      "descriptor_dimensions": 32,
+      "detect_describe_ms": 36.11250000540167,
+      "match_ms": 28.034700007992797,
+      "accepted_matches": 1500,
+      "opencv_version": "4.12.0"
+    },
+    {
+      "algorithm": "SURF",
+      "keypoints_a": 1548,
+      "keypoints_b": 1548,
+      "descriptor_dimensions": 64,
+      "detect_describe_ms": 249.13850000302773,
+      "match_ms": 23.760800002492033,
+      "accepted_matches": 1548,
+      "hessian_threshold": 100,
+      "upright": false,
+      "opencv_version": "4.12.0"
+    },
+    {
+      "algorithm": "SURF",
+      "keypoints_a": 1548,
+      "keypoints_b": 1548,
+      "descriptor_dimensions": 64,
+      "detect_describe_ms": 113.8377000024775,
+      "match_ms": 25.074100005440414,
+      "accepted_matches": 58,
+      "hessian_threshold": 100,
+      "upright": true,
+      "opencv_version": "4.12.0"
+    },
+    {
+      "algorithm": "SURF",
+      "keypoints_a": 737,
+      "keypoints_b": 737,
+      "descriptor_dimensions": 64,
+      "detect_describe_ms": 167.2431999904802,
+      "match_ms": 6.253300001844764,
+      "accepted_matches": 737,
+      "hessian_threshold": 400,
+      "upright": false,
+      "opencv_version": "4.12.0"
+    },
+    {
+      "algorithm": "SURF",
+      "keypoints_a": 737,
+      "keypoints_b": 737,
+      "descriptor_dimensions": 64,
+      "detect_describe_ms": 93.36070000426844,
+      "match_ms": 9.0119000087725,
+      "accepted_matches": 34,
+      "hessian_threshold": 400,
+      "upright": true,
+      "opencv_version": "4.12.0"
+    },
+    {
+      "algorithm": "SURF",
+      "keypoints_a": 389,
+      "keypoints_b": 389,
+      "descriptor_dimensions": 64,
+      "detect_describe_ms": 127.9794000001857,
+      "match_ms": 2.031700001680292,
+      "accepted_matches": 389,
+      "hessian_threshold": 1000,
+      "upright": false,
+      "opencv_version": "4.12.0"
+    },
+    {
+      "algorithm": "SURF",
+      "keypoints_a": 389,
+      "keypoints_b": 389,
+      "descriptor_dimensions": 64,
+      "detect_describe_ms": 79.59300000220537,
+      "match_ms": 1.7872000025818124,
+      "accepted_matches": 15,
+      "hessian_threshold": 1000,
+      "upright": true,
+      "opencv_version": "4.12.0"
+    }
+  ],
+  "timing_note": "Single CPU run; timings include both images and are not a general benchmark.",
+  "artifacts": {
+    "a.png": "0aeea3ece84929aeac3c4ce49829a4114d6ae438d58b5b1a6bf154735aed4845",
+    "b.png": "00c63eda327fbe11a96da069b567d8e498fdf63a97240287cb0ac06e248eed70",
+    "ORB_keypoints.png": "e428a4ea57a0f3ab8aae35fef0505529ca38c970ab29b8d8af25670100835c2b",
+    "ORB_matches.png": "f079ed6439c237b6969b36b7b5e23833dc74c47e7756691684a1b877428d081c",
+    "SIFT_keypoints.png": "f31b04b7a5aa19490221e9d6e9a901e2898eed7813bb08d1d26fcae67808bbaa",
+    "SIFT_matches.png": "dc368d1987d7a3abd2ad2aef41e30e80495dc586263a62fbb4ad3742efca9cf3",
+    "SURF_keypoints.png": "e7fdb48822a00115146dff03213c0462bdd912afea63700bfed721caece36455",
+    "SURF_matches.png": "a78122f41c9bb65cb728f91e6545907e2bf2623a6fb8d47d11b367838066b35c",
+    "U_SURF_matches.png": "1fcf82243a410adebf305b3761a8f521b97f23a4238b9b5165ec114f60720c80"
+  }
+}

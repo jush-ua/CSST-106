@@ -1,6 +1,10 @@
 .venv/
+.venv
 .surf-venv/
+.surf-venv
 .runtime/
+data/
+data
 __pycache__/
 .pytest_cache/
 matplotlib-*/

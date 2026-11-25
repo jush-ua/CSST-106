@@ -272,7 +272,9 @@ try:
                 proc=subprocess.run(command,capture_output=True,text=True,timeout=180)
                 if proc.returncode:st.warning('SURF worker failed: '+proc.stderr[-2000:])
                 else:
-                    surf=json.loads((f/'surf.json').read_text());stats.extend(surf);all_images['SURF_matches']=cv2.imread(str(f/'SURF_matches.png'));all_images['SURF_keypoints']=cv2.imread(str(f/'SURF_keypoints.png'))
+                    surf=json.loads((f/'surf.json').read_text());stats=surf
+                    for algorithm in ['SURF','SIFT','ORB']:
+                        for suffix in ['matches','keypoints']:all_images[algorithm+'_'+suffix]=cv2.imread(str(f/(algorithm+'_'+suffix+'.png')))
             else:st.warning('SURF has not been built. Run setup-surf.ps1; ORB and SIFT results below are not substitutes labeled as SURF.')
             st.session_state['feature_result']=(all_images,stats,dict(threshold=threshold,upright=upright,ratio=ratio))
         if 'feature_result' in st.session_state:
@@ -296,20 +298,15 @@ try:
             if 'yolo_result' in st.session_state:
                 original,out,m,params=st.session_state['yolo_result'];results('lab06',{'input':original,'detections':out},params,m)
             video=st.file_uploader('Video for detection',type=['mp4','avi','mov'])
-            if st.button('Process video') and video:
-                f=save_run('lab06_video',dict(model=model,confidence=conf));path=f/('input'+Path(video.name).suffix);path.write_bytes(video.getvalue());cap=cv2.VideoCapture(str(path));writer=None;count=0;start=time.perf_counter();preview=st.empty()
-                try:
-                    while True:
-                        ok,frame=cap.read()
-                        if not ok:break
-                        rendered,_=inference(frame,model,conf)
-                        if writer is None:writer=cv2.VideoWriter(str(f/'detections.mp4'),cv2.VideoWriter_fourcc(*'mp4v'),max(1,cap.get(cv2.CAP_PROP_FPS)),(frame.shape[1],frame.shape[0]))
-                        writer.write(rendered);count+=1
-                        if count%10==0:preview.image(rendered,channels='BGR',caption=f'{count} frames processed')
-                finally:
-                    cap.release()
-                    if writer:writer.release()
-                (f/'video_metrics.json').write_text(json.dumps({'frames':count,'seconds':time.perf_counter()-start}));st.success('Saved video to '+str(f))
+            process_requested=st.button('Process video')
+            if process_requested and video is None:st.warning('Choose a video file before processing.')
+            if process_requested and video:
+                from media import process_video
+                f=save_run('lab06_video',dict(model=model,confidence=conf));path=f/('input'+Path(video.name).suffix);path.write_bytes(video.getvalue());preview=st.empty()
+                def update_frame(count,frame):
+                    if count%10==0:preview.image(frame,channels='BGR',caption=f'{count} frames processed')
+                metric=process_video(path,f/'detections.mp4',lambda frame:inference(frame,model,conf),update_frame)
+                (f/'video_metrics.json').write_text(json.dumps(metric));st.success('Saved video to '+str(f))
                 if (f/'detections.mp4').exists():st.download_button('Download processed video',(f/'detections.mp4').read_bytes(),'detections.mp4','video/mp4')
             st.subheader('Local webcam')
             st.caption('Uses the camera attached to this Windows computer. Close other camera apps first.')

@@ -1,0 +1,21 @@
+{
+  "lab": "media_verification",
+  "parameters": {
+    "fixture": "12 slightly rotated frames of public scikit-image Coffee (0 to 1.65 degrees)",
+    "webcam_requested": true
+  },
+  "metrics": {},
+  "versions": {
+    "numpy": "2.4.6",
+    "opencv-python": "4.14.0.94",
+    "scikit-learn": "1.9.1",
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "ultralytics": "8.4.218",
+    "streamlit": "1.67.0"
+  },
+  "python": "3.11.9",
+  "time": 1795610431.3857806,
+  "images": {},
+  "arrays": []
+}
