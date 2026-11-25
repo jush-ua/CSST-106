@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-25T00:00:00+08:00",
+  "title": "Design System: CSST106 Vision laboratory",
+  "extensions": {
+    "colorMeta": {
+      "primary": {"role": "primary", "displayName": "Workbench Teal"},
+      "canvas": {"role": "neutral", "displayName": "White Canvas"},
+      "secondary-background": {"role": "neutral", "displayName": "Pale Green-Gray"},
+      "text": {"role": "neutral", "displayName": "Deep Green Ink"},
+      "sidebar-border": {"role": "neutral", "displayName": "Soft Green Divider"},
+      "selection": {"role": "neutral", "displayName": "Mint Selection"}
+    },
+    "typographyMeta": {
+      "headline": {"displayName": "Page headline", "purpose": "H1 page and sidebar titles."},
+      "title": {"displayName": "Section title", "purpose": "H2 section headings."},
+      "body": {"displayName": "Native sans serif", "purpose": "Streamlit configured family; concrete font and remaining metrics are framework defaults."}
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": [],
+    "sourceEvidence": {
+      "files": ["app.py", ".streamlit/config.toml"],
+      "mode": "Source inspection",
+      "visualVerification": "Browser service unavailable; no screenshots or computed styles inspected. AppTest is functional evidence, not visual QA.",
+      "frameworkDefaults": "Streamlit native controls own remaining shapes, states, typography and responsive behavior."
+    },
+    "layout": {
+      "containerMaxWidth": "1320px",
+      "inputColumns": [1, 2],
+      "resultMaxColumns": 3,
+      "interactiveImageMaxWidth": "850px",
+      "observationHeight": "120px"
+    },
+    "interactionCss": "button:focus-visible,input:focus-visible {outline:3px solid #116d60!important;outline-offset:2px} a {text-underline-offset:3px} ::selection {background:#c2e7d8} [data-testid=\"stMetricValue\"] {font-variant-numeric:tabular-nums}",
+    "sidebarBorderCss": "border-right:1px solid #dce5e1"
+  },
+  "components": [],
+  "narrative": {
+    "northStar": "The Laboratory Workbench",
+    "overview": "A local educational workspace with numbered lab navigation, a light canvas and native Streamlit controls. Keep input, parameters, measured output and interpretation together; let scientific images and real comparisons carry visual interest.",
+    "keyCharacteristics": ["White canvas and pale green-gray sidebar", "Restrained teal accent", "Native controls and readable scientific content", "Actual image comparisons and measured evidence"],
+    "rules": [{"name": "Native control continuity", "body": "Preserve Streamlit control shapes and states unless an existing app override specifies otherwise.", "section": "components"}],
+    "dos": ["Do keep input, controls and output comparisons together.", "Do label sample provenance, settings and measured results.", "Do preserve visible keyboard focus and digital exports."],
+    "donts": ["Don't present synthetic demonstrations as personal training evidence.", "Don't report unexecuted work as completed.", "Don't claim screenshot verification from source inspection or AppTest."]
+  }
+}

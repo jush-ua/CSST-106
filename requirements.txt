@@ -1,0 +1,13 @@
+streamlit>=1.41,<2
+numpy>=1.26,<3
+opencv-python>=4.10,<5
+matplotlib>=3.9,<4
+scikit-learn>=1.5,<2
+scikit-image>=0.24,<1
+pillow>=10,<13
+torch>=2.5,<3
+torchvision>=0.20,<1
+ultralytics>=8.3,<9
+reportlab>=4.2,<5
+pytest>=8,<10
+streamlit-image-coordinates>=0.2,<1

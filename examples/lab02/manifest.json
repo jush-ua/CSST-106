@@ -1,0 +1,44 @@
+{
+  "lab": "lab02",
+  "parameters": {
+    "source": "scikit-image:Camera",
+    "blur": 3,
+    "low": 100,
+    "high": 200
+  },
+  "metrics": {},
+  "versions": {
+    "numpy": "2.4.6",
+    "opencv-python": "4.14.0.94",
+    "scikit-learn": "1.9.1",
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "ultralytics": "8.4.218",
+    "streamlit": "1.67.0"
+  },
+  "python": "3.11.9",
+  "time": 1795609310.022429,
+  "images": {
+    "original": {
+      "file": "original.png",
+      "sha256": "b779d2c8e2a7098a0182c26227c3b516fb2d9d15f14ed99940c6196ba4a2c4e2"
+    },
+    "blurred": {
+      "file": "blurred.png",
+      "sha256": "7c5534b4e349f5b3e8047482a96602b6843a4907bbd2e704317ec3084da42ca7"
+    },
+    "sobel": {
+      "file": "sobel.png",
+      "sha256": "b2da734d1c767a4a5b6c2b5313b8c50f348a73660f8292879fe0000e224eac96"
+    },
+    "canny": {
+      "file": "canny.png",
+      "sha256": "60361f7d98d0ce11d4b9f87422793db6325446dc7dbe02c043d5e950218008e8"
+    }
+  },
+  "arrays": [
+    "gx.npy",
+    "gy.npy",
+    "magnitude.npy"
+  ]
+}

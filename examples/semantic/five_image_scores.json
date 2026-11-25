@@ -1,0 +1,37 @@
+[
+  {
+    "sample": "val_0000",
+    "job": "job_semantic_af188f9a86",
+    "pixel_accuracy": 0.9848688538657361,
+    "mean_iou": 0.6324830243559527,
+    "inference_seconds": 7.331056600000011
+  },
+  {
+    "sample": "val_0001",
+    "job": "job_semantic_a06c492d52",
+    "pixel_accuracy": 0.9757149024786672,
+    "mean_iou": 0.9506953599778745,
+    "inference_seconds": 7.9429837000061525
+  },
+  {
+    "sample": "val_0002",
+    "job": "job_semantic_1fa728ba9b",
+    "pixel_accuracy": 0.9864242454298059,
+    "mean_iou": 0.8889810715952299,
+    "inference_seconds": 7.709537700007786
+  },
+  {
+    "sample": "val_0003",
+    "job": "job_semantic_dfbed8de14",
+    "pixel_accuracy": 0.9890924598553316,
+    "mean_iou": 0.9775861043156786,
+    "inference_seconds": 6.6851648000010755
+  },
+  {
+    "sample": "val_0004",
+    "job": "job_semantic_bfbf2687ac",
+    "pixel_accuracy": 0.9615202217546672,
+    "mean_iou": 0.9179984731703575,
+    "inference_seconds": 9.94059090000519
+  }
+]

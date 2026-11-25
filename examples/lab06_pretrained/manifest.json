@@ -1,0 +1,47 @@
+{
+  "lab": "lab06_pretrained",
+  "parameters": {
+    "model": "yolo11n.pt",
+    "source": "scikit-image Coffee",
+    "confidence": 0.25
+  },
+  "metrics": {
+    "inference_seconds": 6.969627700003912,
+    "detections": [
+      {
+        "class": "cup",
+        "confidence": 0.818362832069397
+      },
+      {
+        "class": "dining table",
+        "confidence": 0.7840989232063293
+      },
+      {
+        "class": "spoon",
+        "confidence": 0.2854207754135132
+      }
+    ]
+  },
+  "versions": {
+    "numpy": "2.4.6",
+    "opencv-python": "4.14.0.94",
+    "scikit-learn": "1.9.1",
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "ultralytics": "8.4.218",
+    "streamlit": "1.67.0"
+  },
+  "python": "3.11.9",
+  "time": 1795609732.1418161,
+  "images": {
+    "input": {
+      "file": "input.png",
+      "sha256": "884b6c0be0f697ee5cc7604ca3a4a93647598ac120a56b1716bfadde4e9e0ad2"
+    },
+    "detections": {
+      "file": "detections.png",
+      "sha256": "6c64ffe04424cb078c1ed600ad45b43b93521176875687fa18d091855aabdc44"
+    }
+  },
+  "arrays": []
+}

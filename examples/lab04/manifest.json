@@ -1,0 +1,67 @@
+{
+  "lab": "lab04",
+  "parameters": {
+    "source": "scikit-image:Camera"
+  },
+  "metrics": {
+    "comparisons": [
+      {
+        "algorithm": "SIFT",
+        "keypoints_a": 791,
+        "keypoints_b": 799,
+        "descriptor_dimensions": 128,
+        "detect_describe_ms": 663.3033999969484,
+        "match_ms": 20.757999998750165,
+        "accepted_matches": 762
+      },
+      {
+        "algorithm": "ORB",
+        "keypoints_a": 1500,
+        "keypoints_b": 1500,
+        "descriptor_dimensions": 32,
+        "detect_describe_ms": 5913.335999997798,
+        "match_ms": 30.907499996828847,
+        "accepted_matches": 1500
+      }
+    ],
+    "SURF": "Run isolated surf_worker after setup-surf.ps1"
+  },
+  "versions": {
+    "numpy": "2.4.6",
+    "opencv-python": "4.14.0.94",
+    "scikit-learn": "1.9.1",
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "ultralytics": "8.4.218",
+    "streamlit": "1.67.0"
+  },
+  "python": "3.11.9",
+  "time": 1795609323.83634,
+  "images": {
+    "input_a": {
+      "file": "input_a.png",
+      "sha256": "0aeea3ece84929aeac3c4ce49829a4114d6ae438d58b5b1a6bf154735aed4845"
+    },
+    "input_b": {
+      "file": "input_b.png",
+      "sha256": "00c63eda327fbe11a96da069b567d8e498fdf63a97240287cb0ac06e248eed70"
+    },
+    "SIFT_matches": {
+      "file": "SIFT_matches.png",
+      "sha256": "dc368d1987d7a3abd2ad2aef41e30e80495dc586263a62fbb4ad3742efca9cf3"
+    },
+    "SIFT_keypoints": {
+      "file": "SIFT_keypoints.png",
+      "sha256": "288e50744bdf90b4df6b3fdc8b5021cabaeeef218e5abdb1216b234a3fbe5418"
+    },
+    "ORB_matches": {
+      "file": "ORB_matches.png",
+      "sha256": "f079ed6439c237b6969b36b7b5e23833dc74c47e7756691684a1b877428d081c"
+    },
+    "ORB_keypoints": {
+      "file": "ORB_keypoints.png",
+      "sha256": "e428a4ea57a0f3ab8aae35fef0505529ca38c970ab29b8d8af25670100835c2b"
+    }
+  },
+  "arrays": []
+}

@@ -1,0 +1,51 @@
+{
+  "lab": "lab07",
+  "parameters": {
+    "source": "scikit-image:Camera"
+  },
+  "metrics": {
+    "otsu_threshold": 102.0,
+    "watershed_seed_components": 3,
+    "closed_contours": 40
+  },
+  "versions": {
+    "numpy": "2.4.6",
+    "opencv-python": "4.14.0.94",
+    "scikit-learn": "1.9.1",
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "ultralytics": "8.4.218",
+    "streamlit": "1.67.0"
+  },
+  "python": "3.11.9",
+  "time": 1795609327.0444846,
+  "images": {
+    "original": {
+      "file": "original.png",
+      "sha256": "0aeea3ece84929aeac3c4ce49829a4114d6ae438d58b5b1a6bf154735aed4845"
+    },
+    "otsu": {
+      "file": "otsu.png",
+      "sha256": "5caea2cd187af88f633d406b8be966856ef99ccb0d7ba7e80a603acf96c9c7bd"
+    },
+    "adaptive": {
+      "file": "adaptive.png",
+      "sha256": "56baa74238ca5348f445b2d971c13b68e4b2f9c5f5aac49dbd08b61e0ca9358e"
+    },
+    "region": {
+      "file": "region.png",
+      "sha256": "5df2fdfe20487f42f7617db2c37625c51b32dd697fdad3b51257fbc9e159fde4"
+    },
+    "watershed": {
+      "file": "watershed.png",
+      "sha256": "4842c4096531703fb6fa7c28734d554bf22f07ee2c505fae09e0c09b48ae8bd6"
+    },
+    "edge_regions": {
+      "file": "edge_regions.png",
+      "sha256": "7554c99e820c3ed0a3cbb482bdc0dd2ede764afd33cd2250a813bdde84f420c1"
+    }
+  },
+  "arrays": [
+    "watershed_labels.npy"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "lab": "lab03",
+  "parameters": {
+    "source": "scikit-image:Camera",
+    "clip": 2.0,
+    "tiles": 8,
+    "colour": false
+  },
+  "metrics": {},
+  "versions": {
+    "numpy": "2.4.6",
+    "opencv-python": "4.14.0.94",
+    "scikit-learn": "1.9.1",
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "ultralytics": "8.4.218",
+    "streamlit": "1.67.0"
+  },
+  "python": "3.11.9",
+  "time": 1795609313.396485,
+  "images": {
+    "original": {
+      "file": "original.png",
+      "sha256": "b779d2c8e2a7098a0182c26227c3b516fb2d9d15f14ed99940c6196ba4a2c4e2"
+    },
+    "stretched": {
+      "file": "stretched.png",
+      "sha256": "b779d2c8e2a7098a0182c26227c3b516fb2d9d15f14ed99940c6196ba4a2c4e2"
+    },
+    "equalized": {
+      "file": "equalized.png",
+      "sha256": "90e7743ab788a7c60299439dae420b73cc4b16581edf538276d2ab94e3c9957c"
+    },
+    "clahe": {
+      "file": "clahe.png",
+      "sha256": "14645b6c1cffbd46be3f925d7a671c24f008c0e4adbf56640b8398880cdba15b"
+    }
+  },
+  "arrays": []
+}

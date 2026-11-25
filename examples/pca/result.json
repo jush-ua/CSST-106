@@ -1,0 +1,159 @@
+{
+  "samples": 1288,
+  "features": 1850,
+  "shape": [
+    50,
+    37
+  ],
+  "classes": [
+    "Ariel Sharon",
+    "Colin Powell",
+    "Donald Rumsfeld",
+    "George W Bush",
+    "Gerhard Schroeder",
+    "Hugo Chavez",
+    "Tony Blair"
+  ],
+  "train_samples": 1030,
+  "test_samples": 258,
+  "components": 150,
+  "variance_at_150": 0.9456145167350769,
+  "components_for_90_percent": 85,
+  "pca_seconds": 0.26540340000065044,
+  "svm_seconds": 0.28954100000555627,
+  "total_seconds": 35.78164450000622,
+  "report": {
+    "Ariel Sharon": {
+      "precision": 1.0,
+      "recall": 0.6363636363636364,
+      "f1-score": 0.7777777777777778,
+      "support": 11.0
+    },
+    "Colin Powell": {
+      "precision": 0.6338028169014085,
+      "recall": 0.9574468085106383,
+      "f1-score": 0.7627118644067796,
+      "support": 47.0
+    },
+    "Donald Rumsfeld": {
+      "precision": 0.8333333333333334,
+      "recall": 0.6818181818181818,
+      "f1-score": 0.75,
+      "support": 22.0
+    },
+    "George W Bush": {
+      "precision": 0.9391304347826087,
+      "recall": 0.907563025210084,
+      "f1-score": 0.9230769230769231,
+      "support": 119.0
+    },
+    "Gerhard Schroeder": {
+      "precision": 0.8947368421052632,
+      "recall": 0.8947368421052632,
+      "f1-score": 0.8947368421052632,
+      "support": 19.0
+    },
+    "Hugo Chavez": {
+      "precision": 1.0,
+      "recall": 0.46153846153846156,
+      "f1-score": 0.631578947368421,
+      "support": 13.0
+    },
+    "Tony Blair": {
+      "precision": 0.9545454545454546,
+      "recall": 0.7777777777777778,
+      "f1-score": 0.8571428571428571,
+      "support": 27.0
+    },
+    "accuracy": 0.8488372093023255,
+    "macro avg": {
+      "precision": 0.8936498402382954,
+      "recall": 0.7596063904748632,
+      "f1-score": 0.7995750302682888,
+      "support": 258.0
+    },
+    "weighted avg": {
+      "precision": 0.87849346798278,
+      "recall": 0.8488372093023255,
+      "f1-score": 0.8492346918119174,
+      "support": 258.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      7,
+      2,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      45,
+      2,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      4,
+      15,
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      10,
+      0,
+      108,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      2,
+      0,
+      0,
+      17,
+      0,
+      0
+    ],
+    [
+      0,
+      6,
+      0,
+      0,
+      1,
+      6,
+      0
+    ],
+    [
+      0,
+      2,
+      0,
+      3,
+      1,
+      0,
+      21
+    ]
+  ],
+  "failure_count": 39,
+  "failure_test_positions": [
+    13,
+    17,
+    21,
+    23,
+    26,
+    31,
+    37,
+    48
+  ],
+  "seed": 42
+}

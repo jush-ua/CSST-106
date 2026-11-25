@@ -1,0 +1,17 @@
+.venv/
+.surf-venv/
+.runtime/
+__pycache__/
+.pytest_cache/
+matplotlib-*/
+data/cache/
+data/photos/
+data/dataset/
+data/models/
+data/surf-build/
+data/voc_subset/
+runs/
+*.pt
+*.pkl
+*.log
+!runs/.gitkeep
