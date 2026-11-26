@@ -247,7 +247,7 @@ try:
         with right:
             im=sample('Coins');view,_=edges(im)
             show_image(np.hstack([gray(im),view['canny']]),'Public sample · grayscale pixels and Canny boundaries',width='stretch')
-            st.caption('Actual processing output, not a mock visualization.')
+            st.caption('Grayscale input and its Canny edge map.')
         st.subheader('Readiness')
         st.write('Classical labs run with included samples. PCA downloads LFW on first use. DeepLab and YOLO download model weights. Custom YOLO training uses the reviewed, annotated dataset. SURF requires its isolated nonfree build.')
         st.link_button('Open setup and requirement checklist','https://paios-classroom.com/classes/42')
@@ -314,7 +314,7 @@ try:
                 try:
                     compared,stats=run_surf_comparison(f,threshold,upright,ratio);all_images.update(compared)
                 except RuntimeError as exc:st.warning(str(exc))
-            else:st.warning('SURF has not been built. Run setup-surf.ps1; ORB and SIFT results below are not substitutes labeled as SURF.')
+            else:st.warning('SURF environment unavailable. Run setup-surf.ps1 to enable SURF; ORB and SIFT results are available below.')
             st.session_state['feature_result']=(all_images,stats,dict(threshold=threshold,upright=upright,ratio=ratio))
         if 'feature_result' in st.session_state:
             out,stats,params=st.session_state['feature_result'];st.dataframe(pd.DataFrame(stats),hide_index=True,width='stretch');results('lab04',out,params,{'comparisons':stats})

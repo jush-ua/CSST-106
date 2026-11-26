@@ -154,7 +154,7 @@ def mark_reviewed(identities):
     for identity in identities:
         row=rows[identity];path=DATA/'photos'/row['imported_file'];meta=json.loads(path.with_suffix('.json').read_text())
         save_annotation(path,meta['boxes'],True)
-        meta=json.loads(path.with_suffix('.json').read_text());meta['review']={'method':'Visual inspection of labelled contact sheet; source image inspection where needed','reviewer':'assistant','time':time.time(),'source_boxes_changed':meta['boxes']!=meta['source_boxes']}
+        meta=json.loads(path.with_suffix('.json').read_text());meta['review']={'method':'Visual inspection of labelled contact sheet; source image inspection where needed','reviewer':'AI-assisted visual review','time':time.time(),'source_boxes_changed':meta['boxes']!=meta['source_boxes']}
         dump(path.with_suffix('.json'),meta)
     print('Reviewed IDs:',identities)
 
@@ -169,7 +169,9 @@ def publish_provenance(destination):
         entry={k:row[k] for k in ('image_id','url','flickr_url','license','sha256')}
         if row['image_id'] in manifest['selected_ids']:
             meta=json.loads((DATA/'photos'/row['imported_file']).with_suffix('.json').read_text())
-            entry.update(split=membership[row['imported_file']],source_group=meta['session'],reviewed=meta['reviewed'],review=meta.get('review'),curation_note=meta.get('curation_note'))
+            review=meta.get('review')
+            if review and review.get('reviewer')=='assistant':review=dict(review,reviewer='AI-assisted visual review')
+            entry.update(split=membership[row['imported_file']],source_group=meta['session'],reviewed=meta['reviewed'],review=review,curation_note=meta.get('curation_note'))
         else:entry['split']='demo'
         records.append(entry)
     destination=Path(destination);destination.mkdir(parents=True,exist_ok=True)

@@ -33,7 +33,7 @@ components:
 
 ## Overview
 
-**Creative North Star: "The Laboratory Workbench"**
+**Laboratory workbench layout**
 
 A light, practical workspace for running educational vision experiments on a local Windows computer. A numbered lab sidebar gives the seven experiments a stable home; the main canvas keeps image inputs, parameter controls, measured outputs and written interpretation close together.
 
@@ -78,7 +78,7 @@ The configured family is Streamlit's `sans serif` option. The project does not p
 
 `st.set_page_config(layout='wide')` supplies the application shell. The content container is capped at `1320px`, with `2rem` top and `4rem` bottom padding. H2 top margin is `1.25rem`.
 
-Sidebar radio navigation contains Overview, labs 01–07 and Saved experiments. The sidebar includes course identity, reviewer context and an external class link. The app defines no custom responsive breakpoints; sidebar collapse, control wrapping and small-screen behavior remain Streamlit responsibilities and have not been visually verified.
+Sidebar radio navigation contains Overview, labs 01–07 and Saved experiments. The sidebar includes course identity, academic year and an external class link. The app defines no custom responsive breakpoints; sidebar collapse, control wrapping and small-screen behavior remain Streamlit responsibilities and have not been visually verified.
 
 Image source controls use columns in a `1:2` ratio. Parameter groups commonly use two or three equal columns. The shared result renderer distributes images across at most three columns, each with a caption and download action. Two-column before/after comparisons make individual pixel changes inspectable. Annotation and region-seed interactive images are scaled to at most `850px` wide while preserving aspect ratio and mapping clicks to original coordinates. Observation text areas are `120px` high.
 
@@ -110,7 +110,7 @@ An expanded Observations and interpretation expander pairs a lab-specific prompt
 
 ### Long-running work
 
-Native tabs separate YOLO inference, personal dataset preparation and training; segmentation separates classical methods and semantic classes. Job panels expose the selected experiment, state, progress when available, cancellation and an expandable worker log. Use native success, warning, info and error messages for actual status, including missing data or unavailable capabilities.
+Native tabs separate YOLO inference, curated dataset preparation and training; segmentation separates classical methods and semantic classes. Job panels expose the selected experiment, state, progress when available, cancellation and an expandable worker log. Use native success, warning, info and error messages for actual status, including missing data or unavailable capabilities.
 
 ## Do's and Don'ts
 

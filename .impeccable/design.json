@@ -22,7 +22,7 @@
     "sourceEvidence": {
       "files": ["app.py", ".streamlit/config.toml"],
       "mode": "Source inspection",
-      "visualVerification": "Browser service unavailable; no screenshots or computed styles inspected. AppTest is functional evidence, not visual QA.",
+      "visualVerification": "Source inspection and AppTest cover implementation and functional behavior. Browser-based visual and responsive checks remain unperformed.",
       "frameworkDefaults": "Streamlit native controls own remaining shapes, states, typography and responsive behavior."
     },
     "layout": {

@@ -37,7 +37,7 @@ def build_dataset():
         if not meta['reviewed']:raise ValueError(f'Photo {p.stem[:8]} has not been reviewed.')
         save_annotation(p,meta['boxes'])
         records.append((p,meta))
-    if not records:raise ValueError('Add and review your photos before building the dataset.')
+    if not records:raise ValueError('Import and review images before building the dataset.')
     sessions=sorted({m['session'] for _,m in records})
     if len(sessions)<3:raise ValueError('At least three source/capture groups are needed for disjoint train/val/test splits.')
     rng=np.random.default_rng(42);rng.shuffle(sessions)

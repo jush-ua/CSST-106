@@ -1,4 +1,4 @@
-"""PCA digital analysis generated from the actual experiment, never mock scores."""
+"""PCA digital analysis generated from measured experiment results."""
 from pathlib import Path
 import json
 from xml.sax.saxutils import escape

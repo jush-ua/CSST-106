@@ -249,7 +249,7 @@ def write_report(folder):
                          f"{m['processing_fps']:.2f} processing FPS; decode check: {m['verification']}.")
         review=notes.read_text(encoding='utf-8').strip() if notes.exists() else ''
         lines+=['',review or 'Qualitative successes/errors still need review; add observations to demo/review.txt and regenerate the report.']
-    else:lines+=['Separate new-image demonstration pending; optional recorded-video demonstration also pending.']
+    else:lines+=['No separate demonstration outputs are saved for this run. Supply new images or an optional recorded video.']
     lines+=['','## Detection versus classification','',
             'Classification assigns a label to an entire image. Detection locates and labels individual objects: '
             'a desk photo may contain a bottle, cup and phone with separate boxes, instead of one overall scene label.','']
@@ -269,7 +269,7 @@ def demonstrate(folder, video=None, images=()):
         if hashlib.sha256(png(decode(Path(path).read_bytes()))).hexdigest() in training_hashes:
             raise ValueError('Demonstration images must be separate from train, validation and test images.')
     out=folder/'demo';out.mkdir(exist_ok=True)
-    records={'webcam_substitution':'No live-webcam claim. Recorded-video acceptance pending if added.','videos':{},'images':[]}
+    records={'webcam_substitution':'Still-image or recorded-video inference; live webcam testing not performed.','videos':{},'images':[]}
     for name,weights in [('pretrained',DATA/'models/yolo11n.pt'),('custom',folder/'training/weights/best.pt')]:
         model=YOLO(str(weights))
         wanted=[cid for cid,label in model.names.items() if label in ('bottle','cup','cell phone','phone')]

@@ -1,6 +1,6 @@
 # CSST106 Vision laboratory
 
-A local Windows workbench for the seven CSST106 laboratory activities. This project is separate from the 63 proctored activities. No printed or handwritten report is included.
+A local Windows workbench for the seven CSST106 laboratory activities. The app includes experiment controls, saved results and digital analyses.
 
 ## Start
 
@@ -29,7 +29,7 @@ After setup, you can also double-click `Launch.cmd`. Labs 05 and 07 offer a comp
 
 Use **Save experiment** to retain images, settings, metrics and dependency versions. Lab 02 saves signed gradients and raw magnitude as NPY arrays. Background jobs remain active when navigating. Their logs and status are on disk in `runs/job_*`; use the job's Cancel button to terminate it. Restarting the app does not silently retrain models. Video processing is synchronous and should use short clips.
 
-Use `python run_lab.py --help` for commented standalone lab entry points. Individual algorithms are importable for inspection. The required PCA script is `worker.py`, not a disconnected notebook.
+Use `python run_lab.py --help` for commented standalone lab entry points. Individual algorithms are importable for inspection. The PCA experiment is implemented in `worker.py`.
 
 ## Completed experiments and analysis
 
@@ -46,7 +46,7 @@ Reproduce all four labs after fetching the VOC subset and caching the DeepLab we
 .\.venv\Scripts\python.exe complete_labs.py --labs 2 --edge-image C:\path\input.jpg
 ```
 
-Lab 02 bundles a student-selected `examples/lab02/input.jpg`: the public scikit-image Camera sample encoded as JPEG quality 95. Students choose the image for this activity; no instructor-provided image is expected. `input_source.json` records its source and checksum. The UI, `run_lab.py 2` and evidence generator use this actual decoded JPEG by default; explicit uploads/files or sample selections override it. All figures, gradients and metrics were regenerated after JPEG compression. Use `--edge-image` to choose another image.
+Lab 02 bundles a student-selected `examples/lab02/input.jpg`: the public scikit-image Camera sample encoded as JPEG quality 95. The image can be selected freely for this activity. `input_source.json` records its source and checksum. The UI, `run_lab.py 2` and evidence generator use this actual decoded JPEG by default; explicit uploads/files or sample selections override it. All figures, gradients and metrics were regenerated after JPEG compression. Use `--edge-image` to choose another image.
 
 ## Curated public dataset and custom YOLO
 
@@ -84,7 +84,7 @@ The standalone command also runs the full nonfree comparison and saves all detec
 .\.venv\Scripts\python.exe run_lab.py 4 --sample Camera --upright
 ```
 
-The UI and command share the same worker bridge. The command exits with an error if SURF is unavailable; it does not claim a complete Lab 04 run using only SIFT/ORB.
+The UI and command share the same worker bridge. The command reports an error if the nonfree SURF environment is unavailable.
 
 ## PCA analysis
 
@@ -116,15 +116,15 @@ The edge attachment uses input.jpg as the student-selected input filename. The b
 
 `examples/media_verification/verification.json` records a real YOLO video run: all 12 frames decoded successfully at the source 12 FPS. The fixture and annotated output are included. Reproduce with `.\.venv\Scripts\python.exe verify_media.py`; add `--webcam` only when a camera is connected. This computer has no webcam, so live camera capture has not been verified. No camera images were saved.
 
-## Verification and handoff
+## Verification and reproducibility
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests -q
 .\.venv\Scripts\python.exe run_lab.py 2 --sample Camera
 ```
 
-Read `IMPLEMENTATION_STATUS.md` for actual verification and remaining requirements. Tests use temporary synthetic grids, never fake personal training results. A failed download/build, missing reviewed dataset or unfinished training must remain visible as incomplete.
+See `IMPLEMENTATION_STATUS.md` for measured results, verification and environment limitations. Tests use temporary synthetic fixtures to check algorithm and workflow behavior separately from laboratory measurements.
 
-Source is published at https://github.com/jush-ua/CSST-106. The repository URL has already been submitted to the class spreadsheet as requested by the instructor. The repository includes source, dependency versions, selected experiment outputs and the PCA PDF. Environments, raw datasets and trained weights remain local. See `IMPLEMENTATION_STATUS.md` for execution and verification details.
+Source is published at https://github.com/jush-ua/CSST-106. The repository URL has already been submitted to the class spreadsheet for the course. The repository includes source, dependency versions, selected experiment outputs and the PCA PDF. Environments, raw datasets and trained weights remain local. See `IMPLEMENTATION_STATUS.md` for execution and verification details.
 
 Lab 06 still-image/video comparison, reports and the private weights/output bundle are produced with `lab06.py`; see the curation guide for exact commands. Raw inputs, annotation sheets, videos and weights stay local. `publish-summary` explicitly copies only numerical metrics, analysis and training/confusion charts into `examples/lab06_custom` for source publication. The ten reserved still images demonstrate Part 4's new-images-or-video inference step. Live webcam testing remains unperformed because this PC has no webcam.
