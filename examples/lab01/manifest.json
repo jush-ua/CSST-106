@@ -1,9 +1,75 @@
 {
   "lab": "lab01",
   "parameters": {
-    "source": "scikit-image:Camera"
+    "source": "scikit-image Astronaut (RGB converted to BGR)",
+    "row": 256,
+    "col": 256,
+    "bgr": [
+      0,
+      0,
+      255
+    ],
+    "roi": [
+      64,
+      48,
+      200,
+      240
+    ],
+    "size": [
+      320,
+      240
+    ],
+    "clockwise": true
   },
-  "metrics": {},
+  "metrics": {
+    "input_shape_hwc": [
+      512,
+      512,
+      3
+    ],
+    "pixel_before_bgr": [
+      7,
+      14,
+      19
+    ],
+    "pixel_after_bgr": [
+      0,
+      0,
+      255
+    ],
+    "pixels_with_unequal_channels": 231189,
+    "output_shapes": {
+      "original": [
+        512,
+        512,
+        3
+      ],
+      "grayscale": [
+        512,
+        512
+      ],
+      "edited": [
+        512,
+        512,
+        3
+      ],
+      "crop": [
+        240,
+        200,
+        3
+      ],
+      "resized": [
+        240,
+        320,
+        3
+      ],
+      "rotated": [
+        512,
+        512,
+        3
+      ]
+    }
+  },
   "versions": {
     "numpy": "2.4.6",
     "opencv-python": "4.14.0.94",
@@ -14,32 +80,42 @@
     "streamlit": "1.67.0"
   },
   "python": "3.11.9",
-  "time": 1795609300.0390031,
+  "time": 1795671008.6002204,
   "images": {
     "original": {
       "file": "original.png",
-      "sha256": "0aeea3ece84929aeac3c4ce49829a4114d6ae438d58b5b1a6bf154735aed4845"
+      "sha256": "8828e3f97f7a12f2b08a24840dae2636c818e2a5745fc676fc03715b6c8b653f"
     },
     "grayscale": {
       "file": "grayscale.png",
-      "sha256": "b779d2c8e2a7098a0182c26227c3b516fb2d9d15f14ed99940c6196ba4a2c4e2"
+      "sha256": "1788d55c276b3c888e3cc5b63d0d54460b9ae4bc38007539c13d4952a9ce6b59"
     },
     "edited": {
       "file": "edited.png",
-      "sha256": "ba3515d7e153fe5c4cc9cc8c5793364722c85261fbb11d3b9cdcfa1f891e0081"
+      "sha256": "5f4ba771f5d94049d65f42f6479a981da9129aebc86722c1ad604e53578e1bb1"
     },
     "crop": {
       "file": "crop.png",
-      "sha256": "c6582a48f14c9a302fadb7ef7f9363dc09739951275cfdbf365c36f945afea94"
+      "sha256": "2fc71e1f2f6791b8829f81615f56c9fae39a9ba854dbbaf09274a9d024518e8a"
     },
     "resized": {
       "file": "resized.png",
-      "sha256": "21ea8fb6e7e3b236bdc7f8e4ac25b567efb0dc55bcc39ee047885aa7387dab6a"
+      "sha256": "f1deca3ff90315b05b2ec7581b101bbed2690d764e970e3f1d675eeaa936fbc6"
     },
     "rotated": {
       "file": "rotated.png",
-      "sha256": "00c63eda327fbe11a96da069b567d8e498fdf63a97240287cb0ac06e248eed70"
+      "sha256": "ec75c52f5ef91b93ebcb34c2862fcbd58f4e1e21e2d0884f282a0e14b47e785a"
     }
   },
-  "arrays": []
+  "arrays": [],
+  "artifacts_sha256": {
+    "ANALYSIS.md": "702eb0a9f20eab3a614893f85c7a0a15eea20fe1863291a6462cfc237bfeba26",
+    "comparison.png": "a88fe68f6a95e7ddb172d3b90efaa94c858e531776cd8681eb79888a4cc6e8e5",
+    "crop.png": "2fc71e1f2f6791b8829f81615f56c9fae39a9ba854dbbaf09274a9d024518e8a",
+    "edited.png": "5f4ba771f5d94049d65f42f6479a981da9129aebc86722c1ad604e53578e1bb1",
+    "grayscale.png": "1788d55c276b3c888e3cc5b63d0d54460b9ae4bc38007539c13d4952a9ce6b59",
+    "original.png": "8828e3f97f7a12f2b08a24840dae2636c818e2a5745fc676fc03715b6c8b653f",
+    "resized.png": "f1deca3ff90315b05b2ec7581b101bbed2690d764e970e3f1d675eeaa936fbc6",
+    "rotated.png": "ec75c52f5ef91b93ebcb34c2862fcbd58f4e1e21e2d0884f282a0e14b47e785a"
+  }
 }

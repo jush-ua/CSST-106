@@ -80,6 +80,16 @@ def histogram(channels):
     fig.tight_layout();st.pyplot(fig);plt.close(fig)
 
 def observations(key,prompt):
+    reference=ROOT/'examples'/key
+    analysis=reference/'ANALYSIS.md'
+    if analysis.exists():
+        with st.expander('Completed reference analysis and figures'):
+            st.markdown(analysis.read_text(encoding='utf-8'))
+            figures=sorted(p for p in reference.rglob('*.png') if p.stem in ('comparison','histograms','seed_sensitivity','marker_sensitivity'))
+            if figures:
+                figure=st.selectbox('Reference figure',figures,format_func=lambda p:str(p.relative_to(reference)),key=key+'_reference_figure')
+                st.image(str(figure),width='stretch')
+                st.download_button('Download reference figure',figure.read_bytes(),figure.name,'image/png',key=key+'_reference_download')
     with st.expander('Observations and interpretation',expanded=True):
         st.write(prompt)
         file=DATA/(key+'_observations.txt')
@@ -268,13 +278,10 @@ try:
             worker_python=ROOT/'.surf-venv'/'Scripts'/'python.exe'
             if worker_python.exists():
                 f=save_run('surf_input',dict(threshold=threshold,upright=upright,ratio=ratio),{'a':im,'b':b})
-                command=[str(worker_python),str(ROOT/'surf_worker.py'),str(f),str(threshold),str(int(upright)),str(ratio)]
-                proc=subprocess.run(command,capture_output=True,text=True,timeout=180)
-                if proc.returncode:st.warning('SURF worker failed: '+proc.stderr[-2000:])
-                else:
-                    surf=json.loads((f/'surf.json').read_text());stats=surf
-                    for algorithm in ['SURF','SIFT','ORB']:
-                        for suffix in ['matches','keypoints']:all_images[algorithm+'_'+suffix]=cv2.imread(str(f/(algorithm+'_'+suffix+'.png')))
+                from feature_runner import run_surf_comparison
+                try:
+                    compared,stats=run_surf_comparison(f,threshold,upright,ratio);all_images.update(compared)
+                except RuntimeError as exc:st.warning(str(exc))
             else:st.warning('SURF has not been built. Run setup-surf.ps1; ORB and SIFT results below are not substitutes labeled as SURF.')
             st.session_state['feature_result']=(all_images,stats,dict(threshold=threshold,upright=upright,ratio=ratio))
         if 'feature_result' in st.session_state:

@@ -12,9 +12,13 @@ Examples:
 import argparse
 from core import *
 import jobs
+from feature_runner import run_surf_comparison
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('lab',type=int,choices=range(1,8));p.add_argument('--image');p.add_argument('--second');p.add_argument('--sample',default='Astronaut',choices=['Astronaut','Coffee','Coins','Camera']);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('lab',type=int,choices=range(1,8));p.add_argument('--image');p.add_argument('--second');p.add_argument('--sample',default='Astronaut',choices=['Astronaut','Coffee','Coins','Camera'])
+    p.add_argument('--hessian',type=int,default=400);p.add_argument('--upright',action='store_true');p.add_argument('--ratio',type=float,default=.75)
+    a=p.parse_args()
+    if a.hessian<1 or not 0<a.ratio<1:p.error('Hessian must be positive and ratio must be between 0 and 1.')
     if a.lab in [5,6]:
         if a.lab==6:
             from dataset import validate_dataset
@@ -27,9 +31,12 @@ def main():
     elif a.lab==3:out,_=contrast(im);params.update(clip=2.,tiles=8,colour=False)
     elif a.lab==4:
         b=decode(Path(a.second).read_bytes()) if a.second else cv2.rotate(im,cv2.ROTATE_90_CLOCKWISE);out={'input_a':im,'input_b':b};rows=[]
-        for algo in ['SIFT','ORB']:
-            matched,rich,stats=features(im,b,algo);out[algo+'_matches']=matched;out[algo+'_keypoints']=rich;rows.append(stats)
-        metrics={'comparisons':rows,'SURF':'Run isolated surf_worker after setup-surf.ps1'}
+        # All detectors run in the same nonfree build, just as in the UI.
+        folder=save_run('surf_input',params,{'a':im,'b':b})
+        try:compared,rows=run_surf_comparison(folder,a.hessian,a.upright,a.ratio)
+        except RuntimeError as exc:p.exit(1,str(exc)+'\n')
+        out.update(compared);params.update(threshold=a.hessian,upright=a.upright,ratio=a.ratio)
+        metrics={'comparisons':rows}
     else:out,markers,metrics=segmentation(im,(h//2,w//2));arrays={'watershed_labels':markers}
     print(save_run('lab'+str(a.lab).zfill(2),params,out,metrics,arrays))
 

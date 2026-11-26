@@ -1,0 +1,133 @@
+{
+  "lab": "lab07",
+  "parameters": {
+    "source": "VOC validation val_0000, provenance in source_manifest.json; binary truth is the union of non-background VOC classes",
+    "seed": [
+      183,
+      250
+    ],
+    "tolerance": 15,
+    "adaptive_block": 25,
+    "adaptive_c": 8,
+    "marker_fraction": 0.45,
+    "connectivity": 4
+  },
+  "metrics": {
+    "otsu_threshold": 152.0,
+    "watershed_seed_components": 1,
+    "closed_contours": 19,
+    "timings_ms": {
+      "preprocess": 0.27230000705458224,
+      "otsu": 0.15430001076310873,
+      "adaptive": 0.6052000098861754,
+      "region": 408.4170999994967,
+      "watershed": 39.238099998328835,
+      "edge_regions": 8.989299996756017,
+      "total": 457.696900004521
+    },
+    "foreground_scores": {
+      "otsu": {
+        "class": 1,
+        "iou": 0.11495698888171092,
+        "dice": 0.20620883142229812
+      },
+      "adaptive": {
+        "class": 1,
+        "iou": 0.11389770405868976,
+        "dice": 0.20450298738148515
+      },
+      "region": {
+        "class": 1,
+        "iou": 0.0535146591310491,
+        "dice": 0.10159262363788768
+      },
+      "edge_regions": {
+        "class": 1,
+        "iou": 0.3310679150230502,
+        "dice": 0.4974470668047274
+      },
+      "watershed": {
+        "class": 1,
+        "iou": 0.11490779183161147,
+        "dice": 0.20612967758138406
+      }
+    },
+    "foreground_pixel_counts": {
+      "otsu": 105724,
+      "adaptive": 149047,
+      "region": 59670,
+      "edge_regions": 56756,
+      "watershed": 87614
+    },
+    "watershed_object_regions": 1
+  },
+  "versions": {
+    "numpy": "2.4.6",
+    "opencv-python": "4.14.0.94",
+    "scikit-learn": "1.9.1",
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "ultralytics": "8.4.218",
+    "streamlit": "1.67.0"
+  },
+  "python": "3.11.9",
+  "time": 1795671029.0162463,
+  "images": {
+    "original": {
+      "file": "original.png",
+      "sha256": "a9135f5ec3c260c6f37af44a6f1752643b2431af368693625c85ae498d8e0aac"
+    },
+    "otsu": {
+      "file": "otsu.png",
+      "sha256": "803df05d035e27c43b8ccee864d6d4053408f52fca37ffff9385cb4699af06d7"
+    },
+    "adaptive": {
+      "file": "adaptive.png",
+      "sha256": "8314ae4ee231d5be71365165c673026ec58f4463af41f69fe334441f4c571215"
+    },
+    "region": {
+      "file": "region.png",
+      "sha256": "8feebd94883bdecaf17e2d6a56d9f440f8c0108d59169d7f768adfcc204e8c21"
+    },
+    "watershed": {
+      "file": "watershed.png",
+      "sha256": "2a0fcb46d76e7c064e4e1ca48694c67224215438661835e695b6c12f89331a74"
+    },
+    "edge_regions": {
+      "file": "edge_regions.png",
+      "sha256": "c6bccd0e31bcc8a95136342a3fd12e3351457b67b11c021fe5110d29673543a3"
+    },
+    "canny_edges": {
+      "file": "canny_edges.png",
+      "sha256": "172494d654b889871604b7696ac18885c881490265a9cc67b711c79f5d548a0c"
+    },
+    "ground_truth": {
+      "file": "ground_truth.png",
+      "sha256": "e4b853b7adc6b4ccd0c8159ca153e5107a13640eb83459f849883ac59a2bef2a"
+    }
+  },
+  "arrays": [
+    "watershed_labels.npy"
+  ],
+  "artifacts_sha256": {
+    "adaptive.png": "8314ae4ee231d5be71365165c673026ec58f4463af41f69fe334441f4c571215",
+    "canny_edges.png": "172494d654b889871604b7696ac18885c881490265a9cc67b711c79f5d548a0c",
+    "comparison.png": "468256407a68253c069853e7c8adc1b949b1692c6ddb3bbe2469bcef8f3c8277",
+    "edge_regions.png": "c6bccd0e31bcc8a95136342a3fd12e3351457b67b11c021fe5110d29673543a3",
+    "ground_truth.png": "e4b853b7adc6b4ccd0c8159ca153e5107a13640eb83459f849883ac59a2bef2a",
+    "original.png": "a9135f5ec3c260c6f37af44a6f1752643b2431af368693625c85ae498d8e0aac",
+    "otsu.png": "803df05d035e27c43b8ccee864d6d4053408f52fca37ffff9385cb4699af06d7",
+    "region.png": "8feebd94883bdecaf17e2d6a56d9f440f8c0108d59169d7f768adfcc204e8c21",
+    "semantic/classes.png": "63680383e00dd4d3c900ac072934ab1438a3bc6622e21891efcc38da5a3dfd73",
+    "semantic/comparison.png": "61d52fc1d4de601e2888735356df791bb72076ca11d434ccda9f074297170715",
+    "semantic/input.png": "28b77e50879fcc42c96d2beeeb286825b9ebed47c1b388774fe6e49f4fb8a6ab",
+    "semantic/input.ready": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "semantic/labels.png": "7b775609de80ab706fe7313f351bd1b84013316b07bcf824bbaa7588a0c6a01a",
+    "semantic/overlay.png": "4ca3241f978631dc54d78fa2a069f0bb7a1369f17eab89713ab9a4ce85b00008",
+    "semantic/result.json": "3a68874c8026f45029dcc6d741fff778bd292d0192e9554ccb1b6ef5152c3415",
+    "semantic/status.json": "8bdb1363f30b4cd339a2fee49c5f93d703bad7770c5cf30b5066856bb84d0800",
+    "semantic/truth.png": "87aabb2adfe66aab37073287e83ecb6d8e2d885a2c7211c3f4773aec1ae763d1",
+    "watershed.png": "2a0fcb46d76e7c064e4e1ca48694c67224215438661835e695b6c12f89331a74",
+    "watershed_labels.npy": "7749f553a003b8092e6e4c3a8f4547d2d02d33b25b39ec00ae1af2f27f35b141"
+  }
+}

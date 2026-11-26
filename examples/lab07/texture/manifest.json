@@ -1,0 +1,92 @@
+{
+  "lab": "lab07",
+  "parameters": {
+    "source": "Public scikit-image Camera resized to 256 square; no ground truth",
+    "seed": [
+      128,
+      128
+    ],
+    "tolerance": 15,
+    "adaptive_block": 25,
+    "adaptive_c": 8,
+    "marker_fraction": 0.45,
+    "connectivity": 4
+  },
+  "metrics": {
+    "otsu_threshold": 102.0,
+    "watershed_seed_components": 3,
+    "closed_contours": 6,
+    "timings_ms": {
+      "preprocess": 0.3622000222094357,
+      "otsu": 0.09250000584870577,
+      "adaptive": 0.2764000091701746,
+      "region": 8.272800012491643,
+      "watershed": 9.603999991668388,
+      "edge_regions": 2.5074000004678965,
+      "total": 21.277000021655113
+    },
+    "foreground_pixel_counts": {
+      "otsu": 44870,
+      "adaptive": 53134,
+      "region": 1557,
+      "edge_regions": 7325,
+      "watershed": 32016
+    },
+    "watershed_object_regions": 3
+  },
+  "versions": {
+    "numpy": "2.4.6",
+    "opencv-python": "4.14.0.94",
+    "scikit-learn": "1.9.1",
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "ultralytics": "8.4.218",
+    "streamlit": "1.67.0"
+  },
+  "python": "3.11.9",
+  "time": 1795671026.2246323,
+  "images": {
+    "original": {
+      "file": "original.png",
+      "sha256": "21ea8fb6e7e3b236bdc7f8e4ac25b567efb0dc55bcc39ee047885aa7387dab6a"
+    },
+    "otsu": {
+      "file": "otsu.png",
+      "sha256": "e8ccad71f5c42cab77b38a089b46af5663eec192ee6f4a718ad98080421678b4"
+    },
+    "adaptive": {
+      "file": "adaptive.png",
+      "sha256": "9837fa70fba7de64efff4d8031d8d19bc592ba6168bd38da7c465078d1db8d8e"
+    },
+    "region": {
+      "file": "region.png",
+      "sha256": "f7122377098494014d830ca157005d4d6cd47a4c7825e8318a0b90667c924deb"
+    },
+    "watershed": {
+      "file": "watershed.png",
+      "sha256": "57471bbe610bacebf768e3bdd7e71ef3692f699ae96d19e728242decd766496c"
+    },
+    "edge_regions": {
+      "file": "edge_regions.png",
+      "sha256": "b5e9726a5b18b1640045bbdcc626b4143c820a2d0e46592377bca72061338dc6"
+    },
+    "canny_edges": {
+      "file": "canny_edges.png",
+      "sha256": "09a436903e5614f71b8f1e849ce1e5de9244bab256f2ee3f5845d15b9895d87f"
+    }
+  },
+  "arrays": [
+    "watershed_labels.npy"
+  ],
+  "artifacts_sha256": {
+    "adaptive.png": "9837fa70fba7de64efff4d8031d8d19bc592ba6168bd38da7c465078d1db8d8e",
+    "canny_edges.png": "09a436903e5614f71b8f1e849ce1e5de9244bab256f2ee3f5845d15b9895d87f",
+    "comparison.png": "c80177673216fb3dc0a170097836923a9e1d0d912bdb5f0779eaa8d659e3afa2",
+    "edge_regions.png": "b5e9726a5b18b1640045bbdcc626b4143c820a2d0e46592377bca72061338dc6",
+    "original.png": "21ea8fb6e7e3b236bdc7f8e4ac25b567efb0dc55bcc39ee047885aa7387dab6a",
+    "otsu.png": "e8ccad71f5c42cab77b38a089b46af5663eec192ee6f4a718ad98080421678b4",
+    "region.png": "f7122377098494014d830ca157005d4d6cd47a4c7825e8318a0b90667c924deb",
+    "watershed.png": "57471bbe610bacebf768e3bdd7e71ef3692f699ae96d19e728242decd766496c",
+    "watershed_labels.npy": "dadc08272462233e0ce70ef64ce938348f894c82b2e4b8af05e645bd92a03073"
+  }
+}

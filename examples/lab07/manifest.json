@@ -1,51 +1,242 @@
 {
   "lab": "lab07",
-  "parameters": {
-    "source": "scikit-image:Camera"
-  },
+  "cases": [
+    "touching_objects/manifest.json",
+    "uneven_illumination/manifest.json",
+    "texture/manifest.json",
+    "natural_scene/manifest.json"
+  ],
   "metrics": {
-    "otsu_threshold": 102.0,
-    "watershed_seed_components": 3,
-    "closed_contours": 40
-  },
-  "versions": {
-    "numpy": "2.4.6",
-    "opencv-python": "4.14.0.94",
-    "scikit-learn": "1.9.1",
-    "torch": "2.15.0",
-    "torchvision": "0.29.2",
-    "ultralytics": "8.4.218",
-    "streamlit": "1.67.0"
-  },
-  "python": "3.11.9",
-  "time": 1795609327.0444846,
-  "images": {
-    "original": {
-      "file": "original.png",
-      "sha256": "0aeea3ece84929aeac3c4ce49829a4114d6ae438d58b5b1a6bf154735aed4845"
+    "touching_objects": {
+      "otsu_threshold": 96.0,
+      "watershed_seed_components": 1,
+      "closed_contours": 1,
+      "timings_ms": {
+        "preprocess": 0.7431999838445336,
+        "otsu": 0.42470000335015357,
+        "adaptive": 0.4309999931138009,
+        "region": 47.11060001864098,
+        "watershed": 9.104299999307841,
+        "edge_regions": 1.0491999855730683,
+        "total": 58.88639998738654
+      },
+      "foreground_scores": {
+        "otsu": {
+          "class": 1,
+          "iou": 0.9997118570811122,
+          "dice": 0.9998559077809799
+        },
+        "adaptive": {
+          "class": 1,
+          "iou": 0.15477837789581753,
+          "dice": 0.2680659438356429
+        },
+        "region": {
+          "class": 1,
+          "iou": 1.0,
+          "dice": 1.0
+        },
+        "edge_regions": {
+          "class": 1,
+          "iou": 0.9741681875614208,
+          "dice": 0.9869150903143223
+        },
+        "watershed": {
+          "class": 1,
+          "iou": 0.9556132007493875,
+          "dice": 0.9773028739867354
+        }
+      },
+      "foreground_pixel_counts": {
+        "otsu": 6941,
+        "adaptive": 44802,
+        "region": 6939,
+        "edge_regions": 7123,
+        "watershed": 6631
+      },
+      "watershed_object_regions": 1
     },
-    "otsu": {
-      "file": "otsu.png",
-      "sha256": "5caea2cd187af88f633d406b8be966856ef99ccb0d7ba7e80a603acf96c9c7bd"
+    "uneven_illumination": {
+      "otsu_threshold": 80.0,
+      "watershed_seed_components": 1,
+      "closed_contours": 1,
+      "timings_ms": {
+        "preprocess": 0.16569998115301132,
+        "otsu": 0.052799994591623545,
+        "adaptive": 0.1894999877549708,
+        "region": 19.99279999290593,
+        "watershed": 9.273000003304332,
+        "edge_regions": 0.7255000236909837,
+        "total": 30.413499975111336
+      },
+      "foreground_scores": {
+        "otsu": {
+          "class": 1,
+          "iou": 0.9893586425079092,
+          "dice": 0.9946508601995084
+        },
+        "adaptive": {
+          "class": 1,
+          "iou": 0.15361965906575162,
+          "dice": 0.2663263543725652
+        },
+        "region": {
+          "class": 1,
+          "iou": 0.6162271220636979,
+          "dice": 0.7625501560410165
+        },
+        "edge_regions": {
+          "class": 1,
+          "iou": 0.9711686494051784,
+          "dice": 0.985373473445044
+        },
+        "watershed": {
+          "class": 1,
+          "iou": 0.9697362732382188,
+          "dice": 0.9846356453028973
+        }
+      },
+      "foreground_pixel_counts": {
+        "otsu": 6895,
+        "adaptive": 45170,
+        "region": 4276,
+        "edge_regions": 7145,
+        "watershed": 6729
+      },
+      "watershed_object_regions": 1
     },
-    "adaptive": {
-      "file": "adaptive.png",
-      "sha256": "56baa74238ca5348f445b2d971c13b68e4b2f9c5f5aac49dbd08b61e0ca9358e"
+    "texture": {
+      "otsu_threshold": 102.0,
+      "watershed_seed_components": 3,
+      "closed_contours": 6,
+      "timings_ms": {
+        "preprocess": 0.3622000222094357,
+        "otsu": 0.09250000584870577,
+        "adaptive": 0.2764000091701746,
+        "region": 8.272800012491643,
+        "watershed": 9.603999991668388,
+        "edge_regions": 2.5074000004678965,
+        "total": 21.277000021655113
+      },
+      "foreground_pixel_counts": {
+        "otsu": 44870,
+        "adaptive": 53134,
+        "region": 1557,
+        "edge_regions": 7325,
+        "watershed": 32016
+      },
+      "watershed_object_regions": 3
     },
-    "region": {
-      "file": "region.png",
-      "sha256": "5df2fdfe20487f42f7617db2c37625c51b32dd697fdad3b51257fbc9e159fde4"
-    },
-    "watershed": {
-      "file": "watershed.png",
-      "sha256": "4842c4096531703fb6fa7c28734d554bf22f07ee2c505fae09e0c09b48ae8bd6"
-    },
-    "edge_regions": {
-      "file": "edge_regions.png",
-      "sha256": "7554c99e820c3ed0a3cbb482bdc0dd2ede764afd33cd2250a813bdde84f420c1"
+    "natural_scene": {
+      "otsu_threshold": 152.0,
+      "watershed_seed_components": 1,
+      "closed_contours": 19,
+      "timings_ms": {
+        "preprocess": 0.27230000705458224,
+        "otsu": 0.15430001076310873,
+        "adaptive": 0.6052000098861754,
+        "region": 408.4170999994967,
+        "watershed": 39.238099998328835,
+        "edge_regions": 8.989299996756017,
+        "total": 457.696900004521
+      },
+      "foreground_scores": {
+        "otsu": {
+          "class": 1,
+          "iou": 0.11495698888171092,
+          "dice": 0.20620883142229812
+        },
+        "adaptive": {
+          "class": 1,
+          "iou": 0.11389770405868976,
+          "dice": 0.20450298738148515
+        },
+        "region": {
+          "class": 1,
+          "iou": 0.0535146591310491,
+          "dice": 0.10159262363788768
+        },
+        "edge_regions": {
+          "class": 1,
+          "iou": 0.3310679150230502,
+          "dice": 0.4974470668047274
+        },
+        "watershed": {
+          "class": 1,
+          "iou": 0.11490779183161147,
+          "dice": 0.20612967758138406
+        }
+      },
+      "foreground_pixel_counts": {
+        "otsu": 105724,
+        "adaptive": 149047,
+        "region": 59670,
+        "edge_regions": 56756,
+        "watershed": 87614
+      },
+      "watershed_object_regions": 1
     }
   },
-  "arrays": [
-    "watershed_labels.npy"
-  ]
+  "sensitivity": "sensitivity.json",
+  "semantic": "natural_scene/semantic/result.json",
+  "artifacts_sha256": {
+    "ANALYSIS.md": "539264990525eb55aadf0a85b749aeeb3f8a58cec9521ae881d68945c8ab00b0",
+    "comparison.csv": "8c95d21f7aa29efae5611e0ef7bd2248bbffa4cc1e01ed29f392a88279a945b4",
+    "marker_sensitivity.png": "fb0d7a3d9686a95f4100ee9833ef67254c192257d9b152aee6e2cb3bdbbe14f3",
+    "natural_scene/adaptive.png": "8314ae4ee231d5be71365165c673026ec58f4463af41f69fe334441f4c571215",
+    "natural_scene/canny_edges.png": "172494d654b889871604b7696ac18885c881490265a9cc67b711c79f5d548a0c",
+    "natural_scene/comparison.png": "468256407a68253c069853e7c8adc1b949b1692c6ddb3bbe2469bcef8f3c8277",
+    "natural_scene/edge_regions.png": "c6bccd0e31bcc8a95136342a3fd12e3351457b67b11c021fe5110d29673543a3",
+    "natural_scene/ground_truth.png": "e4b853b7adc6b4ccd0c8159ca153e5107a13640eb83459f849883ac59a2bef2a",
+    "natural_scene/manifest.json": "3c317d6d268f1fa8d37586ceda378e2aabd36e178a310edddada0540a0f2e99c",
+    "natural_scene/original.png": "a9135f5ec3c260c6f37af44a6f1752643b2431af368693625c85ae498d8e0aac",
+    "natural_scene/otsu.png": "803df05d035e27c43b8ccee864d6d4053408f52fca37ffff9385cb4699af06d7",
+    "natural_scene/region.png": "8feebd94883bdecaf17e2d6a56d9f440f8c0108d59169d7f768adfcc204e8c21",
+    "natural_scene/semantic/classes.png": "63680383e00dd4d3c900ac072934ab1438a3bc6622e21891efcc38da5a3dfd73",
+    "natural_scene/semantic/comparison.png": "61d52fc1d4de601e2888735356df791bb72076ca11d434ccda9f074297170715",
+    "natural_scene/semantic/input.png": "28b77e50879fcc42c96d2beeeb286825b9ebed47c1b388774fe6e49f4fb8a6ab",
+    "natural_scene/semantic/input.ready": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "natural_scene/semantic/labels.png": "7b775609de80ab706fe7313f351bd1b84013316b07bcf824bbaa7588a0c6a01a",
+    "natural_scene/semantic/overlay.png": "4ca3241f978631dc54d78fa2a069f0bb7a1369f17eab89713ab9a4ce85b00008",
+    "natural_scene/semantic/result.json": "3a68874c8026f45029dcc6d741fff778bd292d0192e9554ccb1b6ef5152c3415",
+    "natural_scene/semantic/status.json": "8bdb1363f30b4cd339a2fee49c5f93d703bad7770c5cf30b5066856bb84d0800",
+    "natural_scene/semantic/truth.png": "87aabb2adfe66aab37073287e83ecb6d8e2d885a2c7211c3f4773aec1ae763d1",
+    "natural_scene/watershed.png": "2a0fcb46d76e7c064e4e1ca48694c67224215438661835e695b6c12f89331a74",
+    "natural_scene/watershed_labels.npy": "7749f553a003b8092e6e4c3a8f4547d2d02d33b25b39ec00ae1af2f27f35b141",
+    "seed_sensitivity.png": "5d91a989ac5d6e74c87b0474b2aa12e484f735b577199773d53c0023a39d5751",
+    "sensitivity.json": "db8846302244918e1b5eda4e83ebc57176591fd332af04b92c3b40f5f6460a91",
+    "source_manifest.json": "db88417848b832328fddb257e3deccae78b0d1df6da03094bfa9a1611157fb37",
+    "texture/adaptive.png": "9837fa70fba7de64efff4d8031d8d19bc592ba6168bd38da7c465078d1db8d8e",
+    "texture/canny_edges.png": "09a436903e5614f71b8f1e849ce1e5de9244bab256f2ee3f5845d15b9895d87f",
+    "texture/comparison.png": "c80177673216fb3dc0a170097836923a9e1d0d912bdb5f0779eaa8d659e3afa2",
+    "texture/edge_regions.png": "b5e9726a5b18b1640045bbdcc626b4143c820a2d0e46592377bca72061338dc6",
+    "texture/manifest.json": "8ff366627e8f8e016572ad627a4ec6b3d36496acf98a176d5ca3d48d7c92b1be",
+    "texture/original.png": "21ea8fb6e7e3b236bdc7f8e4ac25b567efb0dc55bcc39ee047885aa7387dab6a",
+    "texture/otsu.png": "e8ccad71f5c42cab77b38a089b46af5663eec192ee6f4a718ad98080421678b4",
+    "texture/region.png": "f7122377098494014d830ca157005d4d6cd47a4c7825e8318a0b90667c924deb",
+    "texture/watershed.png": "57471bbe610bacebf768e3bdd7e71ef3692f699ae96d19e728242decd766496c",
+    "texture/watershed_labels.npy": "dadc08272462233e0ce70ef64ce938348f894c82b2e4b8af05e645bd92a03073",
+    "touching_objects/adaptive.png": "e40f59da14f3f278f68e22ba9a34f4c67813ca1673d178530c4a5493239a6f4d",
+    "touching_objects/canny_edges.png": "9296a16624a9f0d2d0a2f6ce47d91420d21d8d29cb40c4c4b62ff96ee9c9ff20",
+    "touching_objects/comparison.png": "d60d8d6c1555a4ca00532dedbde7149d828ef2f8020715056aed6f91dd9b4be1",
+    "touching_objects/edge_regions.png": "a7dfbcda0f0bf7440b9dfaaa164b4305e5bbe9255592eff073dde4e4c1001a9c",
+    "touching_objects/ground_truth.png": "0085fb0250bf2dd29cc4b24c857b73997c0ec26b3dc6d0204d75ea1135ce16af",
+    "touching_objects/manifest.json": "e2cf1d3ee15f41315891ba9873da575590c34c78a3c527053ece87a510f52837",
+    "touching_objects/original.png": "c3715de9e46ee38cfdf9316c476e13157f3523703dd560f16a11b6ff126db2fa",
+    "touching_objects/otsu.png": "2fc744f0b6c55df726017765122933ddca3033d809c5a1c85fd4efc5b959679f",
+    "touching_objects/region.png": "0085fb0250bf2dd29cc4b24c857b73997c0ec26b3dc6d0204d75ea1135ce16af",
+    "touching_objects/watershed.png": "8ab814031b2c08b3806afd6cf34e452939745ba4f72f893cf2bf9c195af98a6d",
+    "touching_objects/watershed_labels.npy": "362e16138ffced8374f7f425b5d537cdc1603d964f517f22b43925882ffae23b",
+    "uneven_illumination/adaptive.png": "271a6de59959fec4298ea2fb2186dc2fb1f1ed7bd0b44429efeb60435e43644c",
+    "uneven_illumination/canny_edges.png": "d58b265e16a955d9eb9277793daf6020cc0600c2f392e4eca3aa7693c9303780",
+    "uneven_illumination/comparison.png": "718eb3ae7d19480e21b31041f94eff37698e45b809dcd3b87cfde4f001ba5242",
+    "uneven_illumination/edge_regions.png": "29d89388693a398613a5804275bbb677bf1c3de3d158854ccc564a46e8f2973c",
+    "uneven_illumination/ground_truth.png": "0085fb0250bf2dd29cc4b24c857b73997c0ec26b3dc6d0204d75ea1135ce16af",
+    "uneven_illumination/manifest.json": "ec941f0614e7ed75f78d8b4d4091c22027947baadd041b12957c8f8f79623687",
+    "uneven_illumination/original.png": "49af88bad72ad976b04dbef96d5a99f7ba5f0cea9639b73cf5b5069b9439398f",
+    "uneven_illumination/otsu.png": "079789d931bca415a67b17a194adcea18b5734f4f4d950bd407b0cb6375153da",
+    "uneven_illumination/region.png": "04e4607bfe3558c09085b2ac6c9c543dc06ca6778757da1da697149dd0f645cb",
+    "uneven_illumination/watershed.png": "6cc9da5cc4951c2bb154ef89f8b048da8542f4e56fa4f701d145a0e3246c4849",
+    "uneven_illumination/watershed_labels.npy": "7f464a0cd57926a68cf1d981ac20aeb7501396f85a0ce93017b7658f7db9d643"
+  }
 }

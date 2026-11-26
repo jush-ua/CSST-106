@@ -1,0 +1,78 @@
+{
+  "lab": "lab03",
+  "parameters": {
+    "source": "Camera mapped from 0-255 to 100-155",
+    "clip": 2.0,
+    "tiles": 8,
+    "colour": false
+  },
+  "metrics": {
+    "original": {
+      "min": 100,
+      "max": 155,
+      "standard_deviation": 15.887998580082542,
+      "percentile_95_minus_5": 43.0,
+      "entropy_bits": 5.053296120850087
+    },
+    "stretched": {
+      "min": 0,
+      "max": 255,
+      "standard_deviation": 73.65419670263027,
+      "percentile_95_minus_5": 199.0,
+      "entropy_bits": 5.053296120850087
+    },
+    "equalized": {
+      "min": 0,
+      "max": 255,
+      "standard_deviation": 73.73937052026683,
+      "percentile_95_minus_5": 230.0,
+      "entropy_bits": 5.032486229145687
+    },
+    "clahe": {
+      "min": 68,
+      "max": 195,
+      "standard_deviation": 22.761335089205875,
+      "percentile_95_minus_5": 69.0,
+      "entropy_bits": 6.272250366802972
+    }
+  },
+  "versions": {
+    "numpy": "2.4.6",
+    "opencv-python": "4.14.0.94",
+    "scikit-learn": "1.9.1",
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "ultralytics": "8.4.218",
+    "streamlit": "1.67.0"
+  },
+  "python": "3.11.9",
+  "time": 1795671011.8162796,
+  "images": {
+    "original": {
+      "file": "original.png",
+      "sha256": "c3a0b7c87d09f476fbdf21125e22f82b0e45fbf0dcbdcee4da4ab70255301c1c"
+    },
+    "stretched": {
+      "file": "stretched.png",
+      "sha256": "2460e2215ec90849cc57aa0f0081524b35f4456effa068c240f4fa35263bf49b"
+    },
+    "equalized": {
+      "file": "equalized.png",
+      "sha256": "3dbc55a0836909e505a95a59fda8d766e2bde04f83f96d3597551b267788664a"
+    },
+    "clahe": {
+      "file": "clahe.png",
+      "sha256": "0663ae57df768a60c77eed58f0e80b21ccbc23be89409b450bc7c997f6226f57"
+    }
+  },
+  "arrays": [],
+  "artifacts_sha256": {
+    "clahe.png": "0663ae57df768a60c77eed58f0e80b21ccbc23be89409b450bc7c997f6226f57",
+    "comparison.png": "c57db9ef929a02a7179af9e8328071e840b8fddd4c47e9203462352ee6cbfa42",
+    "equalized.png": "3dbc55a0836909e505a95a59fda8d766e2bde04f83f96d3597551b267788664a",
+    "histograms.csv": "4181bcae4e7080fa81d232f111a503f9c16f587fadc3b5b3ffdcbe269d74e834",
+    "histograms.png": "3cba60fa84f1f83c7c28b01f5823c3f686c9a721265967e703bcf1e701707333",
+    "original.png": "c3a0b7c87d09f476fbdf21125e22f82b0e45fbf0dcbdcee4da4ab70255301c1c",
+    "stretched.png": "2460e2215ec90849cc57aa0f0081524b35f4456effa068c240f4fa35263bf49b"
+  }
+}

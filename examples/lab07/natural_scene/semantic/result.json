@@ -1,0 +1,125 @@
+{
+  "model": "DeepLabV3-ResNet50",
+  "device": "cpu",
+  "inference_seconds": 11.07132200000342,
+  "legend": {
+    "0": "__background__",
+    "1": "aeroplane",
+    "15": "person"
+  },
+  "shape": [
+    366,
+    500
+  ],
+  "scores": {
+    "pixel_accuracy": 0.9848688538657361,
+    "mean_iou": 0.6324830243559527,
+    "classes": [
+      {
+        "class": 0,
+        "iou": 0.9819038887824635,
+        "dice": 0.9908693295775037
+      },
+      {
+        "class": 1,
+        "iou": 0.9155451842853947,
+        "dice": 0.9559108203724718
+      },
+      {
+        "class": 2,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 3,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 4,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 5,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 6,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 7,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 8,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 9,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 10,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 11,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 12,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 13,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 14,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 15,
+        "iou": 0.0,
+        "dice": 0.0
+      },
+      {
+        "class": 16,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 17,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 18,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 19,
+        "iou": null,
+        "dice": null
+      },
+      {
+        "class": 20,
+        "iou": null,
+        "dice": null
+      }
+    ]
+  }
+}

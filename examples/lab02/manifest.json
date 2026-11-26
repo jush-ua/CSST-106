@@ -1,12 +1,24 @@
 {
   "lab": "lab02",
   "parameters": {
-    "source": "scikit-image:Camera",
+    "source": "scikit-image Camera; substitute because instructor input.jpg was not supplied",
     "blur": 3,
+    "sigma": 0,
+    "sobel_depth": "CV_64F",
+    "sobel_kernel": 3,
     "low": 100,
     "high": 200
   },
-  "metrics": {},
+  "metrics": {
+    "canny_edge_pixels": 8212,
+    "sobel_magnitude_max": 675.4213499734814,
+    "sobel_display_nonzero_pixels": 209351,
+    "input_shape": [
+      512,
+      512,
+      3
+    ]
+  },
   "versions": {
     "numpy": "2.4.6",
     "opencv-python": "4.14.0.94",
@@ -17,15 +29,11 @@
     "streamlit": "1.67.0"
   },
   "python": "3.11.9",
-  "time": 1795609310.022429,
+  "time": 1795671010.5565166,
   "images": {
     "original": {
       "file": "original.png",
       "sha256": "b779d2c8e2a7098a0182c26227c3b516fb2d9d15f14ed99940c6196ba4a2c4e2"
-    },
-    "blurred": {
-      "file": "blurred.png",
-      "sha256": "7c5534b4e349f5b3e8047482a96602b6843a4907bbd2e704317ec3084da42ca7"
     },
     "sobel": {
       "file": "sobel.png",
@@ -34,11 +42,26 @@
     "canny": {
       "file": "canny.png",
       "sha256": "60361f7d98d0ce11d4b9f87422793db6325446dc7dbe02c043d5e950218008e8"
+    },
+    "blurred": {
+      "file": "blurred.png",
+      "sha256": "7c5534b4e349f5b3e8047482a96602b6843a4907bbd2e704317ec3084da42ca7"
     }
   },
   "arrays": [
     "gx.npy",
     "gy.npy",
     "magnitude.npy"
-  ]
+  ],
+  "artifacts_sha256": {
+    "ANALYSIS.md": "7a314a062aec51c72e1b9909029ea03c631bbc63db3b36c8d0e9a8cea83abcc7",
+    "blurred.png": "7c5534b4e349f5b3e8047482a96602b6843a4907bbd2e704317ec3084da42ca7",
+    "canny.png": "60361f7d98d0ce11d4b9f87422793db6325446dc7dbe02c043d5e950218008e8",
+    "comparison.png": "a79316b4fc62636ec7e5726a71ff54a72378658e46e1e08075357f25022db854",
+    "gx.npy": "0bdc154084273b00b5cc69a8a7e5cc5d9282fa203c21c0e22569323cbbab9128",
+    "gy.npy": "bdf1573a39cd1177a24d67ed1140f5323ad0e29fd09c04766869f62852f51b33",
+    "magnitude.npy": "8f31bacf543de5f5a211efa9495d8d8440dac0d9d4bf5b295c9845b5554aa7f8",
+    "original.png": "b779d2c8e2a7098a0182c26227c3b516fb2d9d15f14ed99940c6196ba4a2c4e2",
+    "sobel.png": "b2da734d1c767a4a5b6c2b5313b8c50f348a73660f8292879fe0000e224eac96"
+  }
 }

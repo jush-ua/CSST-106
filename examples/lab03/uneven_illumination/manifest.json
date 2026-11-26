@@ -1,0 +1,78 @@
+{
+  "lab": "lab03",
+  "parameters": {
+    "source": "Camera times horizontal 0.30-1.00 illumination ramp plus Gaussian noise sigma=3, seed=42",
+    "clip": 2.0,
+    "tiles": 8,
+    "colour": false
+  },
+  "metrics": {
+    "original": {
+      "min": 0,
+      "max": 232,
+      "standard_deviation": 60.47848858212841,
+      "percentile_95_minus_5": 181.0,
+      "entropy_bits": 7.414980798727846
+    },
+    "stretched": {
+      "min": 0,
+      "max": 255,
+      "standard_deviation": 66.49049933091744,
+      "percentile_95_minus_5": 199.0,
+      "entropy_bits": 7.414980798727846
+    },
+    "equalized": {
+      "min": 0,
+      "max": 255,
+      "standard_deviation": 74.27596953319686,
+      "percentile_95_minus_5": 231.0,
+      "entropy_bits": 7.247057890855445
+    },
+    "clahe": {
+      "min": 1,
+      "max": 243,
+      "standard_deviation": 58.21944256220403,
+      "percentile_95_minus_5": 177.0,
+      "entropy_bits": 7.6100186503097085
+    }
+  },
+  "versions": {
+    "numpy": "2.4.6",
+    "opencv-python": "4.14.0.94",
+    "scikit-learn": "1.9.1",
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "ultralytics": "8.4.218",
+    "streamlit": "1.67.0"
+  },
+  "python": "3.11.9",
+  "time": 1795671014.4402974,
+  "images": {
+    "original": {
+      "file": "original.png",
+      "sha256": "62dc2c8d24b156afac036be89dfb38fbd8070bab4424a443d5fc16c618d1195e"
+    },
+    "stretched": {
+      "file": "stretched.png",
+      "sha256": "67d1d9d3cb9f2c9ffa7936bf814d6c32eda51be09cbec0c8e1b81dd6ac5cf0bb"
+    },
+    "equalized": {
+      "file": "equalized.png",
+      "sha256": "8606886bfc2ab2b2bdf7313406c986da3e692e77ab7204d8e55977970fd03144"
+    },
+    "clahe": {
+      "file": "clahe.png",
+      "sha256": "a9e467c86e76df790a379fbe9ea7efdc6dd90332fcbf7b55dcc6e7ca23ac9f94"
+    }
+  },
+  "arrays": [],
+  "artifacts_sha256": {
+    "clahe.png": "a9e467c86e76df790a379fbe9ea7efdc6dd90332fcbf7b55dcc6e7ca23ac9f94",
+    "comparison.png": "dc21e90c69c34c370d63099b33bc2ec05e5d8a42c23fdd6efd6a0f928becf28f",
+    "equalized.png": "8606886bfc2ab2b2bdf7313406c986da3e692e77ab7204d8e55977970fd03144",
+    "histograms.csv": "fa01d278d4d09d2a6a60d41c52845e1a7c84d6c22027cf6ff6524b90a54aebb2",
+    "histograms.png": "8a2be309e03aba85ff7311931f6ffd8610eaad671db94df4418a79b4ab5c4c2d",
+    "original.png": "62dc2c8d24b156afac036be89dfb38fbd8070bab4424a443d5fc16c618d1195e",
+    "stretched.png": "67d1d9d3cb9f2c9ffa7936bf814d6c32eda51be09cbec0c8e1b81dd6ac5cf0bb"
+  }
+}

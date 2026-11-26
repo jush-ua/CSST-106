@@ -31,6 +31,23 @@ Use **Save experiment** to retain images, settings, metrics and dependency versi
 
 Use `python run_lab.py --help` for commented standalone lab entry points. Individual algorithms are importable for inspection. The required PCA script is `worker.py`, not a disconnected notebook.
 
+## Completed experiments and analysis
+
+Labs 01-03 and 07 include measured digital analyses under `examples/lab01/ANALYSIS.md`, `examples/lab02/ANALYSIS.md`, `examples/lab03/ANALYSIS.md` and `examples/lab07/ANALYSIS.md`. Open **Completed reference analysis and figures** on each lab page to read the analysis and download a comparison figure. Original arrays, settings, dependency versions and image hashes remain in the case manifests.
+
+Lab 01 uses the actual colour Astronaut sample, including a visible pixel edit and all image operations. Lab 02 exports exactly original/Sobel/Canny side by side. Lab 03 covers low contrast, uneven illumination with noise, and colour luminance; each case exports four images, histograms and all histogram bins as CSV. Lab 07 compares five classical methods across touching objects, uneven illumination, texture and a natural VOC scene, including seed/marker sensitivity, compatible foreground scores and timings. DeepLab runs on that same natural scene with separate class-based scoring. Controlled fixtures are explicitly labelled; none are personal YOLO data.
+
+Reproduce all four labs after fetching the VOC subset and caching the DeepLab weights:
+
+```powershell
+.\.venv\Scripts\python.exe complete_labs.py
+# Individual labs or an instructor-supplied edge image:
+.\.venv\Scripts\python.exe complete_labs.py --labs 1 3
+.\.venv\Scripts\python.exe complete_labs.py --labs 2 --edge-image C:\path\input.jpg
+```
+
+The original `input.jpg` is still absent from the instructor materials. The saved Lab 02 run identifies its Camera substitute explicitly; supplying the real image reruns and replaces that evidence. The implementations and analyses can be completed without pretending that substitute is the missing file.
+
 ## Personal dataset and custom YOLO
 
 Lab 06 → Personal dataset imports **your own** bottle/mug/phone images. Demo samples are not personal training data. Target 100 distinct images per class plus 30 backgrounds. Collect at least three separate sessions, preferably ten or more, with all classes in multiple sessions. Avoid near-identical consecutive frames across sessions.
@@ -52,6 +69,16 @@ Stock OpenCV wheels usually do not enable SURF. Install the official Visual Stud
 This builds matching OpenCV and opencv_contrib 4.12.0 with `OPENCV_ENABLE_NONFREE=ON` in `.surf-venv`. Only the SURF worker imports that build; it does not replace the main cv2. Use `-BuildRoot D:\CSST106-build\opencv-src` to place sources and compilation on another drive. The script verifies detector construction. A failed build leaves SURF explicitly incomplete rather than presenting ORB as SURF. Source: https://docs.opencv.org/4.12.0/d2/dca/group__xfeatures2d__nonfree.html
 
 After building, run `.\.venv\Scripts\python.exe verify_surf.py` to reproduce the threshold sweep and SURF/U-SURF/SIFT/ORB comparisons on rotation and translation pairs. The evidence is written under `examples/lab04`, including measured tables and interpretation in `ANALYSIS.md`. All comparison algorithms run in the same isolated OpenCV build. That worker exchanges PNG images; its reduced codec support does not change the main application's codecs.
+
+The standalone command also runs the full nonfree comparison and saves all detector images and sweep records:
+
+```powershell
+.\.venv\Scripts\python.exe run_lab.py 4 --image a.jpg --second b.jpg --hessian 400 --ratio .75
+# Without --second, use a 90-degree rotated copy; add --upright to select U-SURF images.
+.\.venv\Scripts\python.exe run_lab.py 4 --sample Camera --upright
+```
+
+The UI and command share the same worker bridge. The command exits with an error if SURF is unavailable; it does not claim a complete Lab 04 run using only SIFT/ORB.
 
 ## PCA analysis
 

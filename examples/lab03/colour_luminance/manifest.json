@@ -1,0 +1,78 @@
+{
+  "lab": "lab03",
+  "parameters": {
+    "source": "Public scikit-image Coffee; process Y in YUV and preserve U/V before RGB conversion",
+    "clip": 2.0,
+    "tiles": 8,
+    "colour": true
+  },
+  "metrics": {
+    "original": {
+      "min": 0,
+      "max": 255,
+      "standard_deviation": 58.115242211486326,
+      "percentile_95_minus_5": 194.0,
+      "entropy_bits": 7.65752097076873
+    },
+    "stretched": {
+      "min": 0,
+      "max": 255,
+      "standard_deviation": 58.115242211486326,
+      "percentile_95_minus_5": 194.0,
+      "entropy_bits": 7.65752097076873
+    },
+    "equalized": {
+      "min": 0,
+      "max": 255,
+      "standard_deviation": 73.47617536977535,
+      "percentile_95_minus_5": 228.0,
+      "entropy_bits": 7.435865663081818
+    },
+    "clahe": {
+      "min": 0,
+      "max": 255,
+      "standard_deviation": 59.24313161226989,
+      "percentile_95_minus_5": 201.0,
+      "entropy_bits": 7.80234378556001
+    }
+  },
+  "versions": {
+    "numpy": "2.4.6",
+    "opencv-python": "4.14.0.94",
+    "scikit-learn": "1.9.1",
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "ultralytics": "8.4.218",
+    "streamlit": "1.67.0"
+  },
+  "python": "3.11.9",
+  "time": 1795671017.6573493,
+  "images": {
+    "original": {
+      "file": "original.png",
+      "sha256": "884b6c0be0f697ee5cc7604ca3a4a93647598ac120a56b1716bfadde4e9e0ad2"
+    },
+    "stretched": {
+      "file": "stretched.png",
+      "sha256": "3a1a0bbcaa599b68bca517d4cb24e3ed80a8c2f9442dca056934b63a1e72478d"
+    },
+    "equalized": {
+      "file": "equalized.png",
+      "sha256": "1c3f990a7e5d5a04d4e21b31525ba9349c19048325bb3f179141599ff0bfa2fd"
+    },
+    "clahe": {
+      "file": "clahe.png",
+      "sha256": "3d267b900c027fd0f4d331700a5b8418db1e5796f2456c49c9c6af327e9e837e"
+    }
+  },
+  "arrays": [],
+  "artifacts_sha256": {
+    "clahe.png": "3d267b900c027fd0f4d331700a5b8418db1e5796f2456c49c9c6af327e9e837e",
+    "comparison.png": "ba46c1d997ab6fb9992d9a75078769192e8e5ca2c2ba2167a818c0131d86cf7e",
+    "equalized.png": "1c3f990a7e5d5a04d4e21b31525ba9349c19048325bb3f179141599ff0bfa2fd",
+    "histograms.csv": "9b1216b3f5d6cb8578169b3f466996e699f8e0385c7c37e9e7dd8bb5d7bed220",
+    "histograms.png": "f3d7b4d25aca020cdc11a365632556611b8d2854a5ce9902d46449881152119d",
+    "original.png": "884b6c0be0f697ee5cc7604ca3a4a93647598ac120a56b1716bfadde4e9e0ad2",
+    "stretched.png": "3a1a0bbcaa599b68bca517d4cb24e3ed80a8c2f9442dca056934b63a1e72478d"
+  }
+}

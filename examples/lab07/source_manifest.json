@@ -1,0 +1,42 @@
+{
+  "source": "https://huggingface.co/datasets/nateraw/pascal-voc-2012/resolve/65505efaf0a3c4afe512dfc27c3abe2eac397bf9/data/val-00000-of-00001.parquet",
+  "revision": "65505efaf0a3c4afe512dfc27c3abe2eac397bf9",
+  "selection": "first five mirrored val rows; original lossless mask bytes",
+  "examples": [
+    {
+      "row": 0,
+      "image_path": null,
+      "mask_path": null,
+      "stem": "val_0000",
+      "mask_sha256": "7d582306a1ff0767b158bf3489cb03f72de5f58ec95c61ac71a639d202846d48"
+    },
+    {
+      "row": 1,
+      "image_path": null,
+      "mask_path": null,
+      "stem": "val_0001",
+      "mask_sha256": "fc3909d391c20a23ac4eb9a0fe225fa337db6e803f7418771ac2bb39d650df8f"
+    },
+    {
+      "row": 2,
+      "image_path": null,
+      "mask_path": null,
+      "stem": "val_0002",
+      "mask_sha256": "ff103b70e0b2741829756e3e27527076d9a13750b9d77965a5c4f731342a1e97"
+    },
+    {
+      "row": 3,
+      "image_path": null,
+      "mask_path": null,
+      "stem": "val_0003",
+      "mask_sha256": "eb405d23ecb936fbd1ee78a096dec2e4113e21d3d1f904ba9483818a7816c694"
+    },
+    {
+      "row": 4,
+      "image_path": null,
+      "mask_path": null,
+      "stem": "val_0004",
+      "mask_sha256": "a5c6010ca5aad8c89798917d30a1f024726b1e534447bad09c1eda118089e90c"
+    }
+  ]
+}

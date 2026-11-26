@@ -1,40 +1,127 @@
 {
   "lab": "lab03",
-  "parameters": {
-    "source": "scikit-image:Camera",
-    "clip": 2.0,
-    "tiles": 8,
-    "colour": false
-  },
-  "metrics": {},
-  "versions": {
-    "numpy": "2.4.6",
-    "opencv-python": "4.14.0.94",
-    "scikit-learn": "1.9.1",
-    "torch": "2.15.0",
-    "torchvision": "0.29.2",
-    "ultralytics": "8.4.218",
-    "streamlit": "1.67.0"
-  },
-  "python": "3.11.9",
-  "time": 1795609313.396485,
-  "images": {
-    "original": {
-      "file": "original.png",
-      "sha256": "b779d2c8e2a7098a0182c26227c3b516fb2d9d15f14ed99940c6196ba4a2c4e2"
+  "cases": [
+    "low_contrast/manifest.json",
+    "uneven_illumination/manifest.json",
+    "colour_luminance/manifest.json"
+  ],
+  "metrics": {
+    "low_contrast": {
+      "original": {
+        "min": 100,
+        "max": 155,
+        "standard_deviation": 15.887998580082542,
+        "percentile_95_minus_5": 43.0,
+        "entropy_bits": 5.053296120850087
+      },
+      "stretched": {
+        "min": 0,
+        "max": 255,
+        "standard_deviation": 73.65419670263027,
+        "percentile_95_minus_5": 199.0,
+        "entropy_bits": 5.053296120850087
+      },
+      "equalized": {
+        "min": 0,
+        "max": 255,
+        "standard_deviation": 73.73937052026683,
+        "percentile_95_minus_5": 230.0,
+        "entropy_bits": 5.032486229145687
+      },
+      "clahe": {
+        "min": 68,
+        "max": 195,
+        "standard_deviation": 22.761335089205875,
+        "percentile_95_minus_5": 69.0,
+        "entropy_bits": 6.272250366802972
+      }
     },
-    "stretched": {
-      "file": "stretched.png",
-      "sha256": "b779d2c8e2a7098a0182c26227c3b516fb2d9d15f14ed99940c6196ba4a2c4e2"
+    "uneven_illumination": {
+      "original": {
+        "min": 0,
+        "max": 232,
+        "standard_deviation": 60.47848858212841,
+        "percentile_95_minus_5": 181.0,
+        "entropy_bits": 7.414980798727846
+      },
+      "stretched": {
+        "min": 0,
+        "max": 255,
+        "standard_deviation": 66.49049933091744,
+        "percentile_95_minus_5": 199.0,
+        "entropy_bits": 7.414980798727846
+      },
+      "equalized": {
+        "min": 0,
+        "max": 255,
+        "standard_deviation": 74.27596953319686,
+        "percentile_95_minus_5": 231.0,
+        "entropy_bits": 7.247057890855445
+      },
+      "clahe": {
+        "min": 1,
+        "max": 243,
+        "standard_deviation": 58.21944256220403,
+        "percentile_95_minus_5": 177.0,
+        "entropy_bits": 7.6100186503097085
+      }
     },
-    "equalized": {
-      "file": "equalized.png",
-      "sha256": "90e7743ab788a7c60299439dae420b73cc4b16581edf538276d2ab94e3c9957c"
-    },
-    "clahe": {
-      "file": "clahe.png",
-      "sha256": "14645b6c1cffbd46be3f925d7a671c24f008c0e4adbf56640b8398880cdba15b"
+    "colour_luminance": {
+      "original": {
+        "min": 0,
+        "max": 255,
+        "standard_deviation": 58.115242211486326,
+        "percentile_95_minus_5": 194.0,
+        "entropy_bits": 7.65752097076873
+      },
+      "stretched": {
+        "min": 0,
+        "max": 255,
+        "standard_deviation": 58.115242211486326,
+        "percentile_95_minus_5": 194.0,
+        "entropy_bits": 7.65752097076873
+      },
+      "equalized": {
+        "min": 0,
+        "max": 255,
+        "standard_deviation": 73.47617536977535,
+        "percentile_95_minus_5": 228.0,
+        "entropy_bits": 7.435865663081818
+      },
+      "clahe": {
+        "min": 0,
+        "max": 255,
+        "standard_deviation": 59.24313161226989,
+        "percentile_95_minus_5": 201.0,
+        "entropy_bits": 7.80234378556001
+      }
     }
   },
-  "arrays": []
+  "artifacts_sha256": {
+    "ANALYSIS.md": "0c0435a014d7e5a89a5e0907d00fbc012be5a6a83c9f611b680a202a533a8b2d",
+    "colour_luminance/clahe.png": "3d267b900c027fd0f4d331700a5b8418db1e5796f2456c49c9c6af327e9e837e",
+    "colour_luminance/comparison.png": "ba46c1d997ab6fb9992d9a75078769192e8e5ca2c2ba2167a818c0131d86cf7e",
+    "colour_luminance/equalized.png": "1c3f990a7e5d5a04d4e21b31525ba9349c19048325bb3f179141599ff0bfa2fd",
+    "colour_luminance/histograms.csv": "9b1216b3f5d6cb8578169b3f466996e699f8e0385c7c37e9e7dd8bb5d7bed220",
+    "colour_luminance/histograms.png": "f3d7b4d25aca020cdc11a365632556611b8d2854a5ce9902d46449881152119d",
+    "colour_luminance/manifest.json": "97c995834d1cc2888c089b846369d83199fd0b66971c8510e93978373bdba1ab",
+    "colour_luminance/original.png": "884b6c0be0f697ee5cc7604ca3a4a93647598ac120a56b1716bfadde4e9e0ad2",
+    "colour_luminance/stretched.png": "3a1a0bbcaa599b68bca517d4cb24e3ed80a8c2f9442dca056934b63a1e72478d",
+    "low_contrast/clahe.png": "0663ae57df768a60c77eed58f0e80b21ccbc23be89409b450bc7c997f6226f57",
+    "low_contrast/comparison.png": "c57db9ef929a02a7179af9e8328071e840b8fddd4c47e9203462352ee6cbfa42",
+    "low_contrast/equalized.png": "3dbc55a0836909e505a95a59fda8d766e2bde04f83f96d3597551b267788664a",
+    "low_contrast/histograms.csv": "4181bcae4e7080fa81d232f111a503f9c16f587fadc3b5b3ffdcbe269d74e834",
+    "low_contrast/histograms.png": "3cba60fa84f1f83c7c28b01f5823c3f686c9a721265967e703bcf1e701707333",
+    "low_contrast/manifest.json": "68b600246d634b3d9bf9c8752f87bbdda9893da08204a18f9f36378bac583543",
+    "low_contrast/original.png": "c3a0b7c87d09f476fbdf21125e22f82b0e45fbf0dcbdcee4da4ab70255301c1c",
+    "low_contrast/stretched.png": "2460e2215ec90849cc57aa0f0081524b35f4456effa068c240f4fa35263bf49b",
+    "uneven_illumination/clahe.png": "a9e467c86e76df790a379fbe9ea7efdc6dd90332fcbf7b55dcc6e7ca23ac9f94",
+    "uneven_illumination/comparison.png": "dc21e90c69c34c370d63099b33bc2ec05e5d8a42c23fdd6efd6a0f928becf28f",
+    "uneven_illumination/equalized.png": "8606886bfc2ab2b2bdf7313406c986da3e692e77ab7204d8e55977970fd03144",
+    "uneven_illumination/histograms.csv": "fa01d278d4d09d2a6a60d41c52845e1a7c84d6c22027cf6ff6524b90a54aebb2",
+    "uneven_illumination/histograms.png": "8a2be309e03aba85ff7311931f6ffd8610eaad671db94df4418a79b4ab5c4c2d",
+    "uneven_illumination/manifest.json": "dac80ad74871c1dc8b686713ff88740bc5650381dad250b6ed04f0e8970c9331",
+    "uneven_illumination/original.png": "62dc2c8d24b156afac036be89dfb38fbd8070bab4424a443d5fc16c618d1195e",
+    "uneven_illumination/stretched.png": "67d1d9d3cb9f2c9ffa7936bf814d6c32eda51be09cbec0c8e1b81dd6ac5cf0bb"
+  }
 }

@@ -1,0 +1,57 @@
+{
+  "seed_sweep": [
+    {
+      "case": "object_tol8",
+      "seed": [
+        96,
+        96
+      ],
+      "tolerance": 8,
+      "foreground_pixels": 1290,
+      "class": 1,
+      "iou": 0.18590575010808474,
+      "dice": 0.3135253372220197
+    },
+    {
+      "case": "object_tol30",
+      "seed": [
+        96,
+        96
+      ],
+      "tolerance": 30,
+      "foreground_pixels": 4276,
+      "class": 1,
+      "iou": 0.6162271220636979,
+      "dice": 0.7625501560410165
+    },
+    {
+      "case": "background_tol30",
+      "seed": [
+        10,
+        10
+      ],
+      "tolerance": 30,
+      "foreground_pixels": 42212,
+      "class": 1,
+      "iou": 0.0,
+      "dice": 0.0
+    }
+  ],
+  "marker_sweep": [
+    {
+      "marker_fraction": 0.35,
+      "seed_components": 1,
+      "output_regions": 1
+    },
+    {
+      "marker_fraction": 0.65,
+      "seed_components": 2,
+      "output_regions": 2
+    },
+    {
+      "marker_fraction": 0.85,
+      "seed_components": 2,
+      "output_regions": 2
+    }
+  ]
+}

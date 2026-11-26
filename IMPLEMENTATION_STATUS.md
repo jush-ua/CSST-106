@@ -1,18 +1,29 @@
 # Implementation and verification status
 
-Verified 25 November 2026. This is an implementation with real sample runs, not a declaration that every assignment requirement has been completed.
+Verified 26 November 2026. This is an implementation with real sample runs, not a declaration that every assignment requirement has been completed.
 
 | Component | Evidence | Remaining work |
 |---|---|---|
 | Shared Web UI | All 9 navigation entries load without AppTest exceptions; classical action checks pass; HTTP health returns 200 | Visual browser service unavailable, so responsive/visual QA is not claimed |
-| Lab 01 | Sample pixel edit, grayscale, crop, resize and clockwise rotation exported | Use additional personal/instructor inputs as desired |
-| Lab 02 | Baseline Sobel/Canny run and signed gradient arrays saved; source-operation test passes | Instructor's separately referenced input.jpg was not attached |
-| Lab 03 | Global equalization, min-max stretch and CLAHE sample run; colour/YUV and constant-image tests pass | None for implementation |
-| Lab 04 | Actual nonfree SURF/U-SURF threshold sweeps (100/400/1000), SIFT/ORB comparisons, rich keypoints and matches on rotation and translation pairs; see examples/lab04/ANALYSIS.md | None for implementation; timings are single-run CPU observations |
+| Lab 01 | Actual colour Astronaut run, BGR values before/after editing, grayscale, crop, resize and rotation; six-panel figure and measured analysis exported | None for requested digital work |
+| Lab 02 | Exact original/Sobel/Canny figure, baseline parameters, signed gradients, result-specific differences and conclusion saved | Instructor input.jpg remains absent; Camera is explicitly labelled as a substitute and --edge-image reruns on a supplied file |
+| Lab 03 | Low-contrast, uneven illumination/noise and colour-YUV cases; comparison figures, histogram PNG/CSV, measurements, observations and question answers saved | None for requested digital work |
+| Lab 04 | Actual nonfree SURF/U-SURF threshold sweeps (100/400/1000), SIFT/ORB comparisons, rich keypoints and matches on rotation and translation pairs; see examples/lab04/ANALYSIS.md | No missing requested implementation; standalone command and UI share the verified worker. Timings remain single-run CPU observations |
 | Lab 05 | Real LFW run, classification report, variance, eigenfaces, failure gallery and visually verified 3-page digital PDF | No missing computational requirement; user can refine interpretations through the PDF editor |
 | Lab 06 | Pretrained YOLO11 detection executed on public Coffee sample; dataset editor/validation/training pipeline implemented | Personal bottle/mug/phone photos and their annotations are absent; custom 100-epoch run and held-out metrics have NOT been executed. Uploaded-video inference passed: 12/12 frames decoded at 12 FPS. Live webcam verification is unavailable: user confirms this computer has no webcam |
-| Lab 07 | Classical sample run plus DeepLab inference and aligned scoring for five verified VOC validation pairs | Browser visual verification unavailable; exact sample metrics are in examples |
+| Lab 07 | Five classical methods on four conditions, seed/marker sweeps, aligned foreground scores and timings; DeepLab on the same natural scene; figures and measured analysis saved, plus prior five-VOC evaluation | No missing requested digital experiment; whole-app visual browser QA is not claimed |
 | Repository | Published to https://github.com/jush-ua/CSST-106 on main using local Git credentials; connected-app 403 was resolved through local Git | No classroom spreadsheet entry was submitted |
+
+## Completed demonstrations and analyses
+
+`complete_labs.py` regenerates Labs 01-03 and 07 under `examples/`. Every lab has an ANALYSIS.md, figures and measured manifests; all comparison and histogram figures were visually inspected. Lab 02 input.jpg was not supplied, so its Camera source is explicitly disclosed. The original/Sobel/Canny panels now occupy the first UI row. The application exposes completed analyses and downloadable figures without requiring an experiment rerun.
+
+- Lab 01: 512 x 512 x 3 colour input; 231,189 pixels with unequal channels; edited pixel [7,14,19] -> [0,0,255].
+- Lab 03: controlled low-contrast range 100-155 expands to 0-255; three cases include full 256-bin histogram CSVs.
+- Lab 07: controlled touching discs, an illumination/noise variant, Camera texture and one natural VOC scene. Known masks support foreground-union IoU/Dice; unknown Camera truth is never invented.
+- Region tolerance sweep: foreground IoU 0.1859 at tolerance 8, 0.6162 at 30; background seed gives 0. Watershed marker fraction 0.35 merges the discs into one region; 0.65 and 0.85 produce two regions.
+- Natural-scene DeepLab class mean IoU 0.6325 and pixel accuracy 0.9849. Foreground scores for classical methods and semantic class scores are kept distinct.
+- Timings are single CPU observations with preprocessing recorded separately; no universal performance ranking is asserted.
 
 ## Actual SURF results
 
@@ -31,10 +42,12 @@ Verified 25 November 2026. This is an implementation with real sample runs, not 
 
 ## Verification
 
-- `pytest tests -q`: 20 passed, including video encode/decode, unreadable input and overwrite protection.
+- `pytest tests -q`: 21 passed, including real nonfree Lab 04 standalone execution with custom parameters, video encode/decode, unreadable input and overwrite protection.
+- Evidence integrity: 169 artifact hashes verified; histogram bin totals match image sizes; 15 foreground IoUs independently recalculated from saved masks; classical and semantic natural-scene inputs are pixel-identical. Figure export margins checked after fixing one clipped semantic title.
 - `pip check`: no broken requirements.
 - All application modules parse/compile.
 - AppTest: navigation through all modules; processing actions for Labs 01,02,03,04,07; source-change invalidation regression.
+- Completed reference AppTest: Labs 01/02/03/07 expose 1/1/6/7 downloadable figures respectively; no exception/error. Lab 04 shared-worker UI loads all eight rows and all images.
 - Lab 04 AppTest after build: eight comparison rows, six SURF sweep rows, all images loaded, OpenCV 4.12.0 on every row, no exception/error. Lab 06 missing-video warning passes.
 - Scientific image and annotation tests: shape/order, no in-place edits, Sobel/Canny baseline, constant contrast, empty descriptors, connectivity, tolerance equality, void labels, mismatched masks, session isolation and bounds.
 - Local preview health: 200. Two CUA service attempts failed before browser interaction, so no browser screenshot/contrast/responsive verification is represented as completed.

@@ -93,8 +93,9 @@ def edges(image, blur=3, low=100, high=200):
     gx = cv2.Sobel(smooth, cv2.CV_64F, 1, 0, ksize=3)
     gy = cv2.Sobel(smooth, cv2.CV_64F, 0, 1, ksize=3)
     mag = cv2.magnitude(gx,gy)
-    return {'original':g, 'blurred':smooth, 'sobel':display_u8(mag),
-            'canny':cv2.Canny(smooth,low,high)}, {'gx':gx,'gy':gy,'magnitude':mag}
+    # First three entries form the exact original / Sobel / Canny UI row.
+    return {'original':g, 'sobel':display_u8(mag),
+            'canny':cv2.Canny(smooth,low,high), 'blurred':smooth}, {'gx':gx,'gy':gy,'magnitude':mag}
 
 def stretch(a):
     lo, hi = float(a.min()), float(a.max())
@@ -153,11 +154,16 @@ def region_grow(image, seed, tolerance=15, connectivity=4):
     return mask
 
 def segmentation(image, seed, tolerance=15, adaptive_block=25, adaptive_c=8, marker_fraction=.45, invert=False, connectivity=4):
+    start=time.perf_counter();timings={}
     g=gray(image);blur=cv2.GaussianBlur(g,(3,3),0)
     typ=cv2.THRESH_BINARY_INV if invert else cv2.THRESH_BINARY
+    timings['preprocess']=(time.perf_counter()-start)*1000;stage=time.perf_counter()
     t,otsu=cv2.threshold(blur,0,255,typ+cv2.THRESH_OTSU)
+    timings['otsu']=(time.perf_counter()-stage)*1000;stage=time.perf_counter()
     adaptive=cv2.adaptiveThreshold(blur,255,cv2.ADAPTIVE_THRESH_MEAN_C,typ,adaptive_block,adaptive_c)
+    timings['adaptive']=(time.perf_counter()-stage)*1000;stage=time.perf_counter()
     grown=region_grow(g,seed,tolerance,connectivity).astype(np.uint8)*255
+    timings['region']=(time.perf_counter()-stage)*1000;stage=time.perf_counter()
     kernel=np.ones((3,3),np.uint8);clean=cv2.morphologyEx(otsu,cv2.MORPH_OPEN,kernel)
     dist=cv2.distanceTransform(clean,cv2.DIST_L2,5)
     sure_fg=(dist>marker_fraction*dist.max()).astype(np.uint8)*255 if dist.max()>0 else np.zeros_like(clean)
@@ -167,10 +173,13 @@ def segmentation(image, seed, tolerance=15, adaptive_block=25, adaptive_c=8, mar
     markers=cv2.watershed(image.copy(),markers)
     palette=np.random.default_rng(42).integers(40,240,(max(n+1,2),3),dtype=np.uint8)
     water=palette[np.clip(markers,0,len(palette)-1)];water[markers<=1]=0;water[markers==-1]=(0,0,255)
+    timings['watershed']=(time.perf_counter()-stage)*1000;stage=time.perf_counter()
     canny=cv2.Canny(blur,100,200);linked=cv2.morphologyEx(canny,cv2.MORPH_CLOSE,kernel)
     contours,_=cv2.findContours(linked,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
     filled=np.zeros_like(g);cv2.drawContours(filled,contours,-1,255,cv2.FILLED)
-    return {'original':image,'otsu':otsu,'adaptive':adaptive,'region':grown,'watershed':water,'edge_regions':filled}, markers, {'otsu_threshold':t,'watershed_seed_components':n-1,'closed_contours':len(contours)}
+    timings['edge_regions']=(time.perf_counter()-stage)*1000
+    timings['total']=(time.perf_counter()-start)*1000
+    return {'original':image,'otsu':otsu,'adaptive':adaptive,'region':grown,'watershed':water,'edge_regions':filled,'canny_edges':canny}, markers, {'otsu_threshold':t,'watershed_seed_components':n-1,'closed_contours':len(contours),'timings_ms':timings}
 
 def mask_scores(pred,truth,num_classes,ignore=255):
     if pred.shape!=truth.shape:raise ValueError('Prediction and truth shapes must match; masks cannot be silently resized.')
