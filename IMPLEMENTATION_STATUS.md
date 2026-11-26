@@ -1,6 +1,6 @@
 # Implementation and verification status
 
-Verified 26 November 2026. This is an implementation with real sample runs, not a declaration that every assignment requirement has been completed.
+Verified 26 November 2026 against all seven original DOCX attachments. Excluding hard-copy reports and the webcam requirement, no unfinished computational work was found. Lab 02 uses a disclosed replacement image; the exact instructor image remains unavailable. This review does not assert instructor approval of substitutions or completion of the excluded requirements.
 
 | Component | Evidence | Remaining work |
 |---|---|---|
@@ -10,9 +10,19 @@ Verified 26 November 2026. This is an implementation with real sample runs, not 
 | Lab 03 | Low-contrast, uneven illumination/noise and colour-YUV cases; comparison figures, histogram PNG/CSV, measurements, observations and question answers saved | None for requested digital work |
 | Lab 04 | Actual nonfree SURF/U-SURF threshold sweeps (100/400/1000), SIFT/ORB comparisons, rich keypoints and matches on rotation and translation pairs; see examples/lab04/ANALYSIS.md | No missing requested implementation; standalone command and UI share the verified worker. Timings remain single-run CPU observations |
 | Lab 05 | Real LFW run, classification report, variance, eigenfaces, failure gallery and visually verified 3-page digital PDF | No missing computational requirement; user can refine interpretations through the PDF editor |
-| Lab 06 | Pretrained inference/video verified; public curation guide, source-group progress/contact sheets, frozen-data pilot/full/resume workflow, report/demo/bundle tooling implemented | Public COCO collection is downloaded and visually reviewed; pilot/full training and test metrics are recorded below. No personal-photography claim is made. Uploaded-video inference passed: 12/12 frames decoded at 12 FPS. Live webcam verification is unavailable: user confirms this computer has no webcam |
+| Lab 06 | Reviewed/corrected public COCO collection; 100 training epochs at 640 pixels; one held-out evaluation; ten reserved-image comparisons visually reviewed; metrics, charts and error analysis published; trained weights and image outputs in the private bundle | None within the final review scope. Part 4 permits new images or video, so another video is unnecessary. Public imagery/imported annotations are disclosed; no personal-photography claim or instructor approval is inferred. Live webcam work remains unperformed and excluded |
 | Lab 07 | Five classical methods on four conditions, seed/marker sweeps, aligned foreground scores and timings; DeepLab on the same natural scene; figures and measured analysis saved, plus prior five-VOC evaluation | No missing requested digital experiment; whole-app visual browser QA is not claimed |
 | Repository | Published to https://github.com/jush-ua/CSST-106 on main using local Git credentials; connected-app 403 was resolved through local Git | Repository URL already submitted to the classroom spreadsheet, confirmed by the user; no new entry needed |
+
+## Final review scope and remaining qualification
+
+All seven source attachments were reread for the final review. Labs 01, 03, 04, 05, 06 and 07 have no unfinished computational requirements within the requested scope. Lab 05's required digital PDF is included, and its variance, visual interpretation, whitening, failure analysis and all five follow-up answers were checked. Lab 04's standalone command shares the verified nonfree SURF worker.
+
+Lab 02 is implemented and demonstrated with the bundled Camera-derived `input.jpg`. Jeremy's original image was not supplied. If that exact source image is required, supply it and rerun Lab 02; the replacement is not represented as Jeremy's original.
+
+Lab 06 uses the user-approved curated public collection with imported, visually reviewed/corrected annotations. The attachment does not explicitly require personally photographed images. Its new-image-or-video inference step is satisfied by the ten reserved still images; no separate recorded-video demonstration is outstanding for that step. This does not imply that still images fulfill the excluded live-webcam requirement or that the instructor has approved substitutions.
+
+Final evidence checks verified 180 artifact hashes, confirmed the 100-epoch result and completed held-out evaluation, and checked that the private Lab 06 ZIP contains best.pt and demonstration outputs. The user has already submitted the repository URL to the classroom spreadsheet. Hard-copy reports and webcam work are excluded; browser visual QA remains an engineering verification limitation rather than an uncompleted lab experiment.
 
 ## Completed demonstrations and analyses
 
@@ -65,7 +75,7 @@ The local `.venv`, `.surf-venv` and `data` paths are directory junctions to `D:\
 
 No personal training scores, camera footage, handwritten submissions or paper reports have been fabricated. The user confirmed their previous spreadsheet submission; this implementation has not posted another entry.
 
-## Lab 06 preparation and remaining dependency
+## Lab 06 completion and excluded webcam requirement
 
 `LAB06_GUIDE.md` now documents curated COCO import/review, source grouping, pilot timing, CPU training, resume, separate still-image demonstration and private/public deliverables. Personal capture remains optional; the selected collection is public. Pilots cannot enter the completed-model selector; incomplete full runs cannot evaluate the test set or claim completion. A changed frozen dataset or checkpoint hash blocks resume. Two optimizer-bearing checkpoints are retained with an atomic progress pointer, limiting disk use and retaining the previous valid pair during interrupted writes.
 
