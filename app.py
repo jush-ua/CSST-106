@@ -62,7 +62,7 @@ def input_image(key,default='Astronaut'):
         st.session_state.pop(result_keys.get(key,''),None)
         st.session_state[hash_key]=source_hash
     st.session_state[key+'_voc_truth']=str(voc[choice].with_name(voc[choice].stem+'_truth.png')) if choice in voc and not upload else None
-    source=('Uploaded: '+upload.name) if upload else 'Packaged input.jpg: disclosed scikit-image Camera replacement; not Jeremy\'s image' if choice=='Packaged input.jpg' else 'Public sample: '+choice+' · not a personal dataset photo'
+    source=('Uploaded: '+upload.name) if upload else 'Packaged input.jpg: student-selected scikit-image Camera image' if choice=='Packaged input.jpg' else 'Public sample: '+choice+' · not a personal dataset photo'
     st.session_state[key+'_source_label']=source;st.caption(source)
     return image
 

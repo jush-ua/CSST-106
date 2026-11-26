@@ -1,12 +1,12 @@
 # Implementation and verification status
 
-Verified 26 November 2026 against all seven original DOCX attachments. Excluding hard-copy reports and the webcam requirement, no unfinished computational work was found. Lab 02 uses a disclosed replacement image; the exact instructor image remains unavailable. This review does not assert instructor approval of substitutions or completion of the excluded requirements.
+Verified 26 November 2026 against all seven original DOCX attachments. Excluding hard-copy reports and the webcam requirement, no unfinished computational work was found. Lab 02 is complete using its bundled student-selected image; no instructor-provided input image is expected. This review does not assert instructor approval of substitutions or completion of the excluded requirements.
 
 | Component | Evidence | Remaining work |
 |---|---|---|
 | Shared Web UI | All 9 navigation entries load without AppTest exceptions; classical action checks pass; HTTP health returns 200 | Visual browser service unavailable, so responsive/visual QA is not claimed |
 | Lab 01 | Actual colour Astronaut run, BGR values before/after editing, grayscale, crop, resize and rotation; six-panel figure and measured analysis exported | None for requested digital work |
-| Lab 02 | Bundled real JPEG is the default in UI/CLI/generator; JPEG-decoded gradients, exact three-panel figure, measured differences and conclusion regenerated | Actual input.jpg is bundled with explicit replacement provenance; Jeremy's original remains unavailable and can override it later |
+| Lab 02 | Bundled real JPEG is the default in UI/CLI/generator; JPEG-decoded gradients, exact three-panel figure, measured differences and conclusion regenerated | None for requested digital work; input.jpg is student-selected, with source/checksum provenance and optional overrides |
 | Lab 03 | Low-contrast, uneven illumination/noise and colour-YUV cases; comparison figures, histogram PNG/CSV, measurements, observations and question answers saved | None for requested digital work |
 | Lab 04 | Actual nonfree SURF/U-SURF threshold sweeps (100/400/1000), SIFT/ORB comparisons, rich keypoints and matches on rotation and translation pairs; see examples/lab04/ANALYSIS.md | No missing requested implementation; standalone command and UI share the verified worker. Timings remain single-run CPU observations |
 | Lab 05 | Real LFW run, classification report, variance, eigenfaces, failure gallery and visually verified 3-page digital PDF | No missing computational requirement; user can refine interpretations through the PDF editor |
@@ -14,11 +14,11 @@ Verified 26 November 2026 against all seven original DOCX attachments. Excluding
 | Lab 07 | Five classical methods on four conditions, seed/marker sweeps, aligned foreground scores and timings; DeepLab on the same natural scene; figures and measured analysis saved, plus prior five-VOC evaluation | No missing requested digital experiment; whole-app visual browser QA is not claimed |
 | Repository | Published to https://github.com/jush-ua/CSST-106 on main using local Git credentials; connected-app 403 was resolved through local Git | Repository URL already submitted to the classroom spreadsheet, confirmed by the user; no new entry needed |
 
-## Final review scope and remaining qualification
+## Final review scope
 
 All seven source attachments were reread for the final review. Labs 01, 03, 04, 05, 06 and 07 have no unfinished computational requirements within the requested scope. Lab 05's required digital PDF is included, and its variance, visual interpretation, whitening, failure analysis and all five follow-up answers were checked. Lab 04's standalone command shares the verified nonfree SURF worker.
 
-Lab 02 is implemented and demonstrated with the bundled Camera-derived `input.jpg`. Jeremy's original image was not supplied. If that exact source image is required, supply it and rerun Lab 02; the replacement is not represented as Jeremy's original.
+Lab 02 is complete and demonstrated with the bundled Camera-derived `input.jpg`. The user clarified that students choose their own input image and no instructor image is provided. This removes the earlier source-image qualification. Source/checksum metadata remains available, and students can choose another input without changing the implementation.
 
 Lab 06 uses the user-approved curated public collection with imported, visually reviewed/corrected annotations. The attachment does not explicitly require personally photographed images. Its new-image-or-video inference step is satisfied by the ten reserved still images; no separate recorded-video demonstration is outstanding for that step. This does not imply that still images fulfill the excluded live-webcam requirement or that the instructor has approved substitutions.
 
@@ -26,7 +26,7 @@ Final evidence checks verified 180 artifact hashes, confirmed the 100-epoch resu
 
 ## Completed demonstrations and analyses
 
-`complete_labs.py` regenerates Labs 01-03 and 07 under `examples/`. Every lab has an ANALYSIS.md, figures and measured manifests; all comparison and histogram figures were visually inspected. The instructor input.jpg was not supplied. Lab 02 now includes a disclosed Camera-derived JPEG and source/checksum metadata; the actual JPEG is decoded for every regenerated result. The original/Sobel/Canny panels now occupy the first UI row. The application exposes completed analyses and downloadable figures without requiring an experiment rerun.
+`complete_labs.py` regenerates Labs 01-03 and 07 under `examples/`. Every lab has an ANALYSIS.md, figures and measured manifests; all comparison and histogram figures were visually inspected. Lab 02 uses a student-selected Camera-derived JPEG and source/checksum metadata; the actual JPEG is decoded for every regenerated result. The original/Sobel/Canny panels now occupy the first UI row. The application exposes completed analyses and downloadable figures without requiring an experiment rerun.
 
 - Lab 01: 512 x 512 x 3 colour input; 231,189 pixels with unequal channels; edited pixel [7,14,19] -> [0,0,255].
 - Lab 03: controlled low-contrast range 100-155 expands to 0-255; three cases include full 256-bin histogram CSVs.

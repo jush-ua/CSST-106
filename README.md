@@ -46,7 +46,7 @@ Reproduce all four labs after fetching the VOC subset and caching the DeepLab we
 .\.venv\Scripts\python.exe complete_labs.py --labs 2 --edge-image C:\path\input.jpg
 ```
 
-Lab 02 now bundles a real `examples/lab02/input.jpg`: the public scikit-image Camera sample encoded as JPEG quality 95. `input_source.json` records its source and checksum and explicitly marks it as a replacement, not instructor-provided. The UI, `run_lab.py 2` and evidence generator use this actual decoded JPEG by default; explicit uploads/files or sample selections override it. All figures, gradients and metrics were regenerated after JPEG compression. Jeremy's original file remains unavailable; use `--edge-image` if it is later supplied.
+Lab 02 bundles a student-selected `examples/lab02/input.jpg`: the public scikit-image Camera sample encoded as JPEG quality 95. Students choose the image for this activity; no instructor-provided image is expected. `input_source.json` records its source and checksum. The UI, `run_lab.py 2` and evidence generator use this actual decoded JPEG by default; explicit uploads/files or sample selections override it. All figures, gradients and metrics were regenerated after JPEG compression. Use `--edge-image` to choose another image.
 
 ## Curated public dataset and custom YOLO
 
@@ -110,7 +110,7 @@ The attachment order is authoritative for navigation. Edge detection internally 
 6. https://paios-classroom.com/announcement-attachments/1376/file
 7. https://paios-classroom.com/announcement-attachments/1377/file
 
-The edge attachment names input.jpg but no standalone image was attached. A disclosed replacement JPEG is now bundled and is the default; the original can still be supplied as an override. Original DOCX documents remain in the user's Downloads folder; they are not automatically republished.
+The edge attachment uses input.jpg as the student-selected input filename. The bundled Camera-derived JPEG satisfies this choice; students may supply another image as an override. Original DOCX documents remain in the user's Downloads folder; they are not automatically republished.
 
 ## Video and webcam verification
 
@@ -118,12 +118,12 @@ The edge attachment names input.jpg but no standalone image was attached. A disc
 
 ## Final review against Jeremy's instructions
 
-Reviewed 26 November 2026 against all seven original DOCX attachments. Excluding hard-copy reports and the webcam requirement, no unfinished computational work was found. Lab 02 retains one source-image qualification.
+Reviewed 26 November 2026 against all seven original DOCX attachments. Excluding hard-copy reports and the webcam requirement, no unfinished computational work was found. Lab 02 is complete with the student-selected bundled image; no source-image qualification remains.
 
 | Lab | Final review |
 |---|---|
 | 01 - Images | Complete: pixel inspection/editing, grayscale, crop, resize and 90-degree rotation. |
-| 02 - Edges | Complete using the bundled, disclosed replacement `input.jpg`: Sobel/Canny, side-by-side results and analysis. Jeremy's original image was not supplied; rerun with it if he requires that exact image. |
+| 02 - Edges | Complete using the bundled student-selected `input.jpg`: Sobel/Canny, side-by-side results and analysis. Students choose their input image; no instructor image is outstanding. |
 | 03 - Histogram | Complete: global equalization, contrast stretching, CLAHE, histograms, observations and question answers. |
 | 04 - SURF | Complete: actual SURF, feature matching, SIFT/ORB comparison, U-SURF, threshold exploration and the working standalone command. |
 | 05 - PCA | Complete: LFW/PCA/SVM experiment, variance/eigenface/failure analyses, required digital PDF and all five follow-up answers. The digital PDF remains included in this review. |
@@ -132,7 +132,7 @@ Reviewed 26 November 2026 against all seven original DOCX attachments. Excluding
 
 The Lab 06 collection uses public COCO images with imported, visually reviewed annotations; it is not personal photography or a claim that every box was drawn from scratch. This records the user-approved substitution without asserting instructor approval. Live webcam testing remains unperformed and outside this review's scope.
 
-The review verified 180 saved artifact hashes, checked that the private Lab 06 deliverables ZIP contains the trained weights, and confirmed that the PCA PDF includes its follow-up answers. The repository URL is already submitted to the class spreadsheet; no additional entry is needed. See [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for detailed evidence and remaining qualifications.
+The review verified 180 saved artifact hashes, checked that the private Lab 06 deliverables ZIP contains the trained weights, and confirmed that the PCA PDF includes its follow-up answers. The repository URL is already submitted to the class spreadsheet; no additional entry is needed. See [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for detailed evidence and scope.
 
 ## Verification and handoff
 

@@ -13,7 +13,7 @@ def test_packaged_jpeg_provenance_and_decoded_input():
     assert hashlib.sha256(EDGE_INPUT.read_bytes()).hexdigest()==metadata['sha256']
     actual,source=select_input(2)
     assert np.array_equal(actual,cv2.imread(str(EDGE_INPUT)))
-    assert 'replacement' in source
+    assert 'student-selected' in source
 
 
 def test_explicit_input_and_sample_override_default(tmp_path):

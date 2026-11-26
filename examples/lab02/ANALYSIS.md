@@ -1,6 +1,6 @@
 # Lab 02 Sobel and Canny comparison
 
-Source: Packaged input.jpg (disclosed scikit-image Camera replacement). A real JPEG input.jpg and its source/checksum are bundled with this lab. The bundled file is a disclosed replacement, not the unavailable instructor-provided image. Measurements are recomputed from the decoded JPEG, including its compression effects. Override it with `python complete_labs.py --labs 2 --edge-image PATH_TO_input.jpg`.
+Source: Packaged input.jpg (student-selected scikit-image Camera image). A real JPEG input.jpg and its source/checksum are bundled with this lab. The bundled file is a student-selected image, as permitted by the activity. Measurements are recomputed from the decoded JPEG, including its compression effects. Override it with `python complete_labs.py --labs 2 --edge-image PATH_TO_input.jpg`.
 
 Both detectors use the same grayscale input and a 3 x 3 Gaussian blur with sigma 0. Sobel uses signed float64 x/y derivatives, kernel 3, and their Euclidean magnitude. Canny uses thresholds 100 and 200. The three-panel figure shows exactly original, Sobel and Canny in that order. The blurred image is saved separately. gx.npy, gy.npy and magnitude.npy preserve numerical values; only the displayed Sobel magnitude is normalized to 0-255.
 

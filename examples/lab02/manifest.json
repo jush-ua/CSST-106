@@ -1,7 +1,7 @@
 {
   "lab": "lab02",
   "parameters": {
-    "source": "Packaged input.jpg (disclosed scikit-image Camera replacement)",
+    "source": "Packaged input.jpg (student-selected scikit-image Camera image)",
     "blur": 3,
     "sigma": 0,
     "sobel_depth": "CV_64F",
@@ -54,14 +54,14 @@
     "magnitude.npy"
   ],
   "artifacts_sha256": {
-    "ANALYSIS.md": "88b5193a6f1b8c5620e510cf6f79213a6f28b7819df7f610ed9cd09e2b85fd73",
+    "ANALYSIS.md": "47564e4ed7d910d32d9df5d1a276c103e0214e3360dd27b6353d727010be2139",
     "blurred.png": "e32b5d2124ea8b4ef7a2a46cf1787cd4b19789a1dbef0ed24c385549e7de2bb3",
     "canny.png": "4f52d5110d4247a0d2805bd9f845a6700670806f6a416e501b0bfc7e50e2d031",
     "comparison.png": "96c7f4f8e028769e4d09c36e16ca8dc1aa22166a7b611596f6e6d9c4d8e80539",
     "gx.npy": "49046deefc76529f9f275493dfe56302ae23b5536c1caca85fb7fc7a712e8c2e",
     "gy.npy": "e8338d620e135be32793a4c437513a5df1a7835f0575afc3e3449e4ce4e33c5a",
     "input.jpg": "d2958e0ef6fc20341610143d2b71d84836a3ded5074b419e21aee4c71cbbbbc7",
-    "input_source.json": "04dcfadf2287577da0746429b435ecb1a8c7d34271304c01c46d0be86142732b",
+    "input_source.json": "c2b1827b645fb9c9914c7330e87899f61b70bce3f80394eab45b0aaf903ac446",
     "magnitude.npy": "40b1025911760a7c6d5ddd0ac099f5d1ea8bdd20f70ddc82b1bbfbeabd9c2a69",
     "original.png": "f9628691ebc084634677f0efc5affe5e3ca4c4d8b4c953ff055deb1a98a2f0e1",
     "sobel.png": "05aee366085775c6274745dc752b9295b446c75dcdbb5d1096357d270e5501cf"

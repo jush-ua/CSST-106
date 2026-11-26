@@ -1,4 +1,4 @@
-"""Explicit input selection and provenance for the disclosed Lab 02 replacement."""
+"""Explicit input selection and provenance for the student-selected Lab 02 image."""
 import hashlib
 import json
 from importlib.metadata import version
@@ -17,7 +17,7 @@ def package_edge_input():
         'file': 'input.jpg', 'instructor_provided': False,
         'source': 'Public scikit-image data.camera sample',
         'scikit_image_version': version('scikit-image'), 'jpeg_quality': 95,
-        'disclosure': 'Replacement for the unavailable instructor input.jpg; not represented as Jeremy\'s image.',
+        'disclosure': 'Student-selected input.jpg; students choose their image for this activity.',
         'sha256': hashlib.sha256(EDGE_INPUT.read_bytes()).hexdigest(),
     }
     (EDGE_INPUT.parent / 'input_source.json').write_text(json.dumps(provenance, indent=2), encoding='utf-8', newline='\n')
@@ -33,5 +33,5 @@ def select_input(lab, image_path=None, sample_name=None):
     if sample_name:
         return sample(sample_name), 'scikit-image:' + sample_name
     if lab == 2:
-        return decode(EDGE_INPUT.read_bytes()), 'Packaged input.jpg (disclosed scikit-image Camera replacement)'
+        return decode(EDGE_INPUT.read_bytes()), 'Packaged input.jpg (student-selected scikit-image Camera image)'
     return sample('Astronaut'), 'scikit-image:Astronaut'

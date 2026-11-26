@@ -111,7 +111,7 @@ def lab02(image_path=None):
     (folder / 'ANALYSIS.md').write_text(
         '# Lab 02 Sobel and Canny comparison\n\n'
         f'Source: {source}. A real JPEG input.jpg and its source/checksum are bundled with this lab. '
-        'The bundled file is a disclosed replacement, not the unavailable instructor-provided image. '
+        'The bundled file is a student-selected image, as permitted by the activity. '
         'Measurements are recomputed from the decoded JPEG, including its compression effects. Override it with '
         '`python complete_labs.py --labs 2 --edge-image PATH_TO_input.jpg`.\n\n'
         'Both detectors use the same grayscale input and a 3 x 3 Gaussian blur with sigma 0. '
