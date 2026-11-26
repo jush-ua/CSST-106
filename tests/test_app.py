@@ -24,5 +24,5 @@ def test_lab02_defaults_to_disclosed_jpeg_and_lab06_shows_phone_workflow():
     assert not app.exception and not app.error
     app.sidebar.radio[0].set_value(next(x for x in app.sidebar.radio[0].options if x.startswith('06'))).run(timeout=60)
     assert any(b.label=='Validate dataset and run 3-epoch pilot' for b in app.button)
-    assert any('330 images' in m.value for m in app.markdown)
+    assert any('Public COCO collection' in m.value for m in app.markdown)
     assert not app.exception and not app.error

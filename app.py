@@ -176,14 +176,14 @@ def inference(image,path,confidence):
 
 def annotate():
     from dataset import store_photo,save_annotation,build_dataset,validate_dataset,capture_progress,contact_sheets
-    st.subheader('Your bottle, mug and phone dataset')
-    st.write('Capture target: 10 sessions x (10 bottle + 10 mug + 10 phone + 3 background photos) = 330 images. This is our collection target, not Jeremy\'s minimum. Change background, lighting, angle and distance between sessions. Entire sessions stay in one split.')
-    with st.expander('Phone capture and annotation checklist'):
+    st.subheader('Curated bottle, cup and phone dataset')
+    st.write('Public COCO collection: target 100 positive images per class plus 30 backgrounds. Mixed images can count toward several quotas. Import source boxes, visually review and correct them, then split whole source groups. These are not personally captured photographs.')
+    with st.expander('Public curation, review and training guide'):
         st.markdown((ROOT/'LAB06_GUIDE.md').read_text(encoding='utf-8'))
     progress=capture_progress()
-    if progress:st.dataframe(progress,hide_index=True,width='stretch')
-    session=st.text_input('Capture session name',placeholder='e.g. desk-daylight-01')
-    photos=st.file_uploader('Add personal photos',type=['jpg','jpeg','png'],accept_multiple_files=True)
+    if progress:st.dataframe(pd.DataFrame(progress).rename(columns={'session':'source/capture group'}),hide_index=True,width='stretch')
+    session=st.text_input('Source/capture group for optional personal imports',placeholder='e.g. desk-daylight-01')
+    photos=st.file_uploader('Optionally add your own photos',type=['jpg','jpeg','png'],accept_multiple_files=True)
     if st.button('Import photos'):
         if not photos:st.warning('Choose photos first.')
         else:
@@ -193,7 +193,8 @@ def annotate():
     if items:
         selected=st.selectbox('Photo to annotate',items,format_func=lambda p:p.stem[:12])
         akey='corner_a_'+selected.stem;bkey='corner_b_'+selected.stem
-        meta=json.loads(selected.with_suffix('.json').read_text());st.caption('Capture session: '+meta['session'])
+        meta=json.loads(selected.with_suffix('.json').read_text());st.caption('Source/capture group: '+meta['session'])
+        if meta.get('source_kind')=='coco_public':st.caption('Public COCO image '+str(meta['source']['image_id'])+'; existing source annotation requires visual review.')
         image=cv2.imread(str(selected));h,w=image.shape[:2]
         from streamlit_image_coordinates import streamlit_image_coordinates
         st.write('Click the image and use the buttons below to set opposite box corners. Coordinates are mapped back to original size. Add every object; a reviewed empty list means background-only.')
@@ -220,7 +221,7 @@ def annotate():
         if st.button('Save boxes and mark reviewed'):
             save_annotation(selected,edited.values.tolist(),True);st.success('Annotation reviewed.')
         st.caption(f'{len(items)} photos imported; '+str(sum(json.loads(p.with_suffix('.json').read_text())['reviewed'] for p in items))+' reviewed')
-    if st.button('Build session-separated train / val / test dataset'):st.json(build_dataset())
+    if st.button('Build group-separated train / val / test dataset'):st.json(build_dataset())
     if st.button('Validate existing dataset'):st.json(validate_dataset())
     if items and st.button('Generate private labelled contact sheets'):
         contact_sheets();st.success('Private review sheets saved under data/review.')
@@ -326,7 +327,7 @@ try:
         job_panel('pca');observations('lab05','Inspect the first three and last three eigenfaces. Describe visible broad lighting/shape patterns and finer residual detail. For each misclassified test face, record a specific visual hypothesis such as pose, shadow or occlusion; do not state a cause as proven. The PDF provides measured results and conceptual analysis; these observations remain your interpretation.')
     elif page.startswith('06'):
         st.title('YOLO11 object detection')
-        mode=st.tabs(['Inference','Personal dataset','Train and evaluate'])
+        mode=st.tabs(['Inference','Curated dataset','Train and evaluate'])
         with mode[0]:
             from lab06 import completed_models
             models=['yolo11n.pt']+completed_models();model=st.selectbox('Model',models);conf=st.slider('Confidence',.05,.95,.25,.05)
@@ -365,7 +366,7 @@ try:
         with mode[1]:annotate()
         with mode[2]:
             st.write('Run a three-epoch CPU pilot first. Full training starts fresh from YOLO11n for 100 total epochs at 640 px, seed 42, no early stopping. Pilot weights cannot be selected as final models. Validation selects best.pt; test evaluation runs once.')
-            st.info('Training requires your reviewed personal dataset. This selected workflow uses the local CPU; read the pilot runtime estimate before the 100-epoch run.')
+            st.info('Training requires the reviewed curated dataset. This workflow uses the local CPU; read the pilot runtime estimate before the 100-epoch run.')
             if st.button('Validate dataset and run 3-epoch pilot'):
                 jobs.launch('yolo',{'mode':'pilot'});st.success('Pilot started. The session split is now frozen.')
             if st.button('Validate dataset and start training',type='primary'):

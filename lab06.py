@@ -131,7 +131,7 @@ def train_job(folder, params, factory=None):
         if fingerprint!=params.get('dataset_fingerprint'):raise ValueError('Dataset changed while this job was starting.')
         snapshot=dict(mode=params.get('mode','full'),dataset_fingerprint=fingerprint,dataset=audit,
                       target_epochs=3 if params.get('mode')=='pilot' else 100,imgsz=640,
-                      batch=params.get('batch',4),seed=42,device='cpu')
+                      batch=params.get('batch',4),seed=42,device='cpu',provenance=read_json(DATA/'dataset/provenance.json',{}))
         write_json(folder/'training_snapshot.json',snapshot)
     mode=snapshot['mode'];target=snapshot['target_epochs']
     progress=read_json(folder/'progress.json',{}) if params.get('resume') else {}
@@ -206,10 +206,10 @@ def train_job(folder, params, factory=None):
     metrics=evaluate_once(folder,best,factory)
     result=dict(mode='full',epochs_completed=100,evaluation_complete=True,test_metrics=metrics,
                 weights=str(best),dataset=snapshot['dataset'],dataset_fingerprint=snapshot['dataset_fingerprint'],
-                device='cpu',imgsz=640,seed=42,batch=read_json(folder/'progress.json')['batch'])
+                device='cpu',imgsz=640,seed=42,batch=read_json(folder/'progress.json')['batch'],provenance=snapshot.get('provenance',{}))
     write_json(folder/'result.json',result)
     write_report(folder)
-    write_status(folder,'complete','100-epoch training and held-out evaluation complete. Add the separate phone-video demonstration next.',epoch=100,target_epochs=100)
+    write_status(folder,'complete','100-epoch training and held-out evaluation complete. Add the separate new-image demonstration next.',epoch=100,target_epochs=100)
 
 
 def write_report(folder):
@@ -217,63 +217,74 @@ def write_report(folder):
     if not r or r.get('mode')!='full':raise ValueError('A completed full run is required for the Lab 06 report.')
     demo=read_json(folder/'demo/result.json')
     notes=folder/'demo/review.txt'
-    lines=['# Lab 06 Personal object detection experiment','',
-           'Classes: 0=bottle, 1=mug, 2=phone. Images were captured personally and annotated locally. '
-           'Raw images, annotations, videos and weights remain local. The capture-session split was frozen before training.','',
+    provenance=r.get('provenance',{})
+    lines=['# Lab 06 Curated object detection experiment','',
+           'Classes: 0=bottle, 1=cup, 2=phone. '
+           f"Source kind: {provenance.get('kind','not recorded')}. Annotation source: {provenance.get('annotation_source','not recorded')}. "
+           'Raw images, annotations, videos and weights remain local. Source/capture groups were split and frozen before training.','',
+           provenance.get('disclosure','Image origin must be documented; no personal-photography claim is inferred.'),'',
            f"YOLO11n: {r['epochs_completed']} total epochs, input size 640, CPU, batch {r['batch']}, seed 42, no early stopping. "
            'Validation selected best.pt; the test split was evaluated once after training.','',
-           '| Split | Images | Bottle instances | Mug instances | Phone instances |','|---|---:|---:|---:|---:|']
+           '| Split | Images | Bottle instances | Cup instances | Phone instances |','|---|---:|---:|---:|---:|']
     for split,a in r['dataset'].items():
-        c=a['instances'];lines.append(f"| {split} | {a['images']} | {c['bottle']} | {c['mug']} | {c['phone']} |")
+        c=a['instances'];lines.append(f"| {split} | {a['images']} | {c['bottle']} | {c['cup']} | {c['phone']} |")
     lines+=['','## Held-out metrics','']+[f'- {key}: {value}' for key,value in r['test_metrics'].items()]
     lines+=['','See training/results.csv, training/results.png and heldout confusion matrices for losses, validation trends and class errors. '
             'No arbitrary accuracy target is asserted. Small test sets and limited physical object variety restrict generalization.','',
-            '## Phone-recorded demonstration','',
-            'The PC has no webcam. A phone-recorded clip is used as a disclosed alternative; instructor acceptance of the live-webcam substitution remains pending. '
+            '## Separate demonstration images and optional recorded video','',
+            'The PC has no webcam. The public still-image demonstration is not a live-webcam test. A phone clip can be added later; instructor acceptance of a recorded-video substitution remains pending. '
             'Recorded playback FPS is not inference throughput. Unlabelled demonstration images/video have no precision or recall ground truth. '
-            'The pretrained COCO vocabulary differs from the custom bottle/mug/phone vocabulary (for example cup versus mug); compare that demonstration qualitatively, not as matched class metrics.','']
+            'The custom head uses local IDs 0/1/2; pretrained COCO has 80 output IDs and calls phone "cell phone". Demo predictions are compared qualitatively, not as a second held-out evaluation.','']
     if demo:
         for name,m in demo['videos'].items():
             lines.append(f"- {name}: {m['frames']} frames, {m['source_fps']:.2f} source FPS, {m['seconds']:.2f} s processing, "
                          f"{m['processing_fps']:.2f} processing FPS; decode check: {m['verification']}.")
         review=notes.read_text(encoding='utf-8').strip() if notes.exists() else ''
         lines+=['',review or 'Qualitative successes/errors still need review; add observations to demo/review.txt and regenerate the report.']
-    else:lines+=['Personal phone-video and new-image demonstration pending.']
+    else:lines+=['Separate new-image demonstration pending; optional recorded-video demonstration also pending.']
     lines+=['','## Detection versus classification','',
             'Classification assigns a label to an entire image. Detection locates and labels individual objects: '
-            'a desk photo may contain a bottle, mug and phone with separate boxes, instead of one overall scene label.','']
+            'a desk photo may contain a bottle, cup and phone with separate boxes, instead of one overall scene label.','']
     (folder/'ANALYSIS.md').write_text('\n'.join(lines),encoding='utf-8',newline='\n')
 
 
-def demonstrate(folder, video, images=()):
+def demonstrate(folder, video=None, images=()):
     import cv2
     from ultralytics import YOLO
     from media import process_video
     from core import decode,png
     folder=Path(folder)
     if not eligible_model(folder):raise ValueError('Demonstration requires an evaluated 100-epoch custom model, not a pilot.')
+    if video is None and not images:raise ValueError('Supply separate new images and/or a video.')
+    training_hashes={hashlib.sha256(p.read_bytes()).hexdigest() for p in (DATA/'dataset/images').rglob('*.png')}
+    for path in images:
+        if hashlib.sha256(png(decode(Path(path).read_bytes()))).hexdigest() in training_hashes:
+            raise ValueError('Demonstration images must be separate from train, validation and test images.')
     out=folder/'demo';out.mkdir(exist_ok=True)
-    records={'webcam_substitution':'Recorded phone video; instructor acceptance pending.','videos':{},'images':[]}
+    records={'webcam_substitution':'No live-webcam claim. Recorded-video acceptance pending if added.','videos':{},'images':[]}
     for name,weights in [('pretrained',DATA/'models/yolo11n.pt'),('custom',folder/'training/weights/best.pt')]:
         model=YOLO(str(weights))
+        wanted=[cid for cid,label in model.names.items() if label in ('bottle','cup','cell phone','phone')]
         def predict(frame):
-            r=model.predict(frame,conf=.25,verbose=False)[0]
+            r=model.predict(frame,conf=.25,verbose=False,classes=wanted)[0]
             return r.plot(),{'detection_count':len(r.boxes)}
-        destination=out/(name+'.mp4');m=process_video(video,destination,predict)
-        reader=cv2.VideoCapture(str(destination));count=0;fps=reader.get(cv2.CAP_PROP_FPS);shapes=set()
-        try:
-            while True:
-                ok,frame=reader.read()
-                if not ok:break
-                count+=1;shapes.add(tuple(frame.shape))
-        finally:reader.release()
-        m.update(decoded_frames=count,decoded_fps=fps,decoded_shapes=[list(s) for s in shapes],
-                 processing_fps=m['frames']/m['seconds'],verification='passed' if count==m['frames'] and abs(fps-m['source_fps'])<.1 else 'failed')
-        records['videos'][name]=m
+        if video is not None:
+            destination=out/(name+'.mp4');m=process_video(video,destination,predict)
+            reader=cv2.VideoCapture(str(destination));count=0;fps=reader.get(cv2.CAP_PROP_FPS);shapes=set()
+            try:
+                while True:
+                    ok,frame=reader.read()
+                    if not ok:break
+                    count+=1;shapes.add(tuple(frame.shape))
+            finally:reader.release()
+            m.update(decoded_frames=count,decoded_fps=fps,decoded_shapes=[list(s) for s in shapes],
+                     processing_fps=m['frames']/m['seconds'],verification='passed' if count==m['frames'] and abs(fps-m['source_fps'])<.1 else 'failed')
+            records['videos'][name]=m
         for index,path in enumerate(images):
-            source=decode(Path(path).read_bytes());start=time.perf_counter();result=model.predict(source,conf=.25,verbose=False)[0]
+            source=decode(Path(path).read_bytes());start=time.perf_counter();result=model.predict(source,conf=.25,verbose=False,classes=wanted)[0]
             image=out/f'{name}_new_{index+1:03d}.png';image.write_bytes(png(result.plot()))
-            records['images'].append({'model':name,'output':image.name,'detections':len(result.boxes),'seconds':time.perf_counter()-start})
+            records['images'].append({'model':name,'input':Path(path).name,'output':image.name,'detections':len(result.boxes),'seconds':time.perf_counter()-start,
+                                     'boxes':[{'class':result.names[int(b.cls[0])],'confidence':float(b.conf[0]),'xyxy':b.xyxy[0].tolist()} for b in result.boxes]})
     write_json(out/'result.json',records);write_report(folder)
     return out
 
@@ -305,6 +316,9 @@ def publish_summary(folder):
     (destination/'ANALYSIS.md').write_text(text,encoding='utf-8',newline='\n')
     for source in [folder/'training/results.csv',folder/'training/results.png']+list((folder/'heldout').glob('confusion_matrix*.png')):
         if source.exists():shutil.copyfile(source,destination/source.name)
+    if r.get('provenance',{}).get('kind')=='curated_public':
+        from curate_coco import publish_provenance
+        publish_provenance(destination)
     return destination
 
 
@@ -316,7 +330,7 @@ def main():
     if args.action=='unfreeze':unfreeze_dataset();return
     if not args.job:parser.error('--job is required')
     if args.action=='demo':
-        if not args.video:parser.error('--video is required for the phone-recorded demonstration')
+        if not args.video and not args.images:parser.error('Supply --images and/or --video for the separate demonstration')
         print(demonstrate(args.job,args.video,args.images))
     elif args.action=='bundle':print(bundle(args.job))
     elif args.action=='publish-summary':print(publish_summary(args.job))

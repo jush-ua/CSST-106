@@ -34,7 +34,7 @@ def main():
             cv2.imwrite(str(images/f'{i}.png'),image)
             (labels/f'{i}.txt').write_text('\n'.join(rows))
     yaml=dataset/'data.yaml'
-    yaml.write_text(f'path: {dataset.as_posix()}\ntrain: images/train\nval: images/val\nnames:\n  0: bottle\n  1: mug\n  2: phone\n')
+    yaml.write_text(f'path: {dataset.as_posix()}\ntrain: images/train\nval: images/val\nnames:\n  0: bottle\n  1: cup\n  2: phone\n')
     checkpoint=folder/'resume.pt'
     model=YOLO(str(DATA/'models/yolo11n.pt'))
     def pause(trainer):

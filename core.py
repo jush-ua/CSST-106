@@ -14,7 +14,7 @@ import os
 ROOT = Path(__file__).resolve().parent
 RUNS = ROOT / 'runs'
 DATA = ROOT / 'data'
-CLASSES = ['bottle', 'mug', 'phone']
+CLASSES = ['bottle', 'cup', 'phone']
 os.environ.setdefault('TORCH_HOME',str(DATA/'models'/'torch'))
 os.environ.setdefault('YOLO_CONFIG_DIR',str(DATA/'cache'/'ultralytics'))
 os.environ.setdefault('MPLCONFIGDIR',str(DATA/'cache'/'matplotlib'))

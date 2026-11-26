@@ -13,7 +13,7 @@ Open PowerShell in this folder and run:
 
 Open **http://127.0.0.1:8501**. Python 3.11 is required. Installation and first use of LFW/YOLO/DeepLab need network access. The environment is local to `.venv`; the application binds only to loopback. All dataset caches and model caches are kept under `data/` where configured. Do not move or delete the project while its jobs are running.
 
-After setup, you can also double-click `Launch.cmd`. Labs 05 and 07 offer a completed reference experiment from `examples/`, so the measured PCA/PDF and semantic results can be reviewed without rerunning model downloads. These are public-sample results, not custom personal training outcomes.
+After setup, you can also double-click `Launch.cmd`. Labs 05 and 07 offer a completed reference experiment from `examples/`, so the measured PCA/PDF and semantic results can be reviewed without rerunning model downloads. These are public-sample results; Lab 06 uses a separately documented curated training collection.
 
 ## Modules
 
@@ -24,7 +24,7 @@ After setup, you can also double-click `Launch.cmd`. Labs 05 and 07 offer a comp
 | 03 | Histograms, linear stretching, global equalization, CLAHE, YUV luminance mode | `core.contrast` |
 | 04 | SURF matching, Hessian sweep, U-SURF, SIFT/ORB comparison | `core.features`, `surf_worker.py` |
 | 05 | LFW, training-only 150-component PCA, whitening, balanced RBF SVM, galleries, variance, PDF | `worker.pca_job`, `reporting.py` |
-| 06 | YOLO11 image/video/webcam, personal annotation, grouped split, 100-epoch training and held-out evaluation | `dataset.py`, `worker.yolo_job` |
+| 06 | YOLO11 image/video/webcam, curated or personal annotation, grouped split, 100-epoch training and held-out evaluation | `dataset.py`, `worker.yolo_job` |
 | 07 | Otsu/adaptive, region growing, watershed, contours, DeepLab semantic labels and optional IoU | `core.segmentation`, `worker.semantic_job` |
 
 Use **Save experiment** to retain images, settings, metrics and dependency versions. Lab 02 saves signed gradients and raw magnitude as NPY arrays. Background jobs remain active when navigating. Their logs and status are on disk in `runs/job_*`; use the job's Cancel button to terminate it. Restarting the app does not silently retrain models. Video processing is synchronous and should use short clips.
@@ -48,15 +48,19 @@ Reproduce all four labs after fetching the VOC subset and caching the DeepLab we
 
 Lab 02 now bundles a real `examples/lab02/input.jpg`: the public scikit-image Camera sample encoded as JPEG quality 95. `input_source.json` records its source and checksum and explicitly marks it as a replacement, not instructor-provided. The UI, `run_lab.py 2` and evidence generator use this actual decoded JPEG by default; explicit uploads/files or sample selections override it. All figures, gradients and metrics were regenerated after JPEG compression. Jeremy's original file remains unavailable; use `--edge-image` if it is later supplied.
 
-## Personal dataset and custom YOLO
+## Curated public dataset and custom YOLO
 
-Lab 06 imports **your own** bottle/mug/phone images. Follow [LAB06_GUIDE.md](LAB06_GUIDE.md): ten sessions of 10 photos per class plus 3 backgrounds, totalling 330 images. This is our collection target, not Jeremy's minimum. Use your phone, transfer originals by USB and reserve a separate clip/new stills for demonstration. The guide covers the recording-phone problem, annotation, private contact sheets, splits, pilot timing and resume. Demo samples are not personal training data.
+Lab 06 uses a curated **COCO 2017 validation collection**, not personal photographs. Classes are 0 bottle, 1 cup, 2 phone (source category "cell phone"). Existing COCO annotations are imported, visually reviewed and corrected where necessary. See [LAB06_GUIDE.md](LAB06_GUIDE.md) for the complete workflow.
 
-Select each photo, click opposite corners, choose the class and add a box. Repeat for every visible target. The editable table permits corrections or deletion. Save and mark reviewed; reviewed empty boxes mean background-only. Build the dataset, inspect the session split, and validate before training. Entire sessions are kept apart; exact 70/15/15 image proportions are approximate when sessions differ in size. The split builder rejects any split missing a class.
+Run `.\.venv\Scripts\python.exe curate_coco.py` to download only the selected JPEGs and the official annotation archive. Imported images start unreviewed; the annotation tool and private contact sheets support inspection and corrections. The selected collection has 257 unique images: 100 positive images per class with mixed scenes counting toward multiple quotas, plus 30 backgrounds. Ten additional disjoint images are reserved for qualitative demonstration. Source URLs, licence records, checksums and reviewed split membership are published in `examples/lab06_custom/curation.json`; downloaded pixels, individual labels and weights remain local.
 
-Class IDs: 0 bottle, 1 mug, 2 phone. Labels are normalized `class_id x_center y_center width height`. The generated YAML includes train/val/test and explicit class names. Run `run_lab.py 6 --pilot` for a separate three-epoch CPU pilot, then `run_lab.py 6` for fresh 100-epoch YOLO11n training at 640 pixels, seed 42 and `patience=0`. Pilot memory fallback tries batch 4/2/1; full training uses the successful matching pilot batch. Exported data are frozen and fingerprinted. Pause at a saved epoch and use `run_lab.py 6 --resume runs/job_yolo_ID` to continue toward 100 total epochs with optimizer state. Only completed, evaluated full models appear in the inference selector. Validation selects best.pt; test evaluation occurs once, with an interrupted attempt flagged for explicit recovery rather than silently repeated. No accuracy target or finish time is invented.
+Source image groups and near-duplicate clusters are kept in one split. The actual split is 180 training, 39 validation and 38 test images, with all classes in every split. The dataset is frozen and fingerprinted before training. COCO-pretrained weights have prior COCO exposure, so results describe a classroom fine-tuning exercise rather than an independent benchmark.
 
-Raw photos, annotations, large weights and runs are ignored by Git. Preserve them locally and share only the materials you intend the instructor to access. The annotation tool does not upload photos anywhere. The project can run entirely locally after datasets and weights are downloaded.
+Run `run_lab.py 6 --pilot` for a separate three-epoch CPU pilot, then `run_lab.py 6` for fresh 100-epoch YOLO11n training at 640 pixels, seed 42 and no early stopping. Batch starts at 4 with memory fallback in the pilot. Pause/resume retains optimizer state and continues toward 100 total epochs. Validation chooses best.pt; the held-out test split is evaluated once after all epochs. A pilot is never listed as a completed custom model.
+
+`lab06.py demo --job runs/job_yolo_ID --images ...` compares pretrained and custom predictions on the reserved still images, rejects exact dataset-image reuse, and records outputs for qualitative error analysis. A separate phone-recorded video remains optional and cannot be represented as live-webcam footage; acceptance of a substitute for Jeremy's live step remains pending. Private bundles include weights and available demo outputs. `publish-summary` copies only provenance, metrics, analysis and training/confusion charts for GitHub.
+
+Personal photo import remains available as an alternative, using real capture-group names and the current cup class. Do not reinterpret old mug-only records without checking their class mapping.
 
 ## SURF
 
@@ -117,8 +121,8 @@ The edge attachment names input.jpg but no standalone image was attached. A disc
 .\.venv\Scripts\python.exe run_lab.py 2 --sample Camera
 ```
 
-Read `IMPLEMENTATION_STATUS.md` for actual verification and remaining requirements. Tests use temporary synthetic grids, never fake personal training results. A failed download/build or missing personal dataset must remain visible as incomplete.
+Read `IMPLEMENTATION_STATUS.md` for actual verification and remaining requirements. Tests use temporary synthetic grids, never fake personal training results. A failed download/build, missing reviewed dataset or unfinished training must remain visible as incomplete.
 
 The selected destination is https://github.com/jush-ua/CSST-106. Source publication status is recorded in `IMPLEMENTATION_STATUS.md`. Commit source, lockfile, README, small curated outputs and the PCA PDF; use Git LFS or release assets for selected large weights. Do not commit `.venv`, raw personal datasets or all training runs. Jeremy's comment requests a GitHub URL in the linked class spreadsheet. **The user confirmed that the repository URL has already been submitted.** No additional spreadsheet entry is needed.
 
-Lab 06 phone-video comparison, reports and the private weights/output bundle are produced with `lab06.py`; see the capture guide for exact commands. Raw inputs, annotation sheets, videos and weights stay local. `publish-summary` explicitly copies only numerical metrics, analysis and training/confusion charts into `examples/lab06_custom` for source publication. Recorded phone video is disclosed as a webcam substitute, with instructor acceptance still pending.
+Lab 06 still-image/video comparison, reports and the private weights/output bundle are produced with `lab06.py`; see the curation guide for exact commands. Raw inputs, annotation sheets, videos and weights stay local. `publish-summary` explicitly copies only numerical metrics, analysis and training/confusion charts into `examples/lab06_custom` for source publication. Recorded phone video is disclosed as a webcam substitute, with instructor acceptance still pending.
