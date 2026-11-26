@@ -6,6 +6,6 @@ The reviewed collection contains 257 unique COCO val2017 images, with 100 positi
 
 The split contains 180 training, 39 validation and 38 test images. The reviewed split was frozen before training. Existing COCO source annotations were imported and reviewed; they are not claimed to have been drawn from scratch, and these are not personally photographed images.
 
-The three-epoch CPU pilot completed at batch 4, with an estimate of about 4.1 hours for 100 training epochs plus startup/evaluation. Full training is underway. Final metrics and analysis will only be published after all 100 epochs and the held-out evaluation complete.
+The three-epoch CPU pilot completed at batch 4, with an estimate of about 4.1 hours for 100 training epochs plus startup/evaluation. Full training completed all 100 epochs at 640 pixels. A CPU memory failure after epoch 68 was recovered with native optimizer-preserving resume at batch 2. Held-out precision/recall/mAP50/mAP50–95 are 0.40811/0.44485/0.35573/0.25346. Ten reserved-image comparisons were visually reviewed; see ANALYSIS.md and DEMO_ANALYSIS.md for losses, misses and limitations.
 
 COCO-pretrained weights have prior COCO exposure; this is a classroom fine-tuning exercise rather than an independent generalization benchmark. A live-webcam demonstration has not been performed on this camera-less PC.

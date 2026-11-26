@@ -39,7 +39,7 @@ class Factory:
                 if owner.oom and kw.get('batch')==4:raise RuntimeError('out of memory')
                 if kw.get('resume'):
                     previous=json.loads(Path(kw['resume']).read_text());start=previous['epoch']+1
-                    target=previous['epochs'];batch=previous['batch'];name='training'
+                    target=previous['epochs'];batch=kw.get('batch',previous['batch']);name='training'
                     assert previous['optimizer']=='retained'
                 else:start=0;target=kw['epochs'];batch=kw['batch'];name=kw['name']
                 weights=owner.folder/name/'weights';weights.mkdir(parents=True,exist_ok=True)
@@ -81,9 +81,12 @@ def test_pause_resume_retains_original_target_and_evaluates_once(personal_fixtur
     (folder/'checkpoints/epoch_002.pt').write_bytes(b'uncommitted checkpoint')
     assert lab06.resumable(folder)['mode']=='full'
     (folder/'pause.request').unlink();factory.pause_at=None
-    lab06.train_job(folder,{'resume':True},factory)
+    lab06.train_job(folder,{'resume':True,'resume_batch':2},factory)
     assert factory.calls[-1][1]['resume']==str(folder/'checkpoints/epoch_001.pt')
     assert lab06.read_json(folder/'progress.json')['epochs_completed']==100
+    assert factory.calls[-1][1]['batch']==2
+    assert lab06.read_json(folder/'progress.json')['batch']==2
+    assert lab06.read_json(folder/'resume_history.json')[0]['target_epochs']==100
     assert factory.vals==1 and lab06.eligible_model(folder)
     assert len(list((folder/'checkpoints').glob('*.pt')))==2
     lab06.evaluate_once(folder,folder/'training/weights/best.pt',factory)

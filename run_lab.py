@@ -19,7 +19,9 @@ def main():
     p.add_argument('--hessian',type=int,default=400);p.add_argument('--upright',action='store_true');p.add_argument('--ratio',type=float,default=.75)
     p.add_argument('--pilot',action='store_true',help='Lab 06: time a separate three-epoch CPU pilot')
     p.add_argument('--resume',type=Path,help='Lab 06: resume this interrupted full-training job')
+    p.add_argument('--batch',type=int,choices=[1,2,4],help='Lab 06 resume only: reduce memory use')
     a=p.parse_args()
+    if a.batch is not None and not a.resume:p.error('--batch requires --resume')
     if (a.pilot or a.resume) and a.lab!=6:p.error('--pilot and --resume apply only to Lab 06')
     if a.hessian<1 or not 0<a.ratio<1:p.error('Hessian must be positive and ratio must be between 0 and 1.')
     if a.lab in [5,6]:
@@ -28,7 +30,7 @@ def main():
             validate_dataset()
         if a.resume:
             if a.lab!=6 or a.pilot:p.error('--resume requires Lab 06 full training')
-            print(jobs.resume_yolo(a.resume));return
+            print(jobs.resume_yolo(a.resume,a.batch));return
         print(jobs.launch('pca' if a.lab==5 else 'yolo',{'mode':'pilot' if a.pilot else 'full'} if a.lab==6 else {}));return
     from lab_inputs import select_input
     im,source=select_input(a.lab,a.image,a.sample);h,w=im.shape[:2]

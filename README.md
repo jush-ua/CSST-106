@@ -19,8 +19,8 @@ After setup, you can also double-click `Launch.cmd`. Labs 05 and 07 offer a comp
 
 | Lab | Required implementation | Location |
 |---|---|---|
-| 01 | BGR pixels, dimensions, grayscale, editing, crop, resize, 90° rotation | `core.manipulate` |
-| 02 | Blur 3×3, float Sobel x/y and magnitude, Canny 100/200 | `core.edges` |
+| 01 | BGR pixels, dimensions, grayscale, editing, crop, resize, 90Â° rotation | `core.manipulate` |
+| 02 | Blur 3Ã—3, float Sobel x/y and magnitude, Canny 100/200 | `core.edges` |
 | 03 | Histograms, linear stretching, global equalization, CLAHE, YUV luminance mode | `core.contrast` |
 | 04 | SURF matching, Hessian sweep, U-SURF, SIFT/ORB comparison | `core.features`, `surf_worker.py` |
 | 05 | LFW, training-only 150-component PCA, whitening, balanced RBF SVM, galleries, variance, PDF | `worker.pca_job`, `reporting.py` |
@@ -49,6 +49,8 @@ Reproduce all four labs after fetching the VOC subset and caching the DeepLab we
 Lab 02 now bundles a real `examples/lab02/input.jpg`: the public scikit-image Camera sample encoded as JPEG quality 95. `input_source.json` records its source and checksum and explicitly marks it as a replacement, not instructor-provided. The UI, `run_lab.py 2` and evidence generator use this actual decoded JPEG by default; explicit uploads/files or sample selections override it. All figures, gradients and metrics were regenerated after JPEG compression. Jeremy's original file remains unavailable; use `--edge-image` if it is later supplied.
 
 ## Curated public dataset and custom YOLO
+
+The completed 100-epoch experiment and ten reserved-image comparisons are documented in [examples/lab06_custom](examples/lab06_custom/README.md). Held-out mAP50 is 35.6%; mAP50–95 is 25.3%. The analysis records missed small objects, duplicate boxes, overfitting indicators, and prior COCO exposure.
 
 Lab 06 uses a curated **COCO 2017 validation collection**, not personal photographs. Classes are 0 bottle, 1 cup, 2 phone (source category "cell phone"). Existing COCO annotations are imported, visually reviewed and corrected where necessary. See [LAB06_GUIDE.md](LAB06_GUIDE.md) for the complete workflow.
 
@@ -92,7 +94,7 @@ The PDF includes measured results and conceptual analysis. Record your image-spe
 
 ## Segmentation ground truth
 
-Binary truth must be a grayscale 0/1 or 0/255 image aligned exactly to the input. Semantic truth must contain VOC IDs 0–20 and void 255. Mismatched dimensions are rejected; labels are never silently interpolated. Semantic scoring excludes void pixels and omits absent classes from mean IoU. Watershed region IDs are not semantic classes.
+Binary truth must be a grayscale 0/1 or 0/255 image aligned exactly to the input. Semantic truth must contain VOC IDs 0â€“20 and void 255. Mismatched dimensions are rejected; labels are never silently interpolated. Semantic scoring excludes void pixels and omits absent classes from mean IoU. Watershed region IDs are not semantic classes.
 
 The supplied local VOC subset was retrieved using `python fetch_voc_subset.py` from the pinned nateraw/pascal-voc-2012 mirror revision. Five validation rows and their hashes/provenance are recorded in `data/voc_subset/manifest.json`. Lossless RGB masks are converted using the exact VOC bit palette; unknown colours are rejected. Select a `VOC:` sample in Lab 07 to attach its ground truth automatically. These data are excluded from Git; run the script again after cloning. Alternatively, `python prepare_voc.py --root PATH_TO_VOC2012` selects five pairs from an official extracted dataset. Natural scikit-image samples demonstrate inference without ground-truth metrics.
 

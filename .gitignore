@@ -19,3 +19,6 @@ runs/
 *.pkl
 *.log
 !runs/.gitkeep
+
+# Local pytest fixtures and imported sample pixels
+/pytest-of-*/

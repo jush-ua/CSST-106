@@ -1,0 +1,18 @@
+{
+  "lab": "lab06_custom",
+  "epochs_completed": 100,
+  "evaluation_complete": true,
+  "demonstration_images": 10,
+  "live_webcam_tested": false,
+  "artifacts_sha256": {
+    "ANALYSIS.md": "98a6d009d0545cd4cfb707c490ceb10638af9d845e0c05129e3a075aa87eea6e",
+    "confusion_matrix.png": "e4c0492f6253c5296ca3f0293f38377a10397e479784aebc0aa6df95acd74d7d",
+    "confusion_matrix_normalized.png": "e89a5154a05249fba6feed9fd444eec49aa3b5d81a8f71bc22dce2258b4c3c5c",
+    "curation.json": "3acfaeda4d760642f211a9a4f1d9a3b19756af86ef1891bdd7f051fc2df05c99",
+    "DEMO_ANALYSIS.md": "50038cb6b1d19d07ef2cb43767e08fd7e3edb5586b36723caa5473f99cb3f00f",
+    "README.md": "3c9f5396c3b8ece929ff380c5660110bf866a986afed8135352e9e98b58a0f6f",
+    "result.json": "b8f496686f7138ce3b85db7ec02e96f3bf94644cfa71d50d12ac1c330bc84fe3",
+    "results.csv": "0c7801c75341157c68218bba5c7a5e96a9863b0bff2b60ce734b4d16adc7be7c",
+    "results.png": "9e79b4a6b840d2487efbc84036362f36b802b0fcb0b03e6c445dc253fbb6a675"
+  }
+}

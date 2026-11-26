@@ -140,7 +140,8 @@ def train_job(folder, params, factory=None):
     if mode=='full' and completed==100:
         best=folder/'training/weights/best.pt'
     else:
-        batches=[snapshot['batch']] if mode=='full' or params.get('resume') else [4,2,1]
+        batches=[params.get('resume_batch',progress.get('batch',snapshot['batch']))] if mode=='full' or params.get('resume') else [4,2,1]
+        if batches[0] not in (1,2,4):raise ValueError('Batch must be 1, 2, or 4.')
         for batch in batches:
             if mode=='pilot':durations=[]
             name=f'pilot_b{batch}' if mode=='pilot' else 'training'
@@ -173,7 +174,10 @@ def train_job(folder, params, factory=None):
             write_status(folder,'running',f'{mode.title()} training on CPU, batch {batch}.',target_epochs=target)
             try:
                 if params.get('resume'):
-                    model.train(resume=str(resume_checkpoint),device='cpu',workers=0)
+                    history=read_json(folder/'resume_history.json',[])
+                    history.append(dict(from_epoch=completed,target_epochs=target,batch=batch,checkpoint=resume_checkpoint.name))
+                    write_json(folder/'resume_history.json',history)
+                    model.train(resume=str(resume_checkpoint),device='cpu',workers=0,batch=batch)
                 else:
                     model.train(data=str(DATA/'dataset/data.yaml'),epochs=target,imgsz=640,batch=batch,seed=42,
                                 patience=0,workers=0,device='cpu',save=True,save_period=-1,
@@ -228,6 +232,9 @@ def write_report(folder):
            '| Split | Images | Bottle instances | Cup instances | Phone instances |','|---|---:|---:|---:|---:|']
     for split,a in r['dataset'].items():
         c=a['instances'];lines.append(f"| {split} | {a['images']} | {c['bottle']} | {c['cup']} | {c['phone']} |")
+    history=read_json(folder/'resume_history.json',[])
+    if history:
+        lines+=['','Resume history (the batch above is the final batch):']+[f"- After epoch {h['from_epoch']}, resumed toward {h['target_epochs']} total epochs with batch {h['batch']}." for h in history]
     lines+=['','## Held-out metrics','']+[f'- {key}: {value}' for key,value in r['test_metrics'].items()]
     lines+=['','See training/results.csv, training/results.png and heldout confusion matrices for losses, validation trends and class errors. '
             'No arbitrary accuracy target is asserted. Small test sets and limited physical object variety restrict generalization.','',
@@ -236,6 +243,7 @@ def write_report(folder):
             'Recorded playback FPS is not inference throughput. Unlabelled demonstration images/video have no precision or recall ground truth. '
             'The custom head uses local IDs 0/1/2; pretrained COCO has 80 output IDs and calls phone "cell phone". Demo predictions are compared qualitatively, not as a second held-out evaluation.','']
     if demo:
+        lines.append(f"Separate still-image outputs: {len(demo.get('images',[]))} model/image comparisons.")
         for name,m in demo['videos'].items():
             lines.append(f"- {name}: {m['frames']} frames, {m['source_fps']:.2f} source FPS, {m['seconds']:.2f} s processing, "
                          f"{m['processing_fps']:.2f} processing FPS; decode check: {m['verification']}.")
@@ -293,7 +301,7 @@ def bundle(folder):
     folder=Path(folder)
     if not eligible_model(folder):raise ValueError('Complete full training/evaluation before creating a deliverable bundle.')
     write_report(folder);destination=folder/'Lab06-deliverables.zip'
-    paths=[folder/'result.json',folder/'training_snapshot.json',folder/'ANALYSIS.md',folder/'training/weights/best.pt',folder/'training/results.csv']
+    paths=[folder/'result.json',folder/'training_snapshot.json',folder/'ANALYSIS.md',folder/'training/weights/best.pt',folder/'training/results.csv',folder/'resume_history.json',folder/'evaluation.json',folder/'progress.json']
     for directory in ('training','heldout','demo'):
         paths+=list((folder/directory).glob('*.png'))
     paths+=list((folder/'demo').glob('*.mp4'))+list((folder/'demo').glob('*.json'))+list((folder/'demo').glob('*.txt'))
@@ -313,6 +321,8 @@ def publish_summary(folder):
     text=(folder/'ANALYSIS.md').read_text(encoding='utf-8')
     notes=folder/'demo/review.txt'
     if notes.exists() and notes.read_text(encoding='utf-8').strip():text=text.replace(notes.read_text(encoding='utf-8').strip(),'Qualitative notes remain in the private local bundle.')
+    text=text.replace('training/results.csv','results.csv').replace('training/results.png','results.png').replace('heldout confusion matrices','confusion_matrix.png and confusion_matrix_normalized.png')
+    text+='\nSee DEMO_ANALYSIS.md for the published qualitative review and metric interpretation when available.\n'
     (destination/'ANALYSIS.md').write_text(text,encoding='utf-8',newline='\n')
     for source in [folder/'training/results.csv',folder/'training/results.png']+list((folder/'heldout').glob('confusion_matrix*.png')):
         if source.exists():shutil.copyfile(source,destination/source.name)

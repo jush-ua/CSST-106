@@ -31,6 +31,8 @@ Use **Pause after saved epoch**, then **Resume original run**, or:
 .\.venv\Scripts\python.exe run_lab.py 6 --resume runs\job_yolo_YOUR_RUN
 ```
 
+If a full run fails for insufficient memory, add `--batch 2` (or `--batch 1`) to the resume command. This changes memory use while retaining the original total epoch target; each restart is recorded in `resume_history.json`.
+
 Resume retains optimizer state and continues toward 100 total epochs. Two committed checkpoint generations are retained with an atomic progress pointer; a force stop can lose the unfinished epoch. Dataset changes block old-run resume. Unfreeze only to make corrections and start a newly compatible experiment.
 
 Validation selects best.pt. The held-out test split is evaluated once after all 100 epochs. An interrupted held-out evaluation is flagged rather than silently repeated. Inspect precision, recall, mAP50, mAP50-95, loss curves and confusion matrices; do not invent an accuracy target.

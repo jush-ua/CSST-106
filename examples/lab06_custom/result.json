@@ -1,0 +1,56 @@
+{
+  "mode": "full",
+  "epochs_completed": 100,
+  "evaluation_complete": true,
+  "test_metrics": {
+    "metrics/precision(B)": 0.4081096067350487,
+    "metrics/recall(B)": 0.44485144485144484,
+    "metrics/mAP50(B)": 0.35573156242593723,
+    "metrics/mAP50-95(B)": 0.25345695984562017,
+    "fitness": 0.25345695984562017
+  },
+  "dataset": {
+    "train": {
+      "images": 180,
+      "instances": {
+        "bottle": 129,
+        "cup": 130,
+        "phone": 81
+      }
+    },
+    "val": {
+      "images": 39,
+      "instances": {
+        "bottle": 21,
+        "cup": 31,
+        "phone": 23
+      }
+    },
+    "test": {
+      "images": 38,
+      "instances": {
+        "bottle": 26,
+        "cup": 28,
+        "phone": 18
+      }
+    }
+  },
+  "dataset_fingerprint": "6bf412d88707181221b435c3ae49d00df2c75c7f9408cf9320adbbf4cb53685f",
+  "device": "cpu",
+  "imgsz": 640,
+  "seed": 42,
+  "batch": 2,
+  "provenance": {
+    "kind": "curated_public",
+    "classes": [
+      "bottle",
+      "cup",
+      "phone"
+    ],
+    "images": 257,
+    "public_images": 257,
+    "annotation_source": "COCO instances_val2017; boxes imported, visually reviewed and corrected as needed",
+    "visually_reviewed": 257,
+    "disclosure": "COCO-pretrained weights have prior COCO exposure. This is a classroom fine-tuning exercise, not an independent benchmark."
+  }
+}

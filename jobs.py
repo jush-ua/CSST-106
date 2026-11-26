@@ -38,12 +38,14 @@ def launch(kind, params):
     return _start(kind,folder,params)
 
 
-def resume_yolo(folder):
+def resume_yolo(folder,batch=None):
     from lab06 import resumable
     folder=Path(folder).resolve()
     if folder.parent!=RUNS.resolve() or not folder.name.startswith('job_yolo_'):raise ValueError('Select an existing local YOLO job folder.')
+    if batch is not None and batch not in (1,2,4):raise ValueError('Resume batch must be 1, 2, or 4.')
     ensure_idle('yolo');resumable(folder)
     params=json.loads((folder/'request.json').read_text());params['resume']=True
+    if batch is not None:params['resume_batch']=batch
     for name in ('cancel.request','pause.request'):
         if (folder/name).exists():(folder/name).unlink()
     write_status(folder,'starting','Resuming the original 100-epoch experiment.')
