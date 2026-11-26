@@ -29,4 +29,4 @@ COCO-pretrained weights have prior COCO exposure. The small curated COCO validat
 
 ## Hardware-dependent requirement
 
-No live webcam demonstration was possible because this PC has no webcam. The reserved still images do not fulfill that live step. No separate phone-recorded demonstration clip was supplied; acceptance of a recorded substitute remains for the instructor to decide.
+No live webcam demonstration was possible because this PC has no webcam. The reserved still images do not fulfill that live step. The ten reserved still images demonstrate the new-image inference step. Recorded video is an optional additional inference input.

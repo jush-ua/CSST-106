@@ -1,6 +1,6 @@
 # CSST106 Vision laboratory
 
-A local Windows workbench for the seven laboratory attachments in Jeremy C. Reyes's class announcement. This project is separate from the 63 proctored activities. No printed or handwritten report is included.
+A local Windows workbench for the seven CSST106 laboratory activities. This project is separate from the 63 proctored activities. No printed or handwritten report is included.
 
 ## Start
 
@@ -41,7 +41,7 @@ Reproduce all four labs after fetching the VOC subset and caching the DeepLab we
 
 ```powershell
 .\.venv\Scripts\python.exe complete_labs.py
-# Individual labs or an instructor-supplied edge image:
+# Individual labs or a different student-selected edge image:
 .\.venv\Scripts\python.exe complete_labs.py --labs 1 3
 .\.venv\Scripts\python.exe complete_labs.py --labs 2 --edge-image C:\path\input.jpg
 ```
@@ -60,7 +60,7 @@ Source image groups and near-duplicate clusters are kept in one split. The actua
 
 Run `run_lab.py 6 --pilot` for a separate three-epoch CPU pilot, then `run_lab.py 6` for fresh 100-epoch YOLO11n training at 640 pixels, seed 42 and no early stopping. Batch starts at 4 with memory fallback in the pilot. Pause/resume retains optimizer state and continues toward 100 total epochs. Validation chooses best.pt; the held-out test split is evaluated once after all epochs. A pilot is never listed as a completed custom model.
 
-`lab06.py demo --job runs/job_yolo_ID --images ...` compares pretrained and custom predictions on the reserved still images, rejects exact dataset-image reuse, and records outputs for qualitative error analysis. A separate phone-recorded video remains optional and cannot be represented as live-webcam footage; acceptance of a substitute for Jeremy's live step remains pending. Private bundles include weights and available demo outputs. `publish-summary` copies only provenance, metrics, analysis and training/confusion charts for GitHub.
+`lab06.py demo --job runs/job_yolo_ID --images ...` compares pretrained and custom predictions on the reserved still images, rejects exact dataset-image reuse, and records outputs for qualitative error analysis. A separate recorded video is optional for inference. Live webcam testing requires a connected camera and has not been performed on this PC. Private bundles include weights and available demo outputs. `publish-summary` copies only provenance, metrics, analysis and training/confusion charts for GitHub.
 
 Personal photo import remains available as an alternative, using real capture-group names and the current cup class. Do not reinterpret old mug-only records without checking their class mapping.
 
@@ -110,29 +110,11 @@ The attachment order is authoritative for navigation. Edge detection internally 
 6. https://paios-classroom.com/announcement-attachments/1376/file
 7. https://paios-classroom.com/announcement-attachments/1377/file
 
-The edge attachment uses input.jpg as the student-selected input filename. The bundled Camera-derived JPEG satisfies this choice; students may supply another image as an override. Original DOCX documents remain in the user's Downloads folder; they are not automatically republished.
+The edge attachment uses input.jpg as the student-selected input filename. The bundled Camera-derived JPEG satisfies this choice; students may supply another image as an override. The original DOCX instructions are referenced through the attachment links above and are not redistributed.
 
 ## Video and webcam verification
 
 `examples/media_verification/verification.json` records a real YOLO video run: all 12 frames decoded successfully at the source 12 FPS. The fixture and annotated output are included. Reproduce with `.\.venv\Scripts\python.exe verify_media.py`; add `--webcam` only when a camera is connected. This computer has no webcam, so live camera capture has not been verified. No camera images were saved.
-
-## Final review against Jeremy's instructions
-
-Reviewed 26 November 2026 against all seven original DOCX attachments. Excluding hard-copy reports and the webcam requirement, no unfinished computational work was found. Lab 02 is complete with the student-selected bundled image; no source-image qualification remains.
-
-| Lab | Final review |
-|---|---|
-| 01 - Images | Complete: pixel inspection/editing, grayscale, crop, resize and 90-degree rotation. |
-| 02 - Edges | Complete using the bundled student-selected `input.jpg`: Sobel/Canny, side-by-side results and analysis. Students choose their input image; no instructor image is outstanding. |
-| 03 - Histogram | Complete: global equalization, contrast stretching, CLAHE, histograms, observations and question answers. |
-| 04 - SURF | Complete: actual SURF, feature matching, SIFT/ORB comparison, U-SURF, threshold exploration and the working standalone command. |
-| 05 - PCA | Complete: LFW/PCA/SVM experiment, variance/eigenface/failure analyses, required digital PDF and all five follow-up answers. The digital PDF remains included in this review. |
-| 06 - YOLO | Complete using the disclosed curated public collection: reviewed/corrected YOLO annotations, 100 epochs at 640 pixels, held-out evaluation, ten reserved-image comparisons and detection-versus-classification explanation. Part 4 permits new images or video; another video is not required. |
-| 07 - Segmentation | Complete: global/adaptive thresholding, region growing, watershed, edge-based and semantic segmentation, qualitative/quantitative comparisons and analysis. |
-
-The Lab 06 collection uses public COCO images with imported, visually reviewed annotations; it is not personal photography or a claim that every box was drawn from scratch. This records the user-approved substitution without asserting instructor approval. Live webcam testing remains unperformed and outside this review's scope.
-
-The review verified 180 saved artifact hashes, checked that the private Lab 06 deliverables ZIP contains the trained weights, and confirmed that the PCA PDF includes its follow-up answers. The repository URL is already submitted to the class spreadsheet; no additional entry is needed. See [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for detailed evidence and scope.
 
 ## Verification and handoff
 
@@ -143,6 +125,6 @@ The review verified 180 saved artifact hashes, checked that the private Lab 06 d
 
 Read `IMPLEMENTATION_STATUS.md` for actual verification and remaining requirements. Tests use temporary synthetic grids, never fake personal training results. A failed download/build, missing reviewed dataset or unfinished training must remain visible as incomplete.
 
-The selected destination is https://github.com/jush-ua/CSST-106. Source publication status is recorded in `IMPLEMENTATION_STATUS.md`. Commit source, lockfile, README, small curated outputs and the PCA PDF; use Git LFS or release assets for selected large weights. Do not commit `.venv`, raw personal datasets or all training runs. Jeremy's comment requests a GitHub URL in the linked class spreadsheet. **The user confirmed that the repository URL has already been submitted.** No additional spreadsheet entry is needed.
+Source is published at https://github.com/jush-ua/CSST-106. The repository URL has already been submitted to the class spreadsheet as requested by the instructor. The repository includes source, dependency versions, selected experiment outputs and the PCA PDF. Environments, raw datasets and trained weights remain local. See `IMPLEMENTATION_STATUS.md` for execution and verification details.
 
-Lab 06 still-image/video comparison, reports and the private weights/output bundle are produced with `lab06.py`; see the curation guide for exact commands. Raw inputs, annotation sheets, videos and weights stay local. `publish-summary` explicitly copies only numerical metrics, analysis and training/confusion charts into `examples/lab06_custom` for source publication. No phone-recorded demonstration clip was supplied. The reserved still images satisfy Part 4's new-images-or-video step; a recorded substitute for the separate live-webcam step would require instructor acceptance.
+Lab 06 still-image/video comparison, reports and the private weights/output bundle are produced with `lab06.py`; see the curation guide for exact commands. Raw inputs, annotation sheets, videos and weights stay local. `publish-summary` explicitly copies only numerical metrics, analysis and training/confusion charts into `examples/lab06_custom` for source publication. The ten reserved still images demonstrate Part 4's new-images-or-video inference step. Live webcam testing remains unperformed because this PC has no webcam.

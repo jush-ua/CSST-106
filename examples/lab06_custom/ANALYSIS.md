@@ -27,7 +27,7 @@ See results.csv, results.png and confusion_matrix.png and confusion_matrix_norma
 
 ## Separate demonstration images and optional recorded video
 
-The PC has no webcam. The public still-image demonstration is not a live-webcam test. A phone clip can be added later; instructor acceptance of a recorded-video substitution remains pending. Recorded playback FPS is not inference throughput. Unlabelled demonstration images/video have no precision or recall ground truth. The custom head uses local IDs 0/1/2; pretrained COCO has 80 output IDs and calls phone "cell phone". Demo predictions are compared qualitatively, not as a second held-out evaluation.
+The PC has no webcam. The public still-image demonstration is not a live-webcam test. Recorded video can be processed separately; live webcam testing requires a connected camera. Recorded playback FPS is not inference throughput. Unlabelled demonstration images/video have no precision or recall ground truth. The custom head uses local IDs 0/1/2; pretrained COCO has 80 output IDs and calls phone "cell phone". Demo predictions are compared qualitatively, not as a second held-out evaluation.
 
 Separate still-image outputs: 20 model/image comparisons.
 

@@ -1,6 +1,6 @@
 # Implementation and verification status
 
-Verified 26 November 2026 against all seven original DOCX attachments. Excluding hard-copy reports and the webcam requirement, no unfinished computational work was found. Lab 02 is complete using its bundled student-selected image; no instructor-provided input image is expected. This review does not assert instructor approval of substitutions or completion of the excluded requirements.
+Verified 26 November 2026 against all seven original DOCX attachments. Excluding hard-copy reports and the webcam requirement, no unfinished computational work was found. Lab 02 is complete using its bundled student-selected image; no instructor-provided input image is expected. Hard-copy reports and live webcam testing are outside this completion scope.
 
 | Component | Evidence | Remaining work |
 |---|---|---|
@@ -10,19 +10,19 @@ Verified 26 November 2026 against all seven original DOCX attachments. Excluding
 | Lab 03 | Low-contrast, uneven illumination/noise and colour-YUV cases; comparison figures, histogram PNG/CSV, measurements, observations and question answers saved | None for requested digital work |
 | Lab 04 | Actual nonfree SURF/U-SURF threshold sweeps (100/400/1000), SIFT/ORB comparisons, rich keypoints and matches on rotation and translation pairs; see examples/lab04/ANALYSIS.md | No missing requested implementation; standalone command and UI share the verified worker. Timings remain single-run CPU observations |
 | Lab 05 | Real LFW run, classification report, variance, eigenfaces, failure gallery and visually verified 3-page digital PDF | No missing computational requirement; user can refine interpretations through the PDF editor |
-| Lab 06 | Reviewed/corrected public COCO collection; 100 training epochs at 640 pixels; one held-out evaluation; ten reserved-image comparisons visually reviewed; metrics, charts and error analysis published; trained weights and image outputs in the private bundle | None within the final review scope. Part 4 permits new images or video, so another video is unnecessary. Public imagery/imported annotations are disclosed; no personal-photography claim or instructor approval is inferred. Live webcam work remains unperformed and excluded |
+| Lab 06 | Reviewed/corrected public COCO collection; 100 training epochs at 640 pixels; one held-out evaluation; ten reserved-image comparisons visually reviewed; metrics, charts and error analysis published; trained weights and image outputs in the private bundle | None within the final review scope. Part 4 permits new images or video, so another video is unnecessary. Public image sources and imported annotation provenance are documented. Live webcam work remains unperformed and excluded |
 | Lab 07 | Five classical methods on four conditions, seed/marker sweeps, aligned foreground scores and timings; DeepLab on the same natural scene; figures and measured analysis saved, plus prior five-VOC evaluation | No missing requested digital experiment; whole-app visual browser QA is not claimed |
-| Repository | Published to https://github.com/jush-ua/CSST-106 on main using local Git credentials; connected-app 403 was resolved through local Git | Repository URL already submitted to the classroom spreadsheet, confirmed by the user; no new entry needed |
+| Repository | Published to https://github.com/jush-ua/CSST-106 on main | Repository URL already submitted to the classroom spreadsheet as requested by the instructor |
 
-## Final review scope
+## Completion scope
 
-All seven source attachments were reread for the final review. Labs 01, 03, 04, 05, 06 and 07 have no unfinished computational requirements within the requested scope. Lab 05's required digital PDF is included, and its variance, visual interpretation, whitening, failure analysis and all five follow-up answers were checked. Lab 04's standalone command shares the verified nonfree SURF worker.
+The implementation was checked against all seven source attachments. Labs 01, 03, 04, 05, 06 and 07 have no unfinished computational requirements within the requested scope. Lab 05's required digital PDF is included, and its variance, visual interpretation, whitening, failure analysis and all five follow-up answers were checked. Lab 04's standalone command shares the verified nonfree SURF worker.
 
-Lab 02 is complete and demonstrated with the bundled Camera-derived `input.jpg`. The user clarified that students choose their own input image and no instructor image is provided. This removes the earlier source-image qualification. Source/checksum metadata remains available, and students can choose another input without changing the implementation.
+Lab 02 is complete and demonstrated with the bundled Camera-derived `input.jpg`. Students choose their input image for this activity. Source/checksum metadata remains available, and students can choose another input without changing the implementation.
 
-Lab 06 uses the user-approved curated public collection with imported, visually reviewed/corrected annotations. The attachment does not explicitly require personally photographed images. Its new-image-or-video inference step is satisfied by the ten reserved still images; no separate recorded-video demonstration is outstanding for that step. This does not imply that still images fulfill the excluded live-webcam requirement or that the instructor has approved substitutions.
+Lab 06 uses a curated public COCO collection with imported, visually reviewed/corrected annotations. The attachment does not explicitly require personally photographed images. Its new-image-or-video inference step is satisfied by the ten reserved still images; no separate recorded-video demonstration is outstanding for that step. Live webcam testing is a separate hardware-dependent step and remains unperformed.
 
-Final evidence checks verified 180 artifact hashes, confirmed the 100-epoch result and completed held-out evaluation, and checked that the private Lab 06 ZIP contains best.pt and demonstration outputs. The user has already submitted the repository URL to the classroom spreadsheet. Hard-copy reports and webcam work are excluded; browser visual QA remains an engineering verification limitation rather than an uncompleted lab experiment.
+Final evidence checks verified 180 artifact hashes, confirmed the 100-epoch result and completed held-out evaluation, and checked that the private Lab 06 ZIP contains best.pt and demonstration outputs. The repository URL has already been submitted to the classroom spreadsheet. Hard-copy reports and webcam work are excluded; browser visual QA remains an engineering verification limitation rather than an uncompleted lab experiment.
 
 ## Completed demonstrations and analyses
 
@@ -65,7 +65,7 @@ Final evidence checks verified 180 artifact hashes, confirmed the 100-epoch resu
 
 ## Media evidence
 
-`examples/media_verification` contains a public Coffee-derived 12-frame fixture, actual YOLO detections video and machine-readable verification. The same processing function is used by the UI. No camera footage was captured; Windows and OpenCV found no camera, and the user confirmed there is no webcam.
+`examples/media_verification` contains a public Coffee-derived 12-frame fixture, actual YOLO detections video and machine-readable verification. The same processing function is used by the UI. No camera footage was captured; this PC has no webcam, and Windows and OpenCV detected no camera.
 
 ## Environment constraints
 
@@ -73,7 +73,7 @@ Python 3.11.9, installed packages pinned in requirements.lock.txt. PyTorch repor
 
 The local `.venv`, `.surf-venv` and `data` paths are directory junctions to `D:\CSST106-build\runtime` to preserve C: space. Keep that drive connected. OpenCV sources and build files are in `D:\CSST106-build\opencv-src`; large binaries and caches are excluded from Git.
 
-No personal training scores, camera footage, handwritten submissions or paper reports have been fabricated. The user confirmed their previous spreadsheet submission; this implementation has not posted another entry.
+Training metrics are measured experiment results. No live camera footage or hard-copy report is included. The repository URL is already submitted to the class spreadsheet.
 
 ## Lab 06 completion and excluded webcam requirement
 
@@ -81,10 +81,10 @@ No personal training scores, camera footage, handwritten submissions or paper re
 
 The real installed Ultralytics library passed `tests/native_yolo_resume_smoke.py`, a separate synthetic checkpoint smoke test: optimizer state saved after epoch index 0; native resume executed only indices 1 and 2, giving three total epochs. That smoke test uses 64-pixel synthetic fixtures solely to verify library mechanics. It is not the actual curated-data experiment, which remains 640 pixels and 100 epochs. Its files and meaningless synthetic accuracy values remain in ignored runs, not in public lab results.
 
-The user-approved public collection is used in place of personal capture. Import/review/correction, full training, held-out evaluation and reserved-image review are complete. This does not assert instructor approval of every substitution. The PC has no webcam; no still-image or synthetic-video output is represented as live capture. A separate recorded clip can be added later, with acceptance of a live-webcam substitute pending Jeremy.
+The experiment uses a curated public COCO collection. Import/review/correction, full training, held-out evaluation and reserved-image review are complete. The PC has no webcam; no still-image or synthetic-video output is represented as live capture. A recorded clip can be processed separately through the video inference feature; it is distinct from live webcam testing.
 
 ## Curated COCO collection
 
-User approved a curated public collection, source categories bottle/cup/cell phone, and import/review/correct annotation workflow. `curate_coco.py` selected 257 unique COCO val2017 images, covering 100 positive images per class and 30 backgrounds; mixed scenes satisfy multiple quotas. Ten additional images are reserved for demonstration. All 22 contact sheets were visually inspected, ambiguous examples were opened at full resolution, and an oversized phone source box in image 380913 was corrected to the visible phone at the right. Review metadata identifies assistant inspection rather than claiming personally drawn labels.
+The curated collection uses source categories bottle/cup/cell phone and an annotation import, review and correction workflow. `curate_coco.py` selected 257 unique COCO val2017 images, covering 100 positive images per class and 30 backgrounds; mixed scenes satisfy multiple quotas. Ten additional images are reserved for demonstration. All 22 contact sheets were visually inspected, ambiguous examples were opened at full resolution, and an oversized phone source box in image 380913 was corrected to the visible phone at the right. Review metadata identifies assistant inspection rather than claiming personally drawn labels.
 
 The grouped split is 180/39/38 images for training/validation/test, with bottle/cup/phone instance counts respectively 129/130/81, 21/31/23 and 26/28/18. Exact hashes and the perceptual near-duplicate check found no duplicates crossing splits. Source licence/URL/checksum and split records are in examples/lab06_custom/curation.json. COCO-pretrained weights have prior COCO exposure; this exercise is not an independent dataset benchmark. Training completed 100 epochs and one held-out evaluation. Precision/recall/mAP50/mAP50–95 are 0.40811/0.44485/0.35573/0.25346. Epochs 1–68 used batch 4; after a CPU allocation failure, native resume completed epochs 69–100 at batch 2. Ten reserved-image comparisons were generated and visually reviewed; source records, metrics, curves, confusion charts and error analysis are published in examples/lab06_custom. The weights and image outputs are bundled privately.

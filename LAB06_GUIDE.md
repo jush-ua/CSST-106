@@ -1,6 +1,6 @@
 # Lab 06 Curated public collection
 
-The repository URL has already been submitted to the class spreadsheet, confirmed by you. The selected workflow uses curated public COCO images, existing source boxes with visual review/correction, and local CPU training. No personally photographed dataset is required by this chosen interpretation of Jeremy's instructions. Do not describe public photographs as your own captures or imported boxes as drawn from scratch.
+This guide covers the Lab 06 dataset, annotation, training and inference workflow for CSST106. The experiment uses curated public COCO images, imported source boxes with visual review/correction, and local CPU training. Source images and annotation provenance are documented in examples/lab06_custom/curation.json. The repository URL has already been submitted to the class spreadsheet.
 
 ## Collection and annotation review
 
@@ -51,7 +51,7 @@ Use the ten reserved public images, never training/validation/test images. Compa
 
 Only evaluated 100-epoch custom models appear in the app's model selector. Demonstration still images are rejected if their decoded pixels duplicate any exported dataset image. Demo predictions are not a second held-out test evaluation. Add actual qualitative observations to the job's `demo/review.txt` and regenerate the report.
 
-The PC has no webcam. Neither still images nor a constructed slideshow are live-webcam footage. A separate phone-recorded clip can be processed if supplied; Jeremy's acceptance of that substitute for the live-webcam step remains pending. Recorded playback FPS is not inference throughput.
+The PC has no webcam. Neither still images nor a constructed slideshow are live-webcam footage. A separate recorded clip can be processed through the video inference feature. Live webcam testing requires a connected camera and remains unperformed. Recorded playback FPS is not inference throughput.
 
 ## Deliverables and publication
 

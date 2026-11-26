@@ -36,7 +36,7 @@ with st.sidebar:
     st.caption('CSST106 · BSCS4B')
     page=st.radio('Laboratory navigation',TITLES,label_visibility='collapsed')
     st.divider();st.caption('Seven experiments · one local workspace')
-    st.caption('Jeremy C. Reyes · 2026–2027')
+    st.caption('Academic year 2026–2027')
     st.link_button('Class announcement','https://paios-classroom.com/classes/42')
 
 def show_image(image,caption='',**kwargs):
@@ -62,7 +62,7 @@ def input_image(key,default='Astronaut'):
         st.session_state.pop(result_keys.get(key,''),None)
         st.session_state[hash_key]=source_hash
     st.session_state[key+'_voc_truth']=str(voc[choice].with_name(voc[choice].stem+'_truth.png')) if choice in voc and not upload else None
-    source=('Uploaded: '+upload.name) if upload else 'Packaged input.jpg: student-selected scikit-image Camera image' if choice=='Packaged input.jpg' else 'Public sample: '+choice+' · not a personal dataset photo'
+    source=('Uploaded: '+upload.name) if upload else 'Packaged input.jpg: student-selected scikit-image Camera image' if choice=='Packaged input.jpg' else 'Public sample: '+choice
     st.session_state[key+'_source_label']=source;st.caption(source)
     return image
 
@@ -177,7 +177,7 @@ def inference(image,path,confidence):
 def annotate():
     from dataset import store_photo,save_annotation,build_dataset,validate_dataset,capture_progress,contact_sheets
     st.subheader('Curated bottle, cup and phone dataset')
-    st.write('Public COCO collection: target 100 positive images per class plus 30 backgrounds. Mixed images can count toward several quotas. Import source boxes, visually review and correct them, then split whole source groups. These are not personally captured photographs.')
+    st.write('Public COCO collection: target 100 positive images per class plus 30 backgrounds. Mixed images can count toward several quotas. Import source boxes, visually review and correct them, then split whole source groups. Image source: COCO 2017 validation dataset.')
     with st.expander('Public curation, review and training guide'):
         st.markdown((ROOT/'LAB06_GUIDE.md').read_text(encoding='utf-8'))
     progress=capture_progress()
@@ -249,7 +249,7 @@ try:
             show_image(np.hstack([gray(im),view['canny']]),'Public sample · grayscale pixels and Canny boundaries',width='stretch')
             st.caption('Actual processing output, not a mock visualization.')
         st.subheader('Readiness')
-        st.write('Classical labs run with included samples. PCA downloads LFW on first use. DeepLab and YOLO download model weights. Custom YOLO training needs your annotated photos. SURF requires its isolated nonfree build.')
+        st.write('Classical labs run with included samples. PCA downloads LFW on first use. DeepLab and YOLO download model weights. Custom YOLO training uses the reviewed, annotated dataset. SURF requires its isolated nonfree build.')
         st.link_button('Open setup and requirement checklist','https://paios-classroom.com/classes/42')
     elif page.startswith('01'):
         st.title('Image manipulation');st.write('Explore image representation, change a pixel, and transform the grid.')
@@ -331,7 +331,7 @@ try:
         with mode[0]:
             from lab06 import completed_models
             models=['yolo11n.pt']+completed_models();model=st.selectbox('Model',models);conf=st.slider('Confidence',.05,.95,.25,.05)
-            st.caption('Phone-recorded video requires no PC webcam. Jeremy must accept the disclosed substitution for the live demonstration.')
+            st.caption('Upload an image or recorded video to test detection. Live webcam mode requires a connected camera.')
             im=input_image('yolo','Coffee')
             if st.button('Detect objects',type='primary'):
                 with st.spinner('Loading model and detecting objects…'):out,m=inference(im,model,conf)

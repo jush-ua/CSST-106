@@ -380,7 +380,7 @@ def lab07():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--labs', nargs='+', type=int, choices=(1, 2, 3, 7), default=[1, 2, 3, 7])
-    parser.add_argument('--edge-image', type=Path, help='Use the actual instructor input.jpg when available.')
+    parser.add_argument('--edge-image', type=Path, help='Choose the student-selected input image for Lab 02.')
     args = parser.parse_args()
     for lab in args.labs:
         if lab == 2:lab02(args.edge_image)
