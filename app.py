@@ -45,13 +45,16 @@ def show_image(image,caption='',**kwargs):
 def input_image(key,default='Astronaut'):
     options=['Astronaut','Coffee','Coins','Camera']
     voc={}
+    if key=='edge':
+        from lab_inputs import EDGE_INPUT
+        options.insert(0,'Packaged input.jpg')
     if key=='segment':
         voc={'VOC: '+p.stem:p for p in (DATA/'voc_subset').glob('val_*.png') if not p.stem.endswith('_truth')}
         options+=sorted(voc)
     a,b=st.columns([1,2])
     with a:choice=st.selectbox('Sample image',options,index=options.index(default),key=key+'_sample')
     with b:upload=st.file_uploader('Or upload an image',type=['png','jpg','jpeg'],key=key+'_upload')
-    image=decode(upload.getvalue()) if upload else decode(voc[choice].read_bytes()) if choice in voc else sample(choice)
+    image=decode(upload.getvalue()) if upload else decode(EDGE_INPUT.read_bytes()) if key=='edge' and choice=='Packaged input.jpg' else decode(voc[choice].read_bytes()) if choice in voc else sample(choice)
     source_hash=hashlib.sha256(png(image)).hexdigest()
     hash_key=key+'_source_hash'
     if st.session_state.get(hash_key)!=source_hash:
@@ -59,7 +62,8 @@ def input_image(key,default='Astronaut'):
         st.session_state.pop(result_keys.get(key,''),None)
         st.session_state[hash_key]=source_hash
     st.session_state[key+'_voc_truth']=str(voc[choice].with_name(voc[choice].stem+'_truth.png')) if choice in voc and not upload else None
-    st.caption(('Uploaded: '+upload.name) if upload else 'Public sample: '+choice+' · not a personal dataset photo')
+    source=('Uploaded: '+upload.name) if upload else 'Packaged input.jpg: disclosed scikit-image Camera replacement; not Jeremy\'s image' if choice=='Packaged input.jpg' else 'Public sample: '+choice+' · not a personal dataset photo'
+    st.session_state[key+'_source_label']=source;st.caption(source)
     return image
 
 def results(key,images,params,metrics=None,arrays=None):
@@ -108,11 +112,17 @@ def job_panel(kind):
         status={'state':'complete','message':'Saved sample outputs from the verified implementation run.'} if archived else jobs.status(selected)
         state_key='job_state_'+selected.name
         before=st.session_state.get(state_key);st.session_state[state_key]=status['state']
-        if before is not None and before!=status['state'] and status['state'] in ('complete','failed','cancelled'):
+        if before is not None and before!=status['state'] and status['state'] in ('complete','failed','cancelled','paused'):
             st.rerun()
         st.write(status['state'].capitalize()+': '+status['message'])
-        if status.get('epoch'):st.progress(min(status['epoch']/100,1))
+        if status.get('epoch'):st.progress(min(status['epoch']/status.get('target_epochs',100),1))
         if status['state'] in ['starting','running'] and st.button('Cancel job',key=kind+'_cancel'):jobs.cancel(selected);st.rerun(scope='fragment')
+        if kind=='yolo':
+            params=json.loads((selected/'request.json').read_text())
+            if params.get('mode','full')=='full' and status['state']=='running' and st.button('Pause after saved epoch',key='yolo_pause'):
+                jobs.pause_yolo(selected);st.rerun(scope='fragment')
+            if params.get('mode','full')=='full' and status['state'] in ('paused','cancelled','failed') and (selected/'progress.json').exists():
+                if st.button('Resume original run',key='yolo_resume'):jobs.resume_yolo(selected);st.rerun()
         log=selected/'job.log'
         with st.expander('Worker log'):st.code(log.read_text(encoding='utf-8',errors='replace')[-10000:] if log.exists() else 'Starting…')
     progress()
@@ -137,8 +147,15 @@ def job_panel(kind):
                 with col:st.image(str(selected/name),width='stretch')
             st.write('Class legend',r['legend']);st.download_button('Download class-ID mask',(selected/'labels.png').read_bytes(),'labels.png','image/png')
         elif kind=='yolo':
-            st.success('Custom weights: '+r['weights'])
-            for p in list((selected/'training').glob('results.png'))+list((selected/'heldout').glob('confusion_matrix*.png')):st.image(str(p),width='stretch')
+            if r.get('mode')=='pilot':
+                st.info(f"Pilot only. Estimated 100-epoch training time: {r['estimated_100_epoch_seconds']/3600:.2f} hours, plus startup/evaluation. Successful batch: {r['batch']}.")
+            else:
+                st.success('Custom weights: '+r['weights'])
+                for p in list((selected/'training').glob('results.png'))+list((selected/'heldout').glob('confusion_matrix*.png')):st.image(str(p),width='stretch')
+                if (selected/'ANALYSIS.md').exists():st.markdown((selected/'ANALYSIS.md').read_text(encoding='utf-8'))
+                if st.button('Build private Lab 06 bundle'):
+                    from lab06 import bundle
+                    path=bundle(selected);st.download_button('Download private Lab 06 bundle',path.read_bytes(),path.name,'application/zip')
     return selected
 
 @st.cache_resource
@@ -158,9 +175,13 @@ def inference(image,path,confidence):
     return pred.plot(),{'detections':rows,'inference_seconds':elapsed,'inference_fps':1/elapsed}
 
 def annotate():
-    from dataset import store_photo,save_annotation,build_dataset,validate_dataset
+    from dataset import store_photo,save_annotation,build_dataset,validate_dataset,capture_progress,contact_sheets
     st.subheader('Your bottle, mug and phone dataset')
-    st.write('Target: 100 varied images per class plus 30 background images. Capture in at least three independent sessions, with all classes represented in multiple sessions. Entire sessions stay in one split.')
+    st.write('Capture target: 10 sessions x (10 bottle + 10 mug + 10 phone + 3 background photos) = 330 images. This is our collection target, not Jeremy\'s minimum. Change background, lighting, angle and distance between sessions. Entire sessions stay in one split.')
+    with st.expander('Phone capture and annotation checklist'):
+        st.markdown((ROOT/'LAB06_GUIDE.md').read_text(encoding='utf-8'))
+    progress=capture_progress()
+    if progress:st.dataframe(progress,hide_index=True,width='stretch')
     session=st.text_input('Capture session name',placeholder='e.g. desk-daylight-01')
     photos=st.file_uploader('Add personal photos',type=['jpg','jpeg','png'],accept_multiple_files=True)
     if st.button('Import photos'):
@@ -201,6 +222,16 @@ def annotate():
         st.caption(f'{len(items)} photos imported; '+str(sum(json.loads(p.with_suffix('.json').read_text())['reviewed'] for p in items))+' reviewed')
     if st.button('Build session-separated train / val / test dataset'):st.json(build_dataset())
     if st.button('Validate existing dataset'):st.json(validate_dataset())
+    if items and st.button('Generate private labelled contact sheets'):
+        contact_sheets();st.success('Private review sheets saved under data/review.')
+    sheets=sorted((DATA/'review').glob('contact_*.png'))
+    if sheets:
+        sheet=st.selectbox('Private annotation review sheet',sheets);st.image(str(sheet),width='stretch')
+    if (DATA/'dataset/frozen.json').exists():
+        st.caption('The exported dataset is frozen. Unfreezing permits corrections but changed data cannot resume previous runs.')
+        if st.button('Unfreeze dataset for corrections'):
+            from lab06 import unfreeze_dataset
+            unfreeze_dataset();st.rerun()
 
 try:
     if page=='Overview':
@@ -243,13 +274,13 @@ try:
             with z2:show_image(cv2.resize(out['edited'][y0:y1,x0:x1],(220,220),interpolation=cv2.INTER_NEAREST),'After pixel edit · BGR '+str(params['bgr']))
         observations('lab01','An image stores a numeric value per channel at every grid position. Grayscale has one channel; OpenCV colour uses BGR. Describe the crop, changed pixel, resize and rotated dimensions you observe. Colour channels and pixel operations underpin photo editing, inspection and later vision pipelines.')
     elif page.startswith('02'):
-        st.title('Sobel and Canny');im=input_image('edge','Camera')
+        st.title('Sobel and Canny');im=input_image('edge','Packaged input.jpg')
         with st.form('edges'):
             a,b,c=st.columns(3);blur=a.select_slider('Gaussian kernel',[1,3,5,7,9],value=3);low=b.slider('Canny low',0,254,100);high=c.slider('Canny high',1,255,200)
             run=st.form_submit_button('Compare edge detectors',type='primary')
         st.caption('Lab baseline: blur 3×3, sigma 0; Sobel CV_64F, kernel 3; Canny 100/200. Set controls to these values to restore the baseline.')
         if run:
-            out,arrays=edges(im,blur,low,high);st.session_state['edge_result']=(out,arrays,dict(blur=blur,low=low,high=high))
+            out,arrays=edges(im,blur,low,high);st.session_state['edge_result']=(out,arrays,dict(blur=blur,low=low,high=high,source=st.session_state['edge_source_label']))
         if 'edge_result' in st.session_state:
             out,arrays,params=st.session_state['edge_result'];results('lab02',out,params,{'canny_edge_pixels':int(np.count_nonzero(out['canny']))},arrays)
         observations('lab02','Sobel returns directional intensity derivatives; combined magnitude can form broad bands and responds to noise. Canny adds thinning and hysteresis to produce a binary edge map. Compare the actual boundaries, continuity, fine detail and noisy regions. Raw signed gradients are saved separately from the normalized display.')
@@ -297,7 +328,9 @@ try:
         st.title('YOLO11 object detection')
         mode=st.tabs(['Inference','Personal dataset','Train and evaluate'])
         with mode[0]:
-            trained=list(RUNS.glob('job_yolo_*/training/weights/best.pt'));models=['yolo11n.pt']+[str(p) for p in trained];model=st.selectbox('Model',models);conf=st.slider('Confidence',.05,.95,.25,.05)
+            from lab06 import completed_models
+            models=['yolo11n.pt']+completed_models();model=st.selectbox('Model',models);conf=st.slider('Confidence',.05,.95,.25,.05)
+            st.caption('Phone-recorded video requires no PC webcam. Jeremy must accept the disclosed substitution for the live demonstration.')
             im=input_image('yolo','Coffee')
             if st.button('Detect objects',type='primary'):
                 with st.spinner('Loading model and detecting objects…'):out,m=inference(im,model,conf)
@@ -331,11 +364,13 @@ try:
             elif 'capture' in st.session_state:st.session_state.pop('capture').release()
         with mode[1]:annotate()
         with mode[2]:
-            st.write('100 epochs · 640 px · batch 4 · seed 42 · no early stopping. Validation selects best.pt; the held-out test split is evaluated after training.')
-            st.warning('Training requires your reviewed personal dataset. CPU training can be slow; CUDA is used if this PyTorch installation supports it.')
+            st.write('Run a three-epoch CPU pilot first. Full training starts fresh from YOLO11n for 100 total epochs at 640 px, seed 42, no early stopping. Pilot weights cannot be selected as final models. Validation selects best.pt; test evaluation runs once.')
+            st.info('Training requires your reviewed personal dataset. This selected workflow uses the local CPU; read the pilot runtime estimate before the 100-epoch run.')
+            if st.button('Validate dataset and run 3-epoch pilot'):
+                jobs.launch('yolo',{'mode':'pilot'});st.success('Pilot started. The session split is now frozen.')
             if st.button('Validate dataset and start training',type='primary'):
                 from dataset import validate_dataset
-                st.json(validate_dataset());jobs.launch('yolo',{});st.success('Training started in background.')
+                st.json(validate_dataset());jobs.launch('yolo',{'mode':'full'});st.success('Full training started in background; it continues toward 100 total epochs.')
             job_panel('yolo')
         observations('lab06','Classification assigns a category to an entire image; detection locates each object and gives its category. A shelf image can be classified as containing drinks, while a detector boxes and labels individual bottles. Compare real precision, recall, missed objects and false alarms rather than judging only a successful webcam frame.')
     elif page.startswith('07'):

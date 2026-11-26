@@ -56,24 +56,8 @@ def pca_job(folder,params):
     write_status(folder,'complete','PCA, SVM, plots and digital PDF are ready.',result='result.json')
 
 def yolo_job(folder,params):
-    from dataset import validate_dataset
-    import torch
-    from ultralytics import YOLO
-    audit=validate_dataset();device=0 if torch.cuda.is_available() else 'cpu'
-    write_status(folder,'running',f'Training 100 epochs on {device}. Read job.log for progress.',device=str(device))
-    model=YOLO(str(DATA/'models'/'yolo11n.pt'))
-    def progress(trainer):
-        write_status(folder,'running',f'Epoch {trainer.epoch+1} of 100',epoch=trainer.epoch+1,device=str(device))
-        if (folder/'cancel.request').exists():trainer.stop=True
-    model.add_callback('on_train_epoch_end',progress)
-    model.train(data=str(DATA/'dataset'/'data.yaml'),epochs=100,imgsz=640,batch=4,seed=42,patience=0,workers=0,device=device,project=str(folder),name='training',exist_ok=True)
-    if (folder/'cancel.request').exists():write_status(folder,'cancelled','Cancelled before held-out evaluation.');return
-    best=folder/'training'/'weights'/'best.pt';trained=YOLO(str(best))
-    # Model selection is validation-only; evaluate the held-out split once.
-    test=trained.val(data=str(DATA/'dataset'/'data.yaml'),split='test',device=device,project=str(folder),name='heldout',plots=True)
-    result={'device':str(device),'dataset':audit,'weights':str(best),'test_metrics':test.results_dict,'epochs':100,'imgsz':640,'seed':42}
-    (folder/'result.json').write_text(json.dumps(result,indent=2,default=float),encoding='utf-8')
-    write_status(folder,'complete','Training and held-out evaluation complete.',result='result.json')
+    from lab06 import train_job
+    train_job(folder,params)
 
 def semantic_job(folder,params):
     # UI writes the input immediately after launch; don't race that write.

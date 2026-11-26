@@ -1,0 +1,9 @@
+{
+  "file": "input.jpg",
+  "instructor_provided": false,
+  "source": "Public scikit-image data.camera sample",
+  "scikit_image_version": "0.26.0",
+  "jpeg_quality": 95,
+  "disclosure": "Replacement for the unavailable instructor input.jpg; not represented as Jeremy's image.",
+  "sha256": "d2958e0ef6fc20341610143d2b71d84836a3ded5074b419e21aee4c71cbbbbc7"
+}

@@ -98,21 +98,21 @@ def lab01():
 
 
 def lab02(image_path=None):
-    image = cv2.imread(str(image_path)) if image_path else sample('Camera')
-    if image is None:
-        raise ValueError('Lab 02 input could not be read.')
+    from lab_inputs import package_edge_input, select_input
+    package_edge_input()
+    image, source = select_input(2, image_path)
     images, arrays = edges(image)
     metrics = {'canny_edge_pixels': int(np.count_nonzero(images['canny'])),
                'sobel_magnitude_max': float(arrays['magnitude'].max()),
                'sobel_display_nonzero_pixels': int(np.count_nonzero(images['sobel'])),
                'input_shape': list(image.shape)}
-    source = str(image_path) if image_path else 'scikit-image Camera; substitute because instructor input.jpg was not supplied'
     folder = export_case(EXAMPLES / 'lab02', 'lab02', dict(source=source, blur=3, sigma=0, sobel_depth='CV_64F', sobel_kernel=3, low=100, high=200), images, metrics, arrays)
     gallery(folder, {name: images[name] for name in ('original', 'sobel', 'canny')})
     (folder / 'ANALYSIS.md').write_text(
         '# Lab 02 Sobel and Canny comparison\n\n'
-        f'Source: {source}. The supplied attachment names input.jpg, but no such image accompanied it. '
-        'This run is explicitly a substitute demonstration. Reproduce on the actual file with '
+        f'Source: {source}. A real JPEG input.jpg and its source/checksum are bundled with this lab. '
+        'The bundled file is a disclosed replacement, not the unavailable instructor-provided image. '
+        'Measurements are recomputed from the decoded JPEG, including its compression effects. Override it with '
         '`python complete_labs.py --labs 2 --edge-image PATH_TO_input.jpg`.\n\n'
         'Both detectors use the same grayscale input and a 3 x 3 Gaussian blur with sigma 0. '
         'Sobel uses signed float64 x/y derivatives, kernel 3, and their Euclidean magnitude. '
@@ -121,9 +121,10 @@ def lab02(image_path=None):
         'only the displayed Sobel magnitude is normalized to 0-255.\n\n'
         f"Canny marks {metrics['canny_edge_pixels']:,} pixels. The raw maximum Sobel magnitude is "
         f"{metrics['sobel_magnitude_max']:.2f}; {metrics['sobel_display_nonzero_pixels']:,} pixels remain nonzero in its normalized display. "
-        'These counts are descriptive, not detector-accuracy scores. Sobel magnitude retains graded responses around '
-        'the coat, tripod and textured ground; strong boundaries can occupy broad bands. Canny produces a binary, '
-        'thinned map: the tripod and body outline stand out while much weak ground texture is suppressed. '
+        'These counts are descriptive, not detector-accuracy scores. Sobel magnitude retains graded responses; '
+        'strong boundaries can occupy broad bands. Canny produces a binary, thinned map. '
+        + ('In the packaged Camera image, the tripod and body outline stand out while much weak ground texture is suppressed. '
+           if image_path is None else 'Inspect the supplied image for retained boundaries and suppressed texture. ') +
         'Some low-contrast boundaries disappear because they do not survive thresholding and hysteresis.\n\n'
         'Sobel is useful when direction and gradient strength are needed. Canny is useful for compact boundaries '
         'and contour extraction. Smoothing reduces noisy gradients but also removes fine detail; threshold choice '

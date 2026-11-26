@@ -7,18 +7,21 @@ from core import DATA,CLASSES,decode
 
 def store_photo(raw, session):
     if not session.strip():raise ValueError('Enter a capture session name first.')
-    image=decode(raw);digest=hashlib.sha256(raw).hexdigest()
-    folder=DATA/'photos';folder.mkdir(parents=True,exist_ok=True)
+    image=decode(raw)
     from core import png
+    digest=hashlib.sha256(png(image)).hexdigest()
+    folder=DATA/'photos';folder.mkdir(parents=True,exist_ok=True)
     path=folder/(digest+'.png')
     if not path.exists():
         path.write_bytes(png(image));(folder/(digest+'.json')).write_text(json.dumps({'session':session.strip(),'boxes':[],'reviewed':False}),encoding='utf-8')
+    elif json.loads(path.with_suffix('.json').read_text())['session']!=session.strip():
+        raise ValueError('This image already belongs to another session. Do not move duplicates across splits.')
     return path
 
 def save_annotation(path, boxes, reviewed=True):
     p=Path(path);meta=json.loads(p.with_suffix('.json').read_text())
     for b in boxes:
-        if len(b)!=5 or int(b[0]) not in range(3):raise ValueError('Box class must be bottle, mug or phone.')
+        if len(b)!=5 or not all(np.isfinite(b)) or not float(b[0]).is_integer() or int(b[0]) not in range(3):raise ValueError('Box class must be bottle, mug or phone and all values must be finite.')
         _,x,y,w,h=b
         if min(w,h)<=0 or x-w/2< -1e-6 or y-h/2< -1e-6 or x+w/2>1+1e-6 or y+h/2>1+1e-6:
             raise ValueError('Box must be inside the image and have positive width and height.')
@@ -27,6 +30,7 @@ def save_annotation(path, boxes, reviewed=True):
 
 def build_dataset():
     import shutil
+    if (DATA/'dataset'/'frozen.json').exists():raise ValueError('Dataset is frozen for training. Unfreeze it before rebuilding; edited data cannot resume old checkpoints.')
     records=[]
     for p in sorted((DATA/'photos').glob('*.png')):
         meta=json.loads(p.with_suffix('.json').read_text())
@@ -39,15 +43,17 @@ def build_dataset():
     rng=np.random.default_rng(42);rng.shuffle(sessions)
     n=len(sessions);nt=max(1,round(n*.7));nv=max(1,round(n*.15));nt=min(nt,n-2);nv=min(nv,n-nt-1)
     split={s:'train' if i<nt else 'val' if i<nt+nv else 'test' for i,s in enumerate(sessions)}
-    target=DATA/'dataset';summary={k:{'images':0,'instances':[0,0,0],'sessions':[]} for k in ['train','val','test']}
+    target=DATA/'dataset';summary={k:{'images':0,'instances':[0,0,0],'sessions':[],'files':[]} for k in ['train','val','test']}
     # Validate complete split before changing its existing contents.
     for p,m in records:
         item=summary[split[m['session']]];item['images']+=1
+        item['files'].append(p.name)
         if m['session'] not in item['sessions']:item['sessions'].append(m['session'])
         for b in m['boxes']:item['instances'][int(b[0])]+=1
     for key,v in summary.items():
         if min(v['instances'])==0:raise ValueError(f'{key} is missing an object class. Add all three classes to more capture sessions.')
     staging=DATA/'dataset_staging'
+    if staging.resolve().parent!=DATA.resolve() or target.resolve().parent!=DATA.resolve():raise ValueError('Dataset staging paths must remain inside the data folder.')
     if staging.exists():shutil.rmtree(staging)
     for p,m in records:
         key=split[m['session']]
@@ -64,9 +70,18 @@ def build_dataset():
 
 def validate_dataset():
     root=DATA/'dataset';report={};seen=set()
+    if not (root/'data.yaml').exists():raise ValueError('No personal dataset exists. Import and review your photos, then build train/val/test before running the pilot.')
+    from ultralytics.utils import YAML
+    config=YAML.load(root/'data.yaml')
+    if config.get('names')!=dict(enumerate(CLASSES)) or Path(config.get('path','')).resolve()!=root.resolve():raise ValueError('Dataset YAML must reference this dataset and the bottle/mug/phone class mapping.')
+    if any(config.get(s)!='images/'+s for s in ('train','val','test')):raise ValueError('Dataset YAML split paths must match the exported session split.')
+    manifest=json.loads((root/'split_manifest.json').read_text())
+    memberships=[set(manifest[s]['sessions']) for s in ['train','val','test']]
+    if any(memberships[i]&memberships[j] for i in range(3) for j in range(i)):raise ValueError('Capture sessions overlap across splits.')
     for split in ['train','val','test']:
         images=list((root/'images'/split).glob('*.png'));counts=[0,0,0]
         if not images:raise ValueError(f'No images in {split}. Build the dataset first.')
+        if set(manifest[split].get('files',[]))!={p.name for p in images}:raise ValueError('Exported images differ from the frozen session manifest. Rebuild the dataset.')
         for p in images:
             digest=hashlib.sha256(p.read_bytes()).hexdigest()
             if digest in seen:raise ValueError('Duplicate image found across dataset entries.')
@@ -82,3 +97,57 @@ def validate_dataset():
         if min(counts)==0:raise ValueError(f'{split} must contain all three classes.')
         report[split]={'images':len(images),'instances':dict(zip(CLASSES,counts))}
     return report
+
+
+def dataset_fingerprint():
+    """Exclude caches and the freeze marker; include every input used for training."""
+    root=DATA/'dataset';digest=hashlib.sha256()
+    paths=[root/'data.yaml',root/'split_manifest.json']
+    paths+=sorted((root/'images').rglob('*.png'))+sorted((root/'labels').rglob('*.txt'))
+    for path in paths:
+        digest.update(path.relative_to(root).as_posix().encode())
+        digest.update(hashlib.sha256(path.read_bytes()).digest())
+    return digest.hexdigest()
+
+
+def freeze_dataset():
+    audit=validate_dataset();fingerprint=dataset_fingerprint();path=DATA/'dataset'/'frozen.json'
+    if path.exists() and json.loads(path.read_text())['fingerprint']!=fingerprint:
+        raise ValueError('Frozen dataset changed. Restore it or unfreeze and start a new experiment.')
+    path.write_text(json.dumps({'fingerprint':fingerprint,'audit':audit},indent=2),encoding='utf-8')
+    return fingerprint,audit
+
+
+def capture_progress():
+    sessions={}
+    for path in sorted((DATA/'photos').glob('*.png')):
+        meta=json.loads(path.with_suffix('.json').read_text())
+        row=sessions.setdefault(meta['session'],dict(images=0,reviewed=0,backgrounds=0,bottle=0,mug=0,phone=0))
+        row['images']+=1;row['reviewed']+=int(meta['reviewed'])
+        if meta['reviewed'] and not meta['boxes']:row['backgrounds']+=1
+        for cls in {int(b[0]) for b in meta['boxes']}:row[CLASSES[cls]]+=1
+    return [{'session':name,**values} for name,values in sorted(sessions.items())]
+
+
+def contact_sheets():
+    """Private labelled thumbnails, paginated to keep all boxes legible."""
+    from PIL import Image,ImageDraw
+    folder=DATA/'review';folder.mkdir(parents=True,exist_ok=True)
+    photos=sorted((DATA/'photos').glob('*.png'));sheets=[]
+    for offset in range(0,len(photos),12):
+        page=Image.new('RGB',(960,840),'white');draw=ImageDraw.Draw(page)
+        for index,path in enumerate(photos[offset:offset+12]):
+            meta=json.loads(path.with_suffix('.json').read_text())
+            thumb=Image.open(path).convert('RGB');thumb.thumbnail((310,175))
+            boxes=ImageDraw.Draw(thumb);w,h=thumb.size
+            for cid,x,y,bw,bh in meta['boxes']:
+                a=(int((x-bw/2)*w),int((y-bh/2)*h));b=(int((x+bw/2)*w),int((y+bh/2)*h))
+                boxes.rectangle((a,b),outline=(0,180,0),width=2)
+                label=CLASSES[int(cid)];tx=max(0,min(a[0],w-45));ty=max(0,a[1]-12)
+                boxes.rectangle((tx,ty,tx+44,ty+11),fill='black');boxes.text((tx,ty),label,fill='white')
+            x=(index%3)*320;y=(index//3)*210
+            page.paste(thumb,(x,y))
+            draw.text((x,y+177),f"{meta['session'][:24]} | {'reviewed' if meta['reviewed'] else 'UNREVIEWED'}",fill='black')
+            draw.text((x,y+192),path.stem[:16],fill='black')
+        path=folder/f'contact_{offset//12+1:03d}.png';page.save(path);sheets.append(path)
+    return sheets

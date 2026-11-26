@@ -1,7 +1,7 @@
 {
   "lab": "lab02",
   "parameters": {
-    "source": "scikit-image Camera; substitute because instructor input.jpg was not supplied",
+    "source": "Packaged input.jpg (disclosed scikit-image Camera replacement)",
     "blur": 3,
     "sigma": 0,
     "sobel_depth": "CV_64F",
@@ -10,9 +10,9 @@
     "high": 200
   },
   "metrics": {
-    "canny_edge_pixels": 8212,
-    "sobel_magnitude_max": 675.4213499734814,
-    "sobel_display_nonzero_pixels": 209351,
+    "canny_edge_pixels": 8300,
+    "sobel_magnitude_max": 676.6062370389442,
+    "sobel_display_nonzero_pixels": 214717,
     "input_shape": [
       512,
       512,
@@ -29,23 +29,23 @@
     "streamlit": "1.67.0"
   },
   "python": "3.11.9",
-  "time": 1795671010.5565166,
+  "time": 1795672407.2687113,
   "images": {
     "original": {
       "file": "original.png",
-      "sha256": "b779d2c8e2a7098a0182c26227c3b516fb2d9d15f14ed99940c6196ba4a2c4e2"
+      "sha256": "f9628691ebc084634677f0efc5affe5e3ca4c4d8b4c953ff055deb1a98a2f0e1"
     },
     "sobel": {
       "file": "sobel.png",
-      "sha256": "b2da734d1c767a4a5b6c2b5313b8c50f348a73660f8292879fe0000e224eac96"
+      "sha256": "05aee366085775c6274745dc752b9295b446c75dcdbb5d1096357d270e5501cf"
     },
     "canny": {
       "file": "canny.png",
-      "sha256": "60361f7d98d0ce11d4b9f87422793db6325446dc7dbe02c043d5e950218008e8"
+      "sha256": "4f52d5110d4247a0d2805bd9f845a6700670806f6a416e501b0bfc7e50e2d031"
     },
     "blurred": {
       "file": "blurred.png",
-      "sha256": "7c5534b4e349f5b3e8047482a96602b6843a4907bbd2e704317ec3084da42ca7"
+      "sha256": "e32b5d2124ea8b4ef7a2a46cf1787cd4b19789a1dbef0ed24c385549e7de2bb3"
     }
   },
   "arrays": [
@@ -54,14 +54,16 @@
     "magnitude.npy"
   ],
   "artifacts_sha256": {
-    "ANALYSIS.md": "7a314a062aec51c72e1b9909029ea03c631bbc63db3b36c8d0e9a8cea83abcc7",
-    "blurred.png": "7c5534b4e349f5b3e8047482a96602b6843a4907bbd2e704317ec3084da42ca7",
-    "canny.png": "60361f7d98d0ce11d4b9f87422793db6325446dc7dbe02c043d5e950218008e8",
-    "comparison.png": "a79316b4fc62636ec7e5726a71ff54a72378658e46e1e08075357f25022db854",
-    "gx.npy": "0bdc154084273b00b5cc69a8a7e5cc5d9282fa203c21c0e22569323cbbab9128",
-    "gy.npy": "bdf1573a39cd1177a24d67ed1140f5323ad0e29fd09c04766869f62852f51b33",
-    "magnitude.npy": "8f31bacf543de5f5a211efa9495d8d8440dac0d9d4bf5b295c9845b5554aa7f8",
-    "original.png": "b779d2c8e2a7098a0182c26227c3b516fb2d9d15f14ed99940c6196ba4a2c4e2",
-    "sobel.png": "b2da734d1c767a4a5b6c2b5313b8c50f348a73660f8292879fe0000e224eac96"
+    "ANALYSIS.md": "88b5193a6f1b8c5620e510cf6f79213a6f28b7819df7f610ed9cd09e2b85fd73",
+    "blurred.png": "e32b5d2124ea8b4ef7a2a46cf1787cd4b19789a1dbef0ed24c385549e7de2bb3",
+    "canny.png": "4f52d5110d4247a0d2805bd9f845a6700670806f6a416e501b0bfc7e50e2d031",
+    "comparison.png": "96c7f4f8e028769e4d09c36e16ca8dc1aa22166a7b611596f6e6d9c4d8e80539",
+    "gx.npy": "49046deefc76529f9f275493dfe56302ae23b5536c1caca85fb7fc7a712e8c2e",
+    "gy.npy": "e8338d620e135be32793a4c437513a5df1a7835f0575afc3e3449e4ce4e33c5a",
+    "input.jpg": "d2958e0ef6fc20341610143d2b71d84836a3ded5074b419e21aee4c71cbbbbc7",
+    "input_source.json": "04dcfadf2287577da0746429b435ecb1a8c7d34271304c01c46d0be86142732b",
+    "magnitude.npy": "40b1025911760a7c6d5ddd0ac099f5d1ea8bdd20f70ddc82b1bbfbeabd9c2a69",
+    "original.png": "f9628691ebc084634677f0efc5affe5e3ca4c4d8b4c953ff055deb1a98a2f0e1",
+    "sobel.png": "05aee366085775c6274745dc752b9295b446c75dcdbb5d1096357d270e5501cf"
   }
 }

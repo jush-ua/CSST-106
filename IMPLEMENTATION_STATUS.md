@@ -6,17 +6,17 @@ Verified 26 November 2026. This is an implementation with real sample runs, not 
 |---|---|---|
 | Shared Web UI | All 9 navigation entries load without AppTest exceptions; classical action checks pass; HTTP health returns 200 | Visual browser service unavailable, so responsive/visual QA is not claimed |
 | Lab 01 | Actual colour Astronaut run, BGR values before/after editing, grayscale, crop, resize and rotation; six-panel figure and measured analysis exported | None for requested digital work |
-| Lab 02 | Exact original/Sobel/Canny figure, baseline parameters, signed gradients, result-specific differences and conclusion saved | Instructor input.jpg remains absent; Camera is explicitly labelled as a substitute and --edge-image reruns on a supplied file |
+| Lab 02 | Bundled real JPEG is the default in UI/CLI/generator; JPEG-decoded gradients, exact three-panel figure, measured differences and conclusion regenerated | Actual input.jpg is bundled with explicit replacement provenance; Jeremy's original remains unavailable and can override it later |
 | Lab 03 | Low-contrast, uneven illumination/noise and colour-YUV cases; comparison figures, histogram PNG/CSV, measurements, observations and question answers saved | None for requested digital work |
 | Lab 04 | Actual nonfree SURF/U-SURF threshold sweeps (100/400/1000), SIFT/ORB comparisons, rich keypoints and matches on rotation and translation pairs; see examples/lab04/ANALYSIS.md | No missing requested implementation; standalone command and UI share the verified worker. Timings remain single-run CPU observations |
 | Lab 05 | Real LFW run, classification report, variance, eigenfaces, failure gallery and visually verified 3-page digital PDF | No missing computational requirement; user can refine interpretations through the PDF editor |
-| Lab 06 | Pretrained YOLO11 detection executed on public Coffee sample; dataset editor/validation/training pipeline implemented | Personal bottle/mug/phone photos and their annotations are absent; custom 100-epoch run and held-out metrics have NOT been executed. Uploaded-video inference passed: 12/12 frames decoded at 12 FPS. Live webcam verification is unavailable: user confirms this computer has no webcam |
+| Lab 06 | Pretrained inference/video verified; phone capture guide, session progress/contact sheets, frozen-data pilot/full/resume workflow, report/demo/bundle tooling implemented | Personal bottle/mug/phone photos and their annotations are absent; custom 100-epoch run and held-out metrics have NOT been executed. Uploaded-video inference passed: 12/12 frames decoded at 12 FPS. Live webcam verification is unavailable: user confirms this computer has no webcam |
 | Lab 07 | Five classical methods on four conditions, seed/marker sweeps, aligned foreground scores and timings; DeepLab on the same natural scene; figures and measured analysis saved, plus prior five-VOC evaluation | No missing requested digital experiment; whole-app visual browser QA is not claimed |
-| Repository | Published to https://github.com/jush-ua/CSST-106 on main using local Git credentials; connected-app 403 was resolved through local Git | No classroom spreadsheet entry was submitted |
+| Repository | Published to https://github.com/jush-ua/CSST-106 on main using local Git credentials; connected-app 403 was resolved through local Git | Repository URL already submitted to the classroom spreadsheet, confirmed by the user; no new entry needed |
 
 ## Completed demonstrations and analyses
 
-`complete_labs.py` regenerates Labs 01-03 and 07 under `examples/`. Every lab has an ANALYSIS.md, figures and measured manifests; all comparison and histogram figures were visually inspected. Lab 02 input.jpg was not supplied, so its Camera source is explicitly disclosed. The original/Sobel/Canny panels now occupy the first UI row. The application exposes completed analyses and downloadable figures without requiring an experiment rerun.
+`complete_labs.py` regenerates Labs 01-03 and 07 under `examples/`. Every lab has an ANALYSIS.md, figures and measured manifests; all comparison and histogram figures were visually inspected. The instructor input.jpg was not supplied. Lab 02 now includes a disclosed Camera-derived JPEG and source/checksum metadata; the actual JPEG is decoded for every regenerated result. The original/Sobel/Canny panels now occupy the first UI row. The application exposes completed analyses and downloadable figures without requiring an experiment rerun.
 
 - Lab 01: 512 x 512 x 3 colour input; 231,189 pixels with unequal channels; edited pixel [7,14,19] -> [0,0,255].
 - Lab 03: controlled low-contrast range 100-155 expands to 0-255; three cases include full 256-bin histogram CSVs.
@@ -42,8 +42,8 @@ Verified 26 November 2026. This is an implementation with real sample runs, not 
 
 ## Verification
 
-- `pytest tests -q`: 21 passed, including real nonfree Lab 04 standalone execution with custom parameters, video encode/decode, unreadable input and overwrite protection.
-- Evidence integrity: 169 artifact hashes verified; histogram bin totals match image sizes; 15 foreground IoUs independently recalculated from saved masks; classical and semantic natural-scene inputs are pixel-identical. Figure export margins checked after fixing one clipped semantic title.
+- `pytest tests -q`: 32 passed, including Lab 02 default/provenance and UI, Lab 06 pilot OOM fallback, pause/resume, retained checkpoint handoff, changed-data refusal, evaluation-once guard, private/public artifact separation, and the previous image/video/SURF checks.
+- Evidence integrity: 171 artifact hashes verified (including the new Lab 02 JPEG/provenance); histogram bin totals match image sizes; 15 foreground IoUs independently recalculated from saved masks; classical and semantic natural-scene inputs are pixel-identical. Figure export margins checked after fixing one clipped semantic title.
 - `pip check`: no broken requirements.
 - All application modules parse/compile.
 - AppTest: navigation through all modules; processing actions for Labs 01,02,03,04,07; source-change invalidation regression.
@@ -63,4 +63,12 @@ Python 3.11.9, installed packages pinned in requirements.lock.txt. PyTorch repor
 
 The local `.venv`, `.surf-venv` and `data` paths are directory junctions to `D:\CSST106-build\runtime` to preserve C: space. Keep that drive connected. OpenCV sources and build files are in `D:\CSST106-build\opencv-src`; large binaries and caches are excluded from Git.
 
-No custom training scores, personal photos, handwritten submissions, paper reports or classroom spreadsheet submissions have been fabricated or posted.
+No personal training scores, camera footage, handwritten submissions or paper reports have been fabricated. The user confirmed their previous spreadsheet submission; this implementation has not posted another entry.
+
+## Lab 06 preparation and remaining dependency
+
+`LAB06_GUIDE.md` documents phone capture (330-image target across ten sessions), annotation, pilot timing, CPU training, resume, phone-video comparison and private/public deliverables. The runtime will not start with missing personal data. Pilots cannot enter the completed-model selector; incomplete full runs cannot evaluate the test set or claim completion. A changed frozen dataset or checkpoint hash blocks resume. Two optimizer-bearing checkpoints are retained with an atomic progress pointer, limiting disk use and retaining the previous valid pair during interrupted writes.
+
+The real installed Ultralytics library passed `tests/native_yolo_resume_smoke.py`, a separate synthetic checkpoint smoke test: optimizer state saved after epoch index 0; native resume executed only indices 1 and 2, giving three total epochs. That smoke test uses 64-pixel synthetic fixtures solely to verify library mechanics. It is not the required personal-data experiment, which remains 640 pixels and 100 epochs. Its files and meaningless synthetic accuracy values remain in ignored runs, not in public lab results.
+
+Still pending: personal image capture and annotation, pilot timing on that actual dataset, full 100-epoch training, held-out metrics, new-image/video demonstration and qualitative error review. The PC has no webcam; the selected alternative is recorded phone video, with acceptance of that substitution pending Jeremy.

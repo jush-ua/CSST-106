@@ -46,15 +46,15 @@ Reproduce all four labs after fetching the VOC subset and caching the DeepLab we
 .\.venv\Scripts\python.exe complete_labs.py --labs 2 --edge-image C:\path\input.jpg
 ```
 
-The original `input.jpg` is still absent from the instructor materials. The saved Lab 02 run identifies its Camera substitute explicitly; supplying the real image reruns and replaces that evidence. The implementations and analyses can be completed without pretending that substitute is the missing file.
+Lab 02 now bundles a real `examples/lab02/input.jpg`: the public scikit-image Camera sample encoded as JPEG quality 95. `input_source.json` records its source and checksum and explicitly marks it as a replacement, not instructor-provided. The UI, `run_lab.py 2` and evidence generator use this actual decoded JPEG by default; explicit uploads/files or sample selections override it. All figures, gradients and metrics were regenerated after JPEG compression. Jeremy's original file remains unavailable; use `--edge-image` if it is later supplied.
 
 ## Personal dataset and custom YOLO
 
-Lab 06 → Personal dataset imports **your own** bottle/mug/phone images. Demo samples are not personal training data. Target 100 distinct images per class plus 30 backgrounds. Collect at least three separate sessions, preferably ten or more, with all classes in multiple sessions. Avoid near-identical consecutive frames across sessions.
+Lab 06 imports **your own** bottle/mug/phone images. Follow [LAB06_GUIDE.md](LAB06_GUIDE.md): ten sessions of 10 photos per class plus 3 backgrounds, totalling 330 images. This is our collection target, not Jeremy's minimum. Use your phone, transfer originals by USB and reserve a separate clip/new stills for demonstration. The guide covers the recording-phone problem, annotation, private contact sheets, splits, pilot timing and resume. Demo samples are not personal training data.
 
 Select each photo, click opposite corners, choose the class and add a box. Repeat for every visible target. The editable table permits corrections or deletion. Save and mark reviewed; reviewed empty boxes mean background-only. Build the dataset, inspect the session split, and validate before training. Entire sessions are kept apart; exact 70/15/15 image proportions are approximate when sessions differ in size. The split builder rejects any split missing a class.
 
-Class IDs: 0 bottle, 1 mug, 2 phone. Labels are normalized `class_id x_center y_center width height`. The generated YAML includes train/val/test, with explicit class names. Training uses `yolo11n.pt`, 100 epochs, 640 pixels, batch 4, seed 42, and `patience=0`. Validation selects best.pt. The test split is evaluated once after training. CPU is supported but can be slow; a CUDA-capable PyTorch installation is used automatically when available. No accuracy target is invented.
+Class IDs: 0 bottle, 1 mug, 2 phone. Labels are normalized `class_id x_center y_center width height`. The generated YAML includes train/val/test and explicit class names. Run `run_lab.py 6 --pilot` for a separate three-epoch CPU pilot, then `run_lab.py 6` for fresh 100-epoch YOLO11n training at 640 pixels, seed 42 and `patience=0`. Pilot memory fallback tries batch 4/2/1; full training uses the successful matching pilot batch. Exported data are frozen and fingerprinted. Pause at a saved epoch and use `run_lab.py 6 --resume runs/job_yolo_ID` to continue toward 100 total epochs with optimizer state. Only completed, evaluated full models appear in the inference selector. Validation selects best.pt; test evaluation occurs once, with an interrupted attempt flagged for explicit recovery rather than silently repeated. No accuracy target or finish time is invented.
 
 Raw photos, annotations, large weights and runs are ignored by Git. Preserve them locally and share only the materials you intend the instructor to access. The annotation tool does not upload photos anywhere. The project can run entirely locally after datasets and weights are downloaded.
 
@@ -104,7 +104,7 @@ The attachment order is authoritative for navigation. Edge detection internally 
 6. https://paios-classroom.com/announcement-attachments/1376/file
 7. https://paios-classroom.com/announcement-attachments/1377/file
 
-The edge attachment names input.jpg but no standalone image was attached. The UI accepts that image when supplied and labels its alternate public sample. Original DOCX documents remain in the user's Downloads folder; they are not automatically republished.
+The edge attachment names input.jpg but no standalone image was attached. A disclosed replacement JPEG is now bundled and is the default; the original can still be supplied as an override. Original DOCX documents remain in the user's Downloads folder; they are not automatically republished.
 
 ## Video and webcam verification
 
@@ -119,4 +119,6 @@ The edge attachment names input.jpg but no standalone image was attached. The UI
 
 Read `IMPLEMENTATION_STATUS.md` for actual verification and remaining requirements. Tests use temporary synthetic grids, never fake personal training results. A failed download/build or missing personal dataset must remain visible as incomplete.
 
-The selected destination is https://github.com/jush-ua/CSST-106. Source publication status is recorded in `IMPLEMENTATION_STATUS.md`. Commit source, lockfile, README, small curated outputs and the PCA PDF; use Git LFS or release assets for selected large weights. Do not commit `.venv`, raw personal datasets or all training runs. Jeremy's comment requests a GitHub URL in the linked class spreadsheet; nothing has been posted there by this app.
+The selected destination is https://github.com/jush-ua/CSST-106. Source publication status is recorded in `IMPLEMENTATION_STATUS.md`. Commit source, lockfile, README, small curated outputs and the PCA PDF; use Git LFS or release assets for selected large weights. Do not commit `.venv`, raw personal datasets or all training runs. Jeremy's comment requests a GitHub URL in the linked class spreadsheet. **The user confirmed that the repository URL has already been submitted.** No additional spreadsheet entry is needed.
+
+Lab 06 phone-video comparison, reports and the private weights/output bundle are produced with `lab06.py`; see the capture guide for exact commands. Raw inputs, annotation sheets, videos and weights stay local. `publish-summary` explicitly copies only numerical metrics, analysis and training/confusion charts into `examples/lab06_custom` for source publication. Recorded phone video is disclosed as a webcam substitute, with instructor acceptance still pending.
